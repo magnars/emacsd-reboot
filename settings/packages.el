@@ -4,6 +4,7 @@
 
 (add-to-list 'load-path (expand-file-name "packages" user-emacs-directory))
 
+(require 'setup-dired)
 (require 'setup-expand-region)
 (require 'setup-magit)
 (require 'setup-multiple-cursors)
