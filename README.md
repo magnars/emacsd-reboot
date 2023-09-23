@@ -8,8 +8,14 @@ Download [http://emacsformacosx.com/](Emacs for Mac OSX).
 
 ## Out of band dependencies
 
-Spell checking:
+- Spell checking:
 
-```
-brew install aspell --lang=en
-```
+    ```
+    brew install aspell --lang=en
+    ```
+
+- Static analysis for Clojure with LSP
+
+    ```
+    brew install clojure-lsp/brew/clojure-lsp-native
+    ```

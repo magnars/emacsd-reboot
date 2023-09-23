@@ -4,8 +4,10 @@
 
 (add-to-list 'load-path (expand-file-name "packages" user-emacs-directory))
 
+(require 'setup-clojure-mode)
 (require 'setup-dired)
 (require 'setup-expand-region)
+(require 'setup-lsp-mode)
 (require 'setup-magit)
 (require 'setup-multiple-cursors)
 (require 'setup-paredit)
