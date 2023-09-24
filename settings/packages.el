@@ -12,5 +12,6 @@
 (require 'setup-magit)
 (require 'setup-multiple-cursors)
 (require 'setup-paredit)
+(require 'setup-vertico)
 
 (provide 'packages)
