@@ -7,6 +7,7 @@
 (require 'setup-clojure-mode)
 (require 'setup-dired)
 (require 'setup-expand-region)
+(require 'setup-hippie)
 (require 'setup-lsp-mode)
 (require 'setup-magit)
 (require 'setup-multiple-cursors)
