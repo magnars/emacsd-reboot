@@ -19,3 +19,9 @@ Download [http://emacsformacosx.com/](Emacs for Mac OSX).
     ```
     brew install clojure-lsp/brew/clojure-lsp-native
     ```
+
+- Fast grepping:
+
+    ```
+    brew install ripgrep
+    ```
