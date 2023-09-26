@@ -8,6 +8,7 @@
 (require 'setup-deadgrep)
 (require 'setup-dired)
 (require 'setup-expand-region)
+(require 'setup-flycheck)
 (require 'setup-hippie)
 (require 'setup-lsp-mode)
 (require 'setup-magit)
