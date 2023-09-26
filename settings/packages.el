@@ -15,5 +15,6 @@
 (require 'setup-paredit)
 (require 'setup-projectile)
 (require 'setup-vertico)
+(require 'setup-yasnippet)
 
 (provide 'packages)
