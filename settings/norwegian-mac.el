@@ -26,4 +26,7 @@
 ;; Use aspell for spell checking: brew install aspell --lang=en
 (setq ispell-program-name "/opt/homebrew/bin/aspell")
 
+;; Use GNU ls - install with: brew install xz coreutils
+(setq insert-directory-program "gls")
+
 (provide 'norwegian-mac)

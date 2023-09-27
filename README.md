@@ -25,3 +25,9 @@ Download [http://emacsformacosx.com/](Emacs for Mac OSX).
     ```
     brew install ripgrep
     ```
+
+- Make dired happy, install `gls` as replacement for `ls`:
+
+    ```
+    brew install xz coreutils
+    ```
