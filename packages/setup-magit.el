@@ -7,6 +7,10 @@
                                             (unpushed . show)
                                             (unpulled . show)
                                             (stashes . show)))
+  (magit-push-always-verify nil)
+  (magit-revert-buffers 'silent)
+  (magit-no-confirm '(stage-all-changes
+                      unstage-all-changes))
 
   :config
   (global-set-key (kbd "C-x m") 'magit-status-fullscreen)
