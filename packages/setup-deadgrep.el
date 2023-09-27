@@ -1,9 +1,10 @@
 (use-package deadgrep
   :ensure t
-  :commands (deadgrep deadgrep--read-search-term)
-  :bind (("M-s s" . deadgrep-fullscreen)
+  :bind (("M-s s" . deadgrep)
          (:map deadgrep-mode-map
-               ("q" . deadgrep-quit))))
+               ("q" . deadgrep-quit)))
+  :config
+  (wrap-fullscreen deadgrep :deadgrep-fullscreen))
 
 (use-package wgrep 
   :ensure t
@@ -13,12 +14,6 @@
 (use-package wgrep-deadgrep 
   :ensure t
   :hook ((deadgrep-finished . wgrep-deadgrep-setup)))
-
-(defun deadgrep-fullscreen (search-term)
-  (interactive (list (deadgrep--read-search-term)))
-  (window-configuration-to-register :deadgrep-fullscreen)
-  (deadgrep search-term)
-  (delete-other-windows))
 
 (defun deadgrep-quit ()
   (interactive)

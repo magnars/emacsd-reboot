@@ -13,16 +13,13 @@
   (magit-no-confirm '(stage-all-changes
                       unstage-all-changes))
 
-  :config
-  (global-set-key (kbd "C-x m") 'magit-status-fullscreen)
-  (define-key magit-status-mode-map (kbd "q") 'magit-quit))
+  :bind (("C-x m" . magit-status)
+         (:map magit-status-mode-map
+               ("q" . magit-quit)))
 
-(defun magit-status-fullscreen ()
-  (interactive)
-  (unless (get-register :magit-fullscreen)
-    (window-configuration-to-register :magit-fullscreen))
-  (magit-status)
-  (delete-other-windows))
+  :config
+  (wrap-fullscreen magit-status :magit-fullscreen)
+  (wrap-fullscreen magit-init :magit-fullscreen))
 
 (defun kill-magit-buffers ()
   (let ((current (current-buffer)))
