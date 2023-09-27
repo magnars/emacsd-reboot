@@ -36,6 +36,10 @@
 ;; Delete blank lines
 (global-set-key (kbd "C-c C-<return>") 'delete-blank-lines)
 
+;; Eval emacs-lisp expressions anywhere.
+(global-set-key (kbd "C-c C-e") 'eval-and-replace)
+(global-set-key (kbd "M-s-e") 'eval-and-replace)
+
 ;;;; Implementations
 
 (defun duplicate-region (&optional num start end)
@@ -145,5 +149,15 @@ Including indent-buffer, which should not be called automatically on save."
   (if (region-active-p)
       (kill-ring-save (region-beginning) (region-end))
     (copy-to-end-of-line)))
+
+(defun eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
 
 (provide 'editing)
