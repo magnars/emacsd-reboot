@@ -8,6 +8,7 @@
   :ensure t
   :bind (("C-x f" . consult-recent-file)
          ("C-x C-i" . consult-imenu)
+         ("C-x C-y" . consult-yank-from-kill-ring)
          ("M-g g" . consult-goto-line)
          ("M-g M-g" . consult-goto-line)))
 
