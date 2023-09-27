@@ -40,7 +40,25 @@
 (global-set-key (kbd "C-c C-e") 'eval-and-replace)
 (global-set-key (kbd "M-s-e") 'eval-and-replace)
 
+;; Clever newlines
+(global-set-key (kbd "C-o") 'open-line-and-indent)
+(global-set-key (kbd "<C-return>") 'open-line-below)
+(global-set-key (kbd "<C-S-return>") 'open-line-above)
+(global-set-key (kbd "<M-return>") 'new-line-dwim)
+
+;; Move whole lines
+(global-set-key (kbd "<C-S-down>") 'move-text-down)
+(global-set-key (kbd "<C-S-up>") 'move-text-up)
+
+;; Sorting lines alphabetically
+(global-set-key (kbd "M-s l") 'sort-lines)
+
+;; Display and edit occurances of regexp in buffer
+(global-set-key (kbd "C-c o") 'occur)
+
 ;;;; Implementations
+
+(use-package move-text :ensure t)
 
 (defun duplicate-region (&optional num start end)
   "Duplicates the region bounded by START and END NUM times.
@@ -159,5 +177,37 @@ Including indent-buffer, which should not be called automatically on save."
              (current-buffer))
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
+
+(defun open-line-and-indent ()
+  (interactive)
+  (newline-and-indent)
+  (end-of-line 0)
+  (indent-for-tab-command))
+
+(defun open-line-below ()
+  (interactive)
+  (end-of-line)
+  (newline)
+  (indent-for-tab-command))
+
+(defun open-line-above ()
+  (interactive)
+  (beginning-of-line)
+  (newline)
+  (forward-line -1)
+  (indent-for-tab-command))
+
+(defun new-line-dwim ()
+  (interactive)
+  (let ((break-open-pair (or (and (looking-back "{" 1) (looking-at "}"))
+                             (and (looking-back ">" 1) (looking-at "<"))
+                             (and (looking-back "(" 1) (looking-at ")"))
+                             (and (looking-back "\\[" 1) (looking-at "\\]")))))
+    (newline)
+    (when break-open-pair
+      (save-excursion
+        (newline)
+        (indent-for-tab-command)))
+    (indent-for-tab-command)))
 
 (provide 'editing)
