@@ -16,6 +16,7 @@
 (require 'setup-multiple-cursors)
 (require 'setup-paredit)
 (require 'setup-projectile)
+(require 'setup-undo-fu)
 (require 'setup-vertico)
 (require 'setup-yasnippet)
 
