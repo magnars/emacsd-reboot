@@ -15,4 +15,11 @@
   :ensure t
   :bind (("M-g f" . consult-flycheck)))
 
+(setq completion-in-region-function
+      (lambda (&rest args)
+        (apply (if vertico-mode
+                   #'consult-completion-in-region
+                 #'completion--in-region)
+               args)))
+
 (provide 'setup-consult)
