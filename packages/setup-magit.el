@@ -1,5 +1,13 @@
 (use-package magit
   :ensure t
+
+  :custom
+  (magit-section-initial-visibility-alist '((untracked . show)
+                                            (unstaged . show)
+                                            (unpushed . show)
+                                            (unpulled . show)
+                                            (stashes . show)))
+
   :config
   (global-set-key (kbd "C-x m") 'magit-status-fullscreen)
   (define-key magit-status-mode-map (kbd "q") 'magit-quit))
