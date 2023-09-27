@@ -17,4 +17,13 @@
      map) 
    t))
 
+;; Instrument a `command' to store the current window configuration in
+;; `register' and then going fullscreen.
+(defmacro wrap-fullscreen (command register)
+  `(defadvice ,command (around ,(intern (concat "wrap-" (symbol-name command) "-fullscreen")) activate)
+     (unless (get-register ,register)
+       (window-configuration-to-register ,register))
+     ad-do-it
+     (delete-other-windows)))
+
 (provide 'tooling)
