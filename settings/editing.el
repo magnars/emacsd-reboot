@@ -1,6 +1,43 @@
 ;; Manipulating the contents of a buffer
 
+;; Killing words backwards
+(global-set-key (kbd "C-w") 'kill-region-or-backward-word)
+(global-set-key (kbd "M-h") 'kill-region-or-backward-word) ;; matches C-h
+
 ;; Duplicate region
+(global-set-key (kbd "C-c d") 'duplicate-current-line-or-region)
+
+;; Increase and decrease number at point
+(global-set-key (kbd "C-+") 'inc-number-at-point)
+(global-set-key (kbd "C-?") 'dec-number-at-point)
+
+;; Clean up whitespace
+(global-set-key (kbd "C-c n") 'cleanup-buffer)
+
+;; Copy to end of current line if no region
+(global-set-key (kbd "M-w") 'copy-region-or-current-line)
+
+;; Completion at point
+(global-set-key (kbd "C-,") 'completion-at-point)
+
+;; Use shell-like backspace C-h, rebind help to F1
+(define-key key-translation-map [?\C-h] [?\C-?])
+(global-set-key (kbd "<f1>") 'help-command)
+
+;; Revert entire buffer without any fuss
+(global-set-key (kbd "M-<escape>") (λ (revert-buffer t t)))
+
+;; Join lines with ease
+(global-set-key (kbd "M-j") (λ (join-line -1)))
+
+;; Query replace regex key binding
+(global-set-key (kbd "M-&") 'query-replace-regexp)
+
+;; Delete blank lines
+(global-set-key (kbd "C-c C-<return>") 'delete-blank-lines)
+
+;;;; Implementations
+
 (defun duplicate-region (&optional num start end)
   "Duplicates the region bounded by START and END NUM times.
 If no START and END is provided, the current region-beginning and
@@ -46,9 +83,6 @@ If there's no region, the current line will be duplicated."
     (duplicate-current-line arg)
     (one-shot-keybinding "d" 'duplicate-current-line)))
 
-(global-set-key (kbd "C-c d") 'duplicate-current-line-or-region)
-
-;; Increase number at point (or other change based on prefix arg)
 (defun incs (s &optional num)
   (let* ((inc (or num 1))
          (new-number (number-to-string (+ inc (string-to-number s))))
@@ -71,7 +105,7 @@ If there's no region, the current line will be duplicated."
       ((> (- (point) closest-behind) (- closest-ahead (point))) closest-ahead)
       :else closest-ahead))))
 
-(defun change-number-at-point (arg)
+(defun inc-number-at-point (arg)
   (interactive "p")
   (unless (or (looking-at "[0-9]")
               (looking-back "[0-9]"))
@@ -82,15 +116,9 @@ If there's no region, the current line will be duplicated."
     (re-search-forward "[0-9]+" nil)
     (replace-match (incs (match-string 0) arg) nil nil)))
 
-(defun subtract-number-at-point (arg)
+(defun dec-number-at-point (arg)
   (interactive "p")
-  (change-number-at-point (- arg)))
-
-(global-set-key (kbd "C-+") 'change-number-at-point)
-(global-set-key (kbd "C-?") 'subtract-number-at-point)
-(eval-after-load 'undo-tree '(define-key undo-tree-map (kbd "C-?") nil))
-
-;; Clean up buffer
+  (inc-number-at-point (- arg)))
 
 (defun cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
@@ -100,17 +128,22 @@ Including indent-buffer, which should not be called automatically on save."
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max)))
 
-(global-set-key (kbd "C-c n") 'cleanup-buffer)
-
-;; C-w for killing words backwards
-
 (defun kill-region-or-backward-word ()
   (interactive)
   (if (region-active-p)
       (kill-region (region-beginning) (region-end))
     (backward-kill-word 1)))
 
-(global-set-key (kbd "C-w") 'kill-region-or-backward-word)
+(defun copy-to-end-of-line ()
+  (interactive)
+  (kill-ring-save (point)
+                  (line-end-position))
+  (message "Copied to end of line"))
 
+(defun copy-region-or-current-line ()
+  (interactive)
+  (if (region-active-p)
+      (kill-ring-save (region-beginning) (region-end))
+    (copy-to-end-of-line)))
 
 (provide 'editing)

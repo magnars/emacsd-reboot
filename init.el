@@ -20,13 +20,11 @@
 ;; Set up tooling for the rest of the configuration
 (require 'tooling)
 
-;; Set up global keybindings
-(require 'global-keybindings)
-
 ;; Add utilities
 (require 'navigation)
 (require 'editing)
 (require 'buffers)
+(require 'extra-keybindings)
 
 ;; Load packages
 (require 'packages)
