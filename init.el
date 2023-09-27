@@ -25,6 +25,7 @@
 (require 'editing)
 (require 'buffers)
 (require 'extra-keybindings)
+(require 'indented-yank)
 
 ;; Load packages
 (require 'packages)
