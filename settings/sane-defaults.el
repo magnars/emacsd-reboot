@@ -60,7 +60,8 @@
 ;; Easily navigate sillycased words
 (use-package subword
   :defer 1
-  :config (global-subword-mode 1))
+  :config (global-subword-mode 1)
+  :diminish subword-mode)
 
 ;; Don't visually break lines for me, please
 (setq-default truncate-lines t)

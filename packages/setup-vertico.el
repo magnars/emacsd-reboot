@@ -17,7 +17,9 @@
               ("C-d" . vertico-directory-enter)
               ("DEL" . vertico-directory-delete-char)
               ("M-DEL" . vertico-directory-delete-word))
-  ;; Tidy shadowed file names
+
+  ;; Cleans up path when moving directories with shadowed paths syntax, e.g.
+  ;; cleans ~/foo/bar/// to /, and ~/foo/bar/~/ to ~/.
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 ;; Use the `orderless' completion style.
