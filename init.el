@@ -1,6 +1,9 @@
 ;; Add settings to load-path
 (add-to-list 'load-path (expand-file-name "settings" user-emacs-directory))
 
+;; Optimize startup of Emacs
+(require 'fast-startup)
+
 ;; Keep emacs Custom-settings in separate file, not appended to init.el
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)

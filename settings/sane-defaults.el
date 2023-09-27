@@ -1,5 +1,7 @@
 ;; Auto refresh buffers
-(global-auto-revert-mode 1)
+(use-package autorevert
+  :defer 2
+  :config (global-auto-revert-mode 1))
 
 ;; Also auto refresh dired, but be quiet about it
 (setq global-auto-revert-non-file-buffers t)
@@ -28,7 +30,9 @@
 (prefer-coding-system 'utf-8) ; with sugar on top
 
 ;; Remove text in active region if inserting text
-(delete-selection-mode 1)
+(use-package delsel
+  :defer 1
+  :config (delete-selection-mode 1))
 
 ;; Always display column numbers
 (setq column-number-mode t)
@@ -37,11 +41,15 @@
 (set-default 'fill-column 80)
 
 ;; Save a list of recent files visited. (open recent file with C-x f)
-(recentf-mode 1)
-(setq recentf-max-saved-items 100) ;; just 20 is too recent
+(use-package recentf
+  :defer 1 ;; Loads after 1 second of idle time.
+  :config (recentf-mode 1)
+  :custom (recentf-max-saved-items 100))  ;; just 20 is too recent
 
 ;; Undo/redo window configuration with C-c <left>/<right>
-(winner-mode 1)
+(use-package winner
+  :defer 1
+  :config (winner-mode 1))
 
 ;; Never insert tabs
 (set-default 'indent-tabs-mode nil)
@@ -50,20 +58,20 @@
 (set-default 'indicate-empty-lines t)
 
 ;; Easily navigate sillycased words
-(global-subword-mode 1)
+(use-package subword
+  :defer 1
+  :config (global-subword-mode 1))
 
 ;; Don't visually break lines for me, please
 (setq-default truncate-lines t)
-
-;; Don't be so stingy on the memory, we have lots now. It's the distant future.
-(setq gc-cons-threshold 20000000)
 
 ;; Sentences do not need double spaces to end. Period.
 (set-default 'sentence-end-double-space nil)
 
 ;; Add parts of each file's directory to the buffer name if not unique
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
+(use-package uniquify
+  :defer 2 ;; Loads after 2 seconds of idle time.
+  :custom (uniquify-buffer-name-style 'forward))
 
 ;; Show more than 4 levels when evaling expressions
 (setq eval-expression-print-level 100)
