@@ -17,7 +17,7 @@
   (interactive)
   (insert "\\"))
 
-;; Insert backslash, no questionsn asked
+;; Insert backslash, no questions asked
 (global-set-key (kbd "H-7") 'insert-backslash)
 
 ;; Move to OSX trash folder when deleting stuff

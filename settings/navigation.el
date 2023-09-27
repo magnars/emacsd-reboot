@@ -27,6 +27,17 @@
 (global-set-key (kbd "C-S-f") (λ (ignore-errors (forward-char 5))))
 (global-set-key (kbd "C-S-b") (λ (ignore-errors (backward-char 5))))
 
+;; Readily navigate in modes with significant whitespace
+(global-set-key (kbd "H-n") 'goto-next-line-with-same-indentation)
+(global-set-key (kbd "H-p") 'goto-prev-line-with-same-indentation)
+
+;; Where was I again?
+(global-set-key (kbd "M-B") 'goto-last-modification)
+
+;; No more scrolling surprises
+(global-unset-key (kbd "C-v"))
+(global-unset-key (kbd "M-v"))
+
 ;; Implementations
 
 (use-package windmove)
@@ -47,6 +58,22 @@
     (deactivate-mark))
   (call-interactively 'isearch-backward))
 
-;; 
+(defun goto-next-line-with-same-indentation ()
+  (interactive)
+  (back-to-indentation)
+  (re-search-forward (s-concat "^" (s-repeat (current-column) " ") "[^ \t\r\n\v\f]")
+                     nil nil (if (= 0 (current-column)) 2 1))
+  (back-to-indentation))
+
+(defun goto-prev-line-with-same-indentation ()
+  (interactive)
+  (back-to-indentation)
+  (re-search-backward (s-concat "^" (s-repeat (current-column) " ") "[^ \t\r\n\v\f]"))
+  (back-to-indentation))
+
+(defun goto-last-modification ()
+  (interactive)
+  (undo-fu-only-undo)
+  (undo-fu-only-redo))
 
 (provide 'navigation)
