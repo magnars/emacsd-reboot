@@ -58,7 +58,7 @@
 
 ;;;; Implementations
 
-(use-package move-text :ensure t)
+(use-package move-text)
 
 (defun duplicate-region (&optional num start end)
   "Duplicates the region bounded by START and END NUM times.

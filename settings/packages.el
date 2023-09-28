@@ -4,6 +4,9 @@
 
 (add-to-list 'load-path (expand-file-name "packages" user-emacs-directory))
 
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+
 (require 'setup-clojure-mode)
 (require 'setup-consult)
 (require 'setup-deadgrep)

@@ -1,6 +1,6 @@
-(use-package s :ensure t)
-(use-package dash :ensure t)
-(use-package diminish :ensure t)
+(use-package s)
+(use-package dash)
+(use-package diminish)
 
 ;; Shorthand for interactive lambdas
 (defmacro λ (&rest body)

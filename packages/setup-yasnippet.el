@@ -1,5 +1,4 @@
 (use-package yasnippet
-  :ensure t
   :diminish yas-minor-mode
 
   :bind ((:map yas-keymap
@@ -23,7 +22,7 @@
   ;; Use yasnippet everywhere
   (yas-global-mode 1))
 
-(use-package datomic-snippets :ensure t)
+(use-package datomic-snippets)
 
 ;; Inter-field navigation
 (defun yas/goto-end-of-active-field ()

@@ -5,8 +5,6 @@
 ;; via vundo. In addition, undo-fu-session stores undo history across Emacs sessions.
 
 (use-package undo-fu
-  :ensure t
-
   :config
   ;; Increase undo history limits to reduce likelihood of data loss
   (setq undo-limit 400000           ; 400kb (default is 160kb)
@@ -20,7 +18,6 @@
          ("C-M-_" . undo-fu-only-redo-all)))
 
 (use-package undo-fu-session
-  :ensure t
   :custom (undo-fu-session-directory
            (expand-file-name "cache/undo-fu-session" user-emacs-directory))
   :init (undo-fu-session-global-mode)
@@ -33,7 +30,6 @@
     (setq undo-fu-session-compression 'zst)))
 
 (use-package vundo
-  :ensure t
   :config
   (setq vundo-glyph-alist vundo-unicode-symbols
         vundo-compact-display t)

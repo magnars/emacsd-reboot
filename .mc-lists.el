@@ -11,6 +11,7 @@
         paredit-kill
         paredit-wrap-round
         subtract-number-at-point
+        wgrep-mark-deletion
         ))
 
 (setq mc/cmds-to-run-once

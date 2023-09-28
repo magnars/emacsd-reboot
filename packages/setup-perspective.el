@@ -5,7 +5,6 @@
 ;; the Mac.
 
 (use-package perspective
-  :ensure t
   :bind (("C-x C-b" . persp-ibuffer)
          ("C-x b" . persp-switch-to-buffer*)
          ("C-x k" . persp-kill-buffer*))

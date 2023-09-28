@@ -5,7 +5,6 @@
 ;; from a list of candidates.
 
 (use-package consult
-  :ensure t
   :bind (("C-x f" . consult-recent-file)
          ("C-x C-i" . consult-imenu)
          ("C-x C-y" . consult-yank-from-kill-ring)
@@ -20,7 +19,6 @@
   (add-to-list 'consult-buffer-sources persp-consult-source))
 
 (use-package consult-flycheck
-  :ensure t
   :bind (("M-g f" . consult-flycheck)))
 
 (setq completion-in-region-function

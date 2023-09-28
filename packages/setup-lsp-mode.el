@@ -1,6 +1,4 @@
 (use-package lsp-mode
-  :ensure t
-
   :hook ((clojure-mode . lsp))
 
   :init

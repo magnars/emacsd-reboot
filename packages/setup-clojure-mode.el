@@ -1,4 +1,3 @@
-(use-package clojure-mode
-  :ensure t)
+(use-package clojure-mode)
 
 (provide 'setup-clojure-mode)

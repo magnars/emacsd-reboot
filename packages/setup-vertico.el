@@ -4,7 +4,6 @@
 ;; default completion system.
 
 (use-package vertico
-  :ensure t
   :init
   (vertico-mode))
 
@@ -24,7 +23,6 @@
 
 ;; Use the `orderless' completion style.
 (use-package orderless
-  :ensure t
   :init
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
