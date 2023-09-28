@@ -22,6 +22,7 @@
 (require 'setup-projectile)
 (require 'setup-undo-fu)
 (require 'setup-vertico)
+(require 'setup-which-key)
 (require 'setup-yasnippet)
 
 (provide 'packages)
