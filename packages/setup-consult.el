@@ -10,7 +10,14 @@
          ("C-x C-i" . consult-imenu)
          ("C-x C-y" . consult-yank-from-kill-ring)
          ("M-g g" . consult-goto-line)
-         ("M-g M-g" . consult-goto-line)))
+         ("M-g M-g" . consult-goto-line))
+
+  :after (perspective)
+
+  :config
+  ;; Show only perspective-buffers with consult-buffer
+  (consult-customize consult--source-buffer :hidden t :default nil)
+  (add-to-list 'consult-buffer-sources persp-consult-source))
 
 (use-package consult-flycheck
   :ensure t
