@@ -15,6 +15,7 @@
 (require 'setup-magit)
 (require 'setup-multiple-cursors)
 (require 'setup-paredit)
+(require 'setup-perspective)
 (require 'setup-projectile)
 (require 'setup-undo-fu)
 (require 'setup-vertico)

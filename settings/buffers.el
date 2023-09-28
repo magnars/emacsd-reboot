@@ -26,9 +26,6 @@
 ;; Create scratch buffer
 (global-set-key (kbd "C-c b") 'create-scratch-buffer)
 
-;; Dedicated buffer view
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-
 ;;;; Implementations
 
 (defun rename-current-buffer-file ()
