@@ -33,7 +33,6 @@ configuration stored by magit-status-fullscreen"
   (interactive)
   (kill-magit-buffers)
   (funcall magit-bury-buffer-function 'kill-buffer)
-  (jump-to-register :magit-fullscreen)
-  (set-register :magit-fullscreen nil))
+  (jump-to-register :magit-fullscreen))
 
 (provide 'setup-magit)

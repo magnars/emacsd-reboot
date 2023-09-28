@@ -18,7 +18,6 @@
 (defun deadgrep-quit ()
   (interactive)
   (quit-window)
-  (jump-to-register :deadgrep-fullscreen)
-  (set-register :deadgrep-fullscreen nil))
+  (jump-to-register :deadgrep-fullscreen))
 
 (provide 'setup-deadgrep)
