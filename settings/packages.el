@@ -7,6 +7,7 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
+(require 'setup-cider)
 (require 'setup-clojure-mode)
 (require 'setup-consult)
 (require 'setup-deadgrep)

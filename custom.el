@@ -6,7 +6,7 @@
  '(custom-safe-themes
    '("05692bda554c178fafe15cc3e6ab09539e7db4846eb9bb6272b97068c055a903" default))
  '(package-selected-packages
-   '(which-key diminish move-text undo-fu-session vundo undo-fu consult-flycheck orderless consult flycheck datomic-snippets yasnippet projectile wgrep-deadgrep wgrep deadgrep vertico-directory vertico lsp-mode clojure-mode s multiple-cursors expand-region paredit magit))
+   '(which-key cider diminish move-text undo-fu-session vundo undo-fu consult-flycheck orderless consult flycheck datomic-snippets yasnippet projectile wgrep-deadgrep wgrep deadgrep vertico-directory vertico lsp-mode clojure-mode s multiple-cursors expand-region paredit magit))
  '(safe-local-variable-values
    '((cider-figwheel-main-default-options . ":ui")
      (cider-preferred-build-tool . clojure-cli)
