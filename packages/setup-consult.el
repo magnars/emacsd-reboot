@@ -7,9 +7,14 @@
 (use-package consult
   :bind (("C-x f" . consult-recent-file)
          ("C-x C-i" . consult-imenu)
+         ("C-x M-i" . consult-imenu-multi)
+         ("C-x i" . consult-outline)
          ("C-x C-y" . consult-yank-from-kill-ring)
+         ("C-v" . consult-line)
+         ("M-v" . consult-line-multi)
          ("M-g g" . consult-goto-line)
-         ("M-g M-g" . consult-goto-line))
+         ("M-g M-g" . consult-goto-line)
+         ("M-y" . consult-yank-pop))
 
   :after (perspective)
 
