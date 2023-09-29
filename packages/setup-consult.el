@@ -14,7 +14,8 @@
          ("M-v" . consult-line-multi)
          ("M-g g" . consult-goto-line)
          ("M-g M-g" . consult-goto-line)
-         ("M-y" . consult-yank-pop))
+         ("M-y" . consult-yank-pop)
+         ("M-s k" . consult-keep-lines))
 
   :after (perspective)
 
