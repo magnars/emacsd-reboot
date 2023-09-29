@@ -4,6 +4,9 @@
 ;; default completion system.
 
 (use-package vertico
+  :bind (:map vertico-map
+              ("M-<return>" . vertico-exit-input))
+
   :init
   (vertico-mode))
 
