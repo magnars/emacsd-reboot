@@ -34,4 +34,9 @@
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
+;; Persist minibuffer history over Emacs restarts. Vertico sorts from history.
+(use-package savehist
+  :init
+  (savehist-mode))
+
 (provide 'setup-vertico)
