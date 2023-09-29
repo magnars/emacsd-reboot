@@ -15,6 +15,8 @@
   (setq which-key-idle-secondary-delay 0.05)
 
   :config
-  (which-key-mode))
+  (which-key-mode)
+
+  :diminish which-key-mode)
 
 (provide 'setup-which-key)
