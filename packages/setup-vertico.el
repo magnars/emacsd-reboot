@@ -30,9 +30,10 @@
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
   ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(substring orderless basic)
+  (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+        completion-category-overrides '((file (styles partial-completion)))
+        orderless-matching-styles '(orderless-prefixes orderless-initialism)))
 
 ;; Persist minibuffer history over Emacs restarts. Vertico sorts from history.
 (use-package savehist
