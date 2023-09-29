@@ -45,6 +45,11 @@
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
 
-  :init (marginalia-mode))
+  :init (marginalia-mode)
+
+  :config
+  ;; No need for rich annotations when just switching buffers
+  (setcdr (assq 'buffer marginalia-annotator-registry)
+          '(none marginalia-annotate-buffer builtin)))
 
 (provide 'setup-vertico)
