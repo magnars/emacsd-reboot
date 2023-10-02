@@ -4,6 +4,7 @@
 
 (use-package kaocha-runner
   :after (cider-mode)
+  :commands (kaocha-runner--run-tests)
   :bind (:map clojure-mode-map
               ("C-c k t" . kaocha-runner-run-test-at-point)
               ("C-c k r" . kaocha-runner-run-tests)
