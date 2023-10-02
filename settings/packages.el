@@ -16,6 +16,7 @@
 (require 'setup-expand-region)
 (require 'setup-flycheck)
 (require 'setup-hippie)
+(require 'setup-kaocha-runner)
 (require 'setup-lsp-mode)
 (require 'setup-magit)
 (require 'setup-multiple-cursors)

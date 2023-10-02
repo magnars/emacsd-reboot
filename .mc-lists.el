@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        backward-kill-sexp
         change-number-at-point
         indent-for-tab-command
         paredit-forward
@@ -10,6 +11,7 @@
         paredit-forward-kill-word
         paredit-kill
         paredit-kill-region-or-backward-word
+        paredit-raise-sexp
         paredit-wrap-round
         subtract-number-at-point
         wgrep-mark-deletion
@@ -17,5 +19,4 @@
 
 (setq mc/cmds-to-run-once
       '(
-        mc--replace-region-strings-1
         ))
