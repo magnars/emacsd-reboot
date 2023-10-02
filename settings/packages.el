@@ -8,6 +8,7 @@
 (setq use-package-always-ensure t)
 
 (require 'setup-cider)
+(require 'setup-clj-refactor)
 (require 'setup-clojure-mode)
 (require 'setup-consult)
 (require 'setup-deadgrep)
