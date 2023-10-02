@@ -8,6 +8,10 @@
 ;; and so on.
 
 (use-package cider
-  :after (clojure-mode))
+  :after (clojure-mode)
+
+  :custom
+  ;; save files when evaluating them
+  (cider-save-file-on-load t))
 
 (provide 'setup-cider)
