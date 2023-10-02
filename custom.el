@@ -8,7 +8,8 @@
  '(package-selected-packages
    '(marginalia which-key cider diminish move-text undo-fu-session vundo undo-fu consult-flycheck orderless consult flycheck datomic-snippets yasnippet projectile wgrep-deadgrep wgrep deadgrep vertico-directory vertico lsp-mode clojure-mode s multiple-cursors expand-region paredit magit))
  '(safe-local-variable-values
-   '((cider-figwheel-main-default-options . ":ui")
+   '((cider-clojure-cli-aliases . "-A:dev")
+     (cider-figwheel-main-default-options . ":ui")
      (cider-preferred-build-tool . clojure-cli)
      (cider-default-cljs-repl . figwheel-main)
      (cider-clojure-cli-aliases . "-A:ui")

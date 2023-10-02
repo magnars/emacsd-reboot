@@ -9,6 +9,7 @@
         paredit-forward-delete
         paredit-forward-kill-word
         paredit-kill
+        paredit-kill-region-or-backward-word
         paredit-wrap-round
         subtract-number-at-point
         wgrep-mark-deletion
