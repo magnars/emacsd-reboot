@@ -1,7 +1,11 @@
 (use-package clojure-mode
   :hook ((clojure-mode . setup-clojure-mode-so)
          (clojurescript-mode-hook . setup-clojure-mode-so)
-         (clojurec-mode-hook . setup-clojure-mode-so)))
+         (clojurec-mode-hook . setup-clojure-mode-so))
+
+  :bind (:map clojure-mode-map
+              ([remap paredit-forward] . clojure-forward-logical-sexp)
+              ([remap paredit-backward] . clojure-backward-logical-sexp)))
 
 (require 's)
 (require 'significant-other)
