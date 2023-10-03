@@ -3,9 +3,14 @@
          (clojurescript-mode-hook . setup-clojure-mode-so)
          (clojurec-mode-hook . setup-clojure-mode-so))
 
+  :config
+  ;; don't steal hippie-expand-lines keybinding
+  (unbind-key (kbd "C-:") clojure-mode-map)
+
   :bind (:map clojure-mode-map
               ([remap paredit-forward] . clojure-forward-logical-sexp)
-              ([remap paredit-backward] . clojure-backward-logical-sexp)))
+              ([remap paredit-backward] . clojure-backward-logical-sexp)
+              ("C-\"" . clojure-toggle-keyword-string)))
 
 (require 's)
 (require 'significant-other)
