@@ -1,4 +1,6 @@
 (use-package clj-refactor
+  :diminish clj-refactor-mode
+
   :config
   (setq cljr-favor-prefix-notation nil)
   (setq cljr-favor-private-functions nil)
