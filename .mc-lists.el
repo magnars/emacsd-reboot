@@ -5,6 +5,7 @@
       '(
         backward-kill-sexp
         change-number-at-point
+        cljr-slash
         indent-for-tab-command
         paredit-forward
         paredit-forward-delete

@@ -11,11 +11,12 @@
   (setq lsp-modeline-code-actions-enable nil) ;; Don't clutter modeline
   (setq lsp-modeline-diagnostics-enable nil) ;; Don't clutter modeline, jeez
   (setq lsp-completion-provider :none) ;; Skip company-mode
+  (setq lsp-enable-symbol-highlighting nil) ;; Don't highlight current symbol
 
   ;; To consider
   ;;
   ;; (setq lsp-enable-completion-at-point nil) ;; CIDER vs LSP?
-  ;; (setq lsp-enable-symbol-highlighting nil)
+  
   )
 
 (provide 'setup-lsp-mode)
