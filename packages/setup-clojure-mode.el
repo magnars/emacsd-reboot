@@ -16,7 +16,8 @@
   :bind (:map clojure-mode-map
               ([remap paredit-forward] . clojure-forward-logical-sexp)
               ([remap paredit-backward] . clojure-backward-logical-sexp)
-              ("C-\"" . clojure-toggle-keyword-string)))
+              ("C-\"" . clojure-toggle-keyword-string)
+              ("C-x M-e" . my/cider-eval-including-lets)))
 
 ;; Set up jumping to other file (src/test, component/scene)
 
@@ -57,5 +58,52 @@
         (clojure-forward-logical-sexp))
       (and (--any? (s-equals? it "(") forms)
            (< 2 (length forms))))))
+
+;; eval-current-sexp while also including surrounding lets
+
+(defun my/cider-looking-at-lets? ()
+  (or (looking-at "(let ")
+      (looking-at "(letfn ")
+      (looking-at "(when-let ")
+      (looking-at "(if-let ")))
+
+(defun my/cider-collect-lets (&optional max-point)
+  (let* ((beg-of-defun (save-excursion (beginning-of-defun) (point)))
+         (lets nil))
+    (save-excursion
+      (while (not (= (point) beg-of-defun))
+        (paredit-backward-up 1)
+        (when (my/cider-looking-at-lets?)
+          (save-excursion
+            (let ((beg (point)))
+              (paredit-forward-down 1)
+              (paredit-forward 2)
+              (when (and max-point (< max-point (point)))
+                (goto-char max-point))
+              (setq lets (cons (concat (buffer-substring-no-properties beg (point))
+                                       (if max-point "]" ""))
+                               lets))))))
+      lets)))
+
+(defun my/inside-let-block? ()
+  (save-excursion
+    (paredit-backward-up 2)
+    (my/cider-looking-at-lets?)))
+
+(defun my/cider-eval-including-lets (&optional output-to-current-buffer)
+  "Evaluates the current sexp form, wrapped in all parent lets."
+  (interactive "P")
+  (let* ((beg-of-sexp (save-excursion (paredit-backward 1) (point)))
+         (code (buffer-substring-no-properties beg-of-sexp (point)))
+         (lets (my/cider-collect-lets (when (my/inside-let-block?)
+                                        (save-excursion (paredit-backward 2) (point)))))
+         (code (concat (s-join " " lets)
+                       " " code
+                       (s-repeat (length lets) ")"))))
+    (cider-interactive-eval code
+                            (when output-to-current-buffer
+                              (cider-eval-print-handler))
+                            nil
+                            (cider--nrepl-pr-request-map))))
 
 (provide 'setup-clojure-mode)
