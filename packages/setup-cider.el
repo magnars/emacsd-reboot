@@ -12,6 +12,9 @@
 
   :custom
   ;; save files when evaluating them
-  (cider-save-file-on-load t))
+  (cider-save-file-on-load t)
+
+  ;; show stacktraces for everything, until https://github.com/clojure-emacs/cider/issues/3495 is solved
+  (cider-clojure-compilation-error-phases nil))
 
 (provide 'setup-cider)
