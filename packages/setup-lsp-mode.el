@@ -16,7 +16,13 @@
   ;; To consider
   ;;
   ;; (setq lsp-enable-completion-at-point nil) ;; CIDER vs LSP?
-  
-  )
+
+  :config
+  (advice-add 'lsp--info :around #'my/silence-some-lsp-info-messages))
+
+(defun my/silence-some-lsp-info-messages (orig-fn &rest args)
+  (unless (or (string-equal (car args) "Connected to %s.")
+              (string-equal (car args) "Disconnected"))
+    (apply orig-fn args)))
 
 (provide 'setup-lsp-mode)
