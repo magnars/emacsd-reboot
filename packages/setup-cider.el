@@ -21,6 +21,9 @@
   ;; save files when evaluating them
   (cider-save-file-on-load t)
 
+  ;; don't pop up repl when connecting
+  (cider-repl-pop-to-buffer-on-connect nil)
+
   ;; show stacktraces for everything, until https://github.com/clojure-emacs/cider/issues/3495 is solved
   (cider-clojure-compilation-error-phases nil))
 
