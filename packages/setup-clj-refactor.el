@@ -1,11 +1,14 @@
 (use-package clj-refactor
   :diminish clj-refactor-mode
 
+  :custom
+  (cljr-add-ns-to-blank-clj-files nil) ;; already done by lsp-mode
+  (cljr-favor-prefix-notation nil)
+  (cljr-favor-private-functions nil)
+  (cljr-insert-newline-after-require nil)
+  (cljr-assume-language-context "clj")
+
   :config
-  (setq cljr-favor-prefix-notation nil)
-  (setq cljr-favor-private-functions nil)
-  (setq cljr-insert-newline-after-require nil)
-  (setq cljr-assume-language-context "clj")
 
   (cljr-add-keybindings-with-modifier "C-s-")
 
