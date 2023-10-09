@@ -21,6 +21,9 @@
   (put 'paredit-backward-delete 'delete-selection 'supersede)
   (put 'paredit-newline 'delete-selection t)
 
+  ;; Enable `paredit-mode' in the minibuffer, during `eval-expression'.
+  (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
+
   :bind ((:map paredit-mode-map
                ("C-w" . paredit-kill-region-or-backward-word)
                ("M-C-<backspace>" . backward-kill-sexp)
@@ -54,5 +57,18 @@
   (if (region-active-p)
       (kill-region (region-beginning) (region-end))
     (paredit-backward-kill-word)))
+
+(defun conditionally-enable-paredit-mode ()
+  (when (eq this-command 'eval-expression)
+    (paredit-mode 1)
+    (disable-inconvenient-paredit-keybindings-in-minor-mode)))
+
+(defun disable-inconvenient-paredit-keybindings-in-minor-mode ()
+  (let ((oldmap (cdr (assoc 'paredit-mode minor-mode-map-alist)))
+        (newmap (make-sparse-keymap)))
+    (set-keymap-parent newmap oldmap)
+    (define-key newmap (kbd "RET") nil)
+    (make-local-variable 'minor-mode-overriding-map-alist)
+    (push `(paredit-mode . ,newmap) minor-mode-overriding-map-alist)))
 
 (provide 'setup-paredit)
