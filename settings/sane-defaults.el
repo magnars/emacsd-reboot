@@ -71,6 +71,7 @@
 
 ;; Add parts of each file's directory to the buffer name if not unique
 (use-package uniquify
+  :ensure nil
   :defer 2 ;; Loads after 2 seconds of idle time.
   :custom (uniquify-buffer-name-style 'forward))
 
