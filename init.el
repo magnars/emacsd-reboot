@@ -11,6 +11,9 @@
 ;; Set up appearance early
 (require 'appearance)
 
+;; Configure the package manager
+(require 'packages)
+
 ;; Configure Emacs for Norwegian OSX, lol
 (require 'norwegian-mac)
 
@@ -27,5 +30,7 @@
 (require 'extra-keybindings)
 (require 'indented-yank)
 
-;; Load packages
-(require 'packages)
+;; Load all packages
+(dolist (file (directory-files packages-dir t "\\w+"))
+  (when (file-regular-p file)
+    (load file)))

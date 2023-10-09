@@ -8,9 +8,4 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-;; Load all packages
-(dolist (file (directory-files packages-dir t "\\w+"))
-  (when (file-regular-p file)
-    (load file)))
-
 (provide 'packages)
