@@ -14,6 +14,8 @@
   (projectile-mode +1)
   (define-key projectile-command-map (kbd "s-p") #'projectile-switch-project)
 
+  (setq projectile-ignored-project-function 'my/ignore-project?)
+
   (require 'setup-perspective)
   (setq projectile-switch-project-action 'switch-perspective+find-file))
 
@@ -23,5 +25,8 @@
 (defun switch-perspective+find-file ()
   (with-perspective (current-project-name)
     (projectile-find-file)))
+
+(defun my/ignore-project? (file-name)
+  (s-contains? ".gitlibs" file-name))
 
 (provide 'setup-projectile)
