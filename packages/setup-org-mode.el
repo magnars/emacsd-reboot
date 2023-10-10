@@ -2,6 +2,10 @@
   :ensure nil
   :defer 2
 
+  :custom
+  (org-todo-keyword-faces
+   '(("DONE" . (:foreground "green" :weight bold))))
+
   :bind (:map org-mode-map
               ("M-<up>" . org-shiftright)
               ("M-<down>" . org-shiftleft)
