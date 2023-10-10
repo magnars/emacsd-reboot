@@ -15,9 +15,8 @@
                                  (windmove-right)))
 
 ;: Keep them windows nice and balanced
-(advice-add 'split-window-right :after #'balance-windows)
-(advice-add 'split-window-below :after #'balance-windows)
 (global-set-key (kbd "C-x 0") 'my/delete-window)
+(global-set-key (kbd "C-x 3") 'my/split-window-right)
 
 ;; Move cursor back to indentation
 (global-set-key (kbd "M-i") 'back-to-indentation)
@@ -84,6 +83,11 @@
 (defun my/delete-window ()
   (interactive)
   (delete-window)
+  (balance-windows))
+
+(defun my/split-window-right ()
+  (interactive)
+  (split-window-right)
   (balance-windows))
 
 (provide 'navigation)
