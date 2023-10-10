@@ -6,6 +6,8 @@
         backward-kill-sexp
         change-number-at-point
         cljr-slash
+        clojure-forward-logical-sexp
+        copy-region-or-current-line
         indent-for-tab-command
         paredit-forward
         paredit-forward-delete
