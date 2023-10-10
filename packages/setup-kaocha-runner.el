@@ -24,7 +24,7 @@
          nil t)
       (let ((original-buffer (current-buffer)))
         (save-window-excursion
-          (let* ((file (funcall significant-other-find-fn)))
+          (when-let ((file (funcall significant-other-find-fn)))
             (when (file-exists-p file)
               (find-file file)))
           (when (kaocha-runner--is-test?)
