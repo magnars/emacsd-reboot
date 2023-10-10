@@ -14,7 +14,7 @@
               ("s-<up>" . org-shiftup)
               ("s-<down>" . org-shiftdown))
 
-  :init
+  :config
   (unbind-key "S-<up>" org-mode-map)
   (unbind-key "S-<down>" org-mode-map)
   (unbind-key "S-<left>" org-mode-map)
