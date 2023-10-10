@@ -29,4 +29,9 @@
 ;; Use GNU ls - install with: brew install xz coreutils
 (setq insert-directory-program "gls")
 
+;; Setup environment variables from the user's shell.
+(use-package exec-path-from-shell
+  :init
+  (exec-path-from-shell-initialize))
+
 (provide 'norwegian-mac)
