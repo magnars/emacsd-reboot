@@ -9,6 +9,7 @@
         clojure-forward-logical-sexp
         copy-region-or-current-line
         indent-for-tab-command
+        markdown-outdent-or-delete
         paredit-forward
         paredit-forward-delete
         paredit-forward-kill-word
