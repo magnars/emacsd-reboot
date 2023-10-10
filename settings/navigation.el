@@ -16,8 +16,8 @@
 
 ;: Keep them windows nice and balanced
 (advice-add 'split-window-right :after #'balance-windows)
-(advice-add 'delete-window :after #'balance-windows)
 (advice-add 'split-window-below :after #'balance-windows)
+(global-set-key (kbd "C-x 0") 'my/delete-window)
 
 ;; Move cursor back to indentation
 (global-set-key (kbd "M-i") 'back-to-indentation)
@@ -80,5 +80,10 @@
   (interactive)
   (undo-fu-only-undo)
   (undo-fu-only-redo))
+
+(defun my/delete-window ()
+  (interactive)
+  (delete-window)
+  (balance-windows))
 
 (provide 'navigation)
