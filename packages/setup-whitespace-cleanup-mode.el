@@ -4,6 +4,7 @@
 ;; are saved.
 
 (use-package whitespace-cleanup-mode
+  :diminish whitespace-cleanup-mode
   :init
   (global-whitespace-cleanup-mode))
 
