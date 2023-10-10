@@ -1,4 +1,4 @@
-(use-package org-mode
+(use-package org
   :ensure nil
   :defer 2
 
@@ -7,15 +7,14 @@
    '(("DONE" . (:foreground "green" :weight bold))))
 
   :bind (:map org-mode-map
-              ("M-<up>" . org-shiftright)
-              ("M-<down>" . org-shiftleft)
+              ("M-+" . org-shiftright)
               ("C-S-<down>" . org-metadown)
-              ("C-S-<up>" . org-metaup)
-              ("s-<up>" . org-shiftup)
-              ("s-<down>" . org-shiftdown))
+              ("C-S-<up>" . org-metaup))
 
   :config
   (unbind-key "S-<up>" org-mode-map)
   (unbind-key "S-<down>" org-mode-map)
   (unbind-key "S-<left>" org-mode-map)
   (unbind-key "S-<right>" org-mode-map))
+
+(provide 'setup-org-mode)
