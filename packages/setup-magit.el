@@ -20,7 +20,10 @@
 
   :config
   (wrap-fullscreen magit-status :magit-fullscreen)
-  (wrap-fullscreen magit-init :magit-fullscreen))
+  (wrap-fullscreen magit-init :magit-fullscreen)
+
+  ;; move cursor into position when entering commit message
+  (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix))
 
 (defun kill-magit-buffers ()
   (let ((current (current-buffer)))
@@ -64,5 +67,12 @@ configuration stored by magit-status-fullscreen"
       (magit-disable-pair-programming-mode)
     (magit-enable-pair-programming-mode
      (git-commit-read-ident "Pair programming with"))))
+
+(defun my/magit-cursor-fix ()
+  (beginning-of-buffer)
+  (when (looking-at "#")
+    (while (looking-at "#")
+      (forward-line))
+    (forward-line)))
 
 (provide 'setup-magit)
