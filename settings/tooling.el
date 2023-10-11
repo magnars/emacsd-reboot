@@ -26,4 +26,7 @@
      ad-do-it
      (delete-other-windows)))
 
+;; No need to remind me about eldoc-mode all the time
+(diminish 'eldoc-mode)
+
 (provide 'tooling)

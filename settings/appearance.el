@@ -29,7 +29,4 @@
                            (invert-face 'mode-line)
                            (run-with-timer 0.05 nil 'invert-face 'mode-line)))
 
-;; No need to remind me about eldoc-mode all the time
-(diminish 'eldoc-mode)
-
 (provide 'appearance)
