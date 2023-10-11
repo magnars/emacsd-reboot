@@ -16,6 +16,7 @@
         paredit-kill
         paredit-kill-region-or-backward-word
         paredit-raise-sexp
+        paredit-semicolon
         paredit-wrap-round
         subtract-number-at-point
         wgrep-mark-deletion
