@@ -14,6 +14,11 @@
   ;; Warn about missing nREPL instead of doing stupid things
   (my/shadow-cider-keys-with-warning)
 
+  ;; Clear CIDER repl buffer with C-c C-l
+  (define-key cider-mode-map (kbd "C-c C-l") 'cider-find-and-clear-repl-buffer)
+  (define-key cider-repl-mode-map (kbd "C-c C-l") 'cider-repl-clear-buffer)
+  (define-key clojure-mode-map (kbd "C-c C-l") 'nrepl-warn-when-not-connected)
+
   ;; Keybinding to switch to repl-buffer even if it is the wrong kind
   (define-key clojure-mode-map (kbd "C-c z") 'cider-switch-to-any-repl-buffer)
 
@@ -63,5 +68,9 @@ the namespace in the Clojure source buffer"
       (cider--switch-to-repl-buffer
        (concat "*cider-repl " (car (sesman-current-session 'CIDER)) "(clj)*")
        set-namespace)))
+
+(defun cider-find-and-clear-repl-buffer ()
+  (interactive)
+  (cider-find-and-clear-repl-output t))
 
 (provide 'setup-cider)
