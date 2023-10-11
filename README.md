@@ -4,7 +4,7 @@ An Emacs configuration for Norwegian keyboard on OSX (lol), as seen on emacsrock
 
 ## Installation
 
-Download [http://emacsformacosx.com/](Emacs for Mac OSX).
+Download [Emacs for Mac OSX](http://emacsformacosx.com/).
 
 ## Out of band dependencies
 
