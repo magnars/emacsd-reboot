@@ -1,6 +1,6 @@
-* The allmighty wishlist [2/3]
+* The allmighty wishlist [3/3]
 ** DONE Fix indent-for-tab-command in BSDmakefile-mode
 ** DONE yas datomic snippets
-** TODO support custom gitcommit message buffers that start with comments
+** DONE support custom gitcommit message buffers that start with comments
 * Wishful thinking [0/1]
 ** TODO lsp-mode: Avoid marking `(def foo ,,,)` in a `(comment` block as unused.

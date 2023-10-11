@@ -31,6 +31,9 @@
 (require 'indented-yank)
 
 ;; Load all packages
-(dolist (file (directory-files packages-dir t "\\w+"))
+(dolist (file (directory-files packages-dir t "^[^#].*el$"))
   (when (file-regular-p file)
     (load file)))
+
+;; Conclude init by setting up specifics for the current user
+(require 'user-specific-settings)
