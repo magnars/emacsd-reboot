@@ -22,7 +22,9 @@
   ;; Use yasnippet everywhere
   (yas-global-mode 1))
 
-(use-package datomic-snippets)
+(use-package datomic-snippets
+  :config
+  (datomic-snippets-initialize))
 
 ;; Inter-field navigation
 (defun yas/goto-end-of-active-field ()
