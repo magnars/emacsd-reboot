@@ -30,6 +30,9 @@
 (require 'extra-keybindings)
 (require 'indented-yank)
 
+;; Set up Straight (for packages on github)
+(require 'setup-straight)
+
 ;; Load all packages
 (dolist (file (directory-files packages-dir t "^[^#].*el$"))
   (when (file-regular-p file)
