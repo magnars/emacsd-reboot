@@ -20,7 +20,8 @@
               ([remap paredit-forward] . clojure-forward-logical-sexp)
               ([remap paredit-backward] . clojure-backward-logical-sexp)
               ("C-\"" . clojure-toggle-keyword-string)
-              ("C-x M-e" . my/cider-eval-including-lets)))
+              ("C-x M-e" . my/cider-eval-including-lets)
+              ("C-." . clj-hippie-expand-no-case-fold)))
 
 ;; Set up jumping to other file (src/test, component/scene)
 
@@ -108,5 +109,13 @@
                               (cider-eval-print-handler))
                             nil
                             (cider--nrepl-pr-request-map))))
+
+(defun clj-hippie-expand-no-case-fold ()
+  "Consider / as whitespace when doing hippie-expand i clojure-mode"
+  (interactive)
+  (let ((old-syntax (char-to-string (char-syntax ?/))))
+    (modify-syntax-entry ?/ " ")
+    (hippie-expand-no-case-fold)
+    (modify-syntax-entry ?/ old-syntax)))
 
 (provide 'setup-clojure-mode)
