@@ -6,6 +6,7 @@
         backward-kill-sexp
         change-number-at-point
         cljr-slash
+        clojure-backward-logical-sexp
         clojure-forward-logical-sexp
         copy-region-or-current-line
         indent-for-tab-command
