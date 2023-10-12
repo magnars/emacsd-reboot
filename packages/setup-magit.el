@@ -44,7 +44,8 @@ configuration stored by magit-status-fullscreen"
 (defvar magit-pair-programming-partner nil)
 
 (defun is-commit-message-buffer? ()
-  (equal (buffer-file-name-body) "COMMIT_EDITMSG"))
+  (when (buffer-file-name)
+    (equal (buffer-file-name-body) "COMMIT_EDITMSG")))
 
 (defun magit-insert-pair-programming-co-author ()
   (apply #'git-commit-insert-header "Co-authored-by" magit-pair-programming-partner))
@@ -53,7 +54,8 @@ configuration stored by magit-status-fullscreen"
   (setq magit-pair-programming-partner details)
   (when (is-commit-message-buffer?)
     (magit-insert-pair-programming-co-author))
-  (add-hook 'git-commit-setup-hook 'magit-insert-pair-programming-co-author))
+  (add-hook 'git-commit-setup-hook 'magit-insert-pair-programming-co-author)
+  (message "Enabled pair programming with %s" (car details)))
 
 (defun magit-disable-pair-programming-mode ()
   (setq magit-pair-programming-partner nil)
@@ -61,7 +63,8 @@ configuration stored by magit-status-fullscreen"
     (save-excursion
       (goto-char (point-min))
       (flush-lines "Co-authored-by")))
-  (remove-hook 'git-commit-setup-hook 'magit-insert-pair-programming-co-author))
+  (remove-hook 'git-commit-setup-hook 'magit-insert-pair-programming-co-author)
+  (message "Disabled pair programming"))
 
 (defun magit-toggle-pair-programming-mode ()
   (interactive)
