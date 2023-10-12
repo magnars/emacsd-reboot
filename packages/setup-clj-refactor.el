@@ -11,6 +11,7 @@
   :config
 
   (cljr-add-keybindings-with-modifier "C-s-")
+  (define-key clojure-mode-map (kbd "C-S-M-u") (λ (cljr--goto-toplevel)))
 
   (add-hook 'clojure-mode-hook 'clj-refactor-mode))
 
