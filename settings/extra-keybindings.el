@@ -9,4 +9,9 @@
 ;; Open url at point in a browser
 (global-set-key (kbd "C-x M-g") 'browse-url-at-point)
 
+;; Make suspend-frame less convenient
+;; Do nothing on C-z, since I apparently repeatedly mistakenly type it
+(global-unset-key (kbd "C-z"))
+(global-set-key (kbd "C-x C-z") 'shell)
+
 (provide 'extra-keybindings)
