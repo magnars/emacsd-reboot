@@ -36,7 +36,10 @@
   (cider-repl-pop-to-buffer-on-connect nil)
 
   ;; show stacktraces for everything, until https://github.com/clojure-emacs/cider/issues/3495 is solved
-  (cider-clojure-compilation-error-phases nil))
+  (cider-clojure-compilation-error-phases nil)
+
+  ;; always scroll output from interactive evaluations into view
+  (cider-repl-display-output-before-window-boundaries t))
 
 (defun nrepl-warn-when-not-connected ()
   (interactive)
