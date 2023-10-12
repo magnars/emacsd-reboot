@@ -48,7 +48,10 @@ configuration stored by magit-status-fullscreen"
     (equal (buffer-file-name-body) "COMMIT_EDITMSG")))
 
 (defun magit-insert-pair-programming-co-author ()
-  (apply #'git-commit-insert-header "Co-authored-by" magit-pair-programming-partner))
+  (unless (save-excursion
+            (goto-char (point-min))
+            (search-forward "Co-authored-by: " nil t))
+    (apply #'git-commit-insert-header "Co-authored-by" magit-pair-programming-partner)))
 
 (defun magit-enable-pair-programming-mode (details)
   (setq magit-pair-programming-partner details)
