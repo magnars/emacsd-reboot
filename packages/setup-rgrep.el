@@ -17,9 +17,14 @@
       ((not grep-find-template)
        (error "grep.el: No `grep-find-template' available"))
       (t (let* ((regexp (grep-read-regexp))
+                (my-extension (when (buffer-file-name)
+                                (when-let ((my-extension (file-name-extension (buffer-file-name))))
+                                  (concat "*." my-extension))))
                 (files (completing-read (format "Search for %s in files matching: " regexp)
-                                        (let ((my-extension (concat "*." (file-name-extension (buffer-file-name)))))
-                                          (cons my-extension (--remove (equal it my-extension) rgrep-default-search-patterns)))))
+                                        (if my-extension
+                                            (cons my-extension (--remove (equal it my-extension) rgrep-default-search-patterns))
+                                          rgrep-default-search-patterns)
+                                        nil nil nil nil my-extension))
                 (dir (ido-read-directory-name "Base directory: "
                                               nil default-directory t))
                 (confirm (equal current-prefix-arg '(4))))
