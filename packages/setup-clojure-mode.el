@@ -3,6 +3,9 @@
          (clojurescript-mode-hook . setup-clojure-mode-so)
          (clojurec-mode-hook . setup-clojure-mode-so))
 
+  :custom
+  (clojure-toplevel-inside-comment-form t)
+
   :config
   ;; don't steal hippie-expand-lines keybinding
   (unbind-key (kbd "C-:") clojure-mode-map)
