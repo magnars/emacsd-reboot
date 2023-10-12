@@ -5,10 +5,14 @@
 
 (use-package projectile
   :diminish projectile-mode
+  :commands (projectile-switch-project-by-name)
+
   :bind-keymap
   (("s-p" . projectile-command-map))
 
-  :bind ("C-x p p" . projectile-switch-project)
+  :bind
+  ("C-x p p" . projectile-switch-project)
+  ("C-x p e" . my/projectile-switch-project-to-emacs)
 
   :config
   (projectile-mode +1)
@@ -28,5 +32,9 @@
 
 (defun my/ignore-project? (file-name)
   (s-contains? ".gitlibs" file-name))
+
+(defun my/projectile-switch-project-to-emacs ()
+  (interactive)
+  (projectile-switch-project-by-name "~/.emacs.d/"))
 
 (provide 'setup-projectile)

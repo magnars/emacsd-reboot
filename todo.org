@@ -1,11 +1,11 @@
-* The allmighty wishlist [6/12]
+* The allmighty wishlist [7/12]
 ** DONE Fix indent-for-tab-command in BSDmakefile-mode
 ** DONE yas datomic snippets
 ** DONE support custom gitcommit message buffers that start with comments
 ** DONE Unngå feilmelding når du gjør C-c p i magit-bufferet
 ** DONE Unngå å sette inn dobbelt opp med Co-Author (ved amend)
 ** DONE Unngå feil med file-endings når du gjør M-s M-s i dired
-** TODO Unngå "welcome to the emacs shell"
+** DONE Unngå "welcome to the emacs shell"
 ** TODO diminish clojure-lsp og cider
 ** TODO Optimus multiple resource paths
 ** TODO splitt core-async-mode og clean-namespace
