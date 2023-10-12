@@ -26,6 +26,12 @@
   ;; save files when evaluating them
   (cider-save-file-on-load t)
 
+  ;; avoid killing the REPL when printing large data structures
+  (cider-print-options
+   '(("length" 80)
+     ("level" 20)
+     ("right-margin" 80)))
+
   ;; don't pop up repl when connecting
   (cider-repl-pop-to-buffer-on-connect nil)
 
