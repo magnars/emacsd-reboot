@@ -10,10 +10,6 @@
 (global-set-key (kbd "S-<up>") 'windmove-up)
 (global-set-key (kbd "S-<down>") 'windmove-down)
 
-;; Move to window after splitting
-(global-set-key (kbd "C-x 3") (λ (split-window-right)
-                                 (windmove-right)))
-
 ;: Keep them windows nice and balanced
 (global-set-key (kbd "C-x 0") 'my/delete-window)
 (global-set-key (kbd "C-x 3") 'my/split-window-right)
@@ -88,6 +84,7 @@
 (defun my/split-window-right ()
   (interactive)
   (split-window-right)
+  (windmove-right)
   (balance-windows))
 
 (provide 'navigation)

@@ -5,6 +5,7 @@
       '(
         backward-kill-sexp
         change-number-at-point
+        clj-hippie-expand-no-case-fold
         cljr-slash
         clojure-backward-logical-sexp
         clojure-forward-logical-sexp
