@@ -1,6 +1,6 @@
 (use-package markdown
   :ensure nil
-  :defer 2
+  :defer t
 
   :init
   (add-hook 'markdown-mode-hook 'auto-fill-mode))

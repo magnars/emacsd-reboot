@@ -4,6 +4,7 @@
 ;; paredit-lite for non-lisps.
 
 (use-package smartparens
+  :defer 2
   :init
   (require 'smartparens-config)
   (setq sp-autoescape-string-quote nil)

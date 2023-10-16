@@ -1,5 +1,6 @@
 (use-package flycheck
   :diminish flycheck-mode
+  :defer 2
   :config (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc emacs-lisp))
   :init
   ;; Eagerly re-check whenever there are errors.

@@ -5,6 +5,7 @@
       '(
         backward-kill-sexp
         change-number-at-point
+        cider-load-buffer
         clj-hippie-expand-no-case-fold
         cljr-slash
         clojure-backward-logical-sexp
@@ -13,6 +14,7 @@
         indent-for-tab-command
         kill-sexp
         markdown-outdent-or-delete
+        paredit-C-j
         paredit-forward
         paredit-forward-delete
         paredit-forward-kill-word

@@ -1,2 +1,2 @@
 (use-package html-to-hiccup
-  :defer 2)
+  :defer t)

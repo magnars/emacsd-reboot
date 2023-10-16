@@ -5,6 +5,7 @@
 ;; selectively.
 
 (use-package diff-hl
+  :defer 2
   :config
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)

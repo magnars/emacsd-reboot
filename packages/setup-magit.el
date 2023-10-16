@@ -1,5 +1,5 @@
 (use-package magit
-  :defer 2
+  :defer t
 
   :custom
   (magit-section-initial-visibility-alist '((untracked . show)

@@ -5,6 +5,7 @@
 
 (use-package whitespace-cleanup-mode
   :diminish whitespace-cleanup-mode
+  :defer 2
   :init
   (global-whitespace-cleanup-mode))
 

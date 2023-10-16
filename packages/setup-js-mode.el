@@ -1,6 +1,6 @@
 (use-package js-mode
   :ensure nil
-  :defer 2
+  :defer t
 
   :custom
   (js-indent-level 2))

@@ -4,6 +4,7 @@
 ;; currently entered incomplete command (a prefix) in a popup.
 
 (use-package which-key
+  :defer 2
   :init
   ;; Wait 3 seconds before opening normally.
   (setq which-key-idle-delay 3)

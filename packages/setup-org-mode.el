@@ -1,6 +1,6 @@
 (use-package org
   :ensure nil
-  :defer 2
+  :defer t
 
   :custom
   (org-todo-keyword-faces

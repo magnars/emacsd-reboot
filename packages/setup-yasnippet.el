@@ -1,5 +1,6 @@
 (use-package yasnippet
   :diminish yas-minor-mode
+  :defer t
 
   :bind ((:map yas-keymap
                ("<return>" . yas-exit-all-snippets)
