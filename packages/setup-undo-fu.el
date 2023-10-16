@@ -17,18 +17,6 @@
          ("M-_" . undo-fu-only-redo)
          ("C-M-_" . undo-fu-only-redo-all)))
 
-(use-package undo-fu-session
-  :custom (undo-fu-session-directory
-           (expand-file-name "cache/undo-fu-session" user-emacs-directory))
-  :init (undo-fu-session-global-mode)
-  :config
-  (setq undo-fu-session-incompatible-files '("\\.gpg$"
-                                             "/COMMIT_EDITMSG\\'"
-                                             "/git-rebase-todo\\'"))
-
-  (when (executable-find "zstd")
-    (setq undo-fu-session-compression 'zst)))
-
 (use-package vundo
   :config
   (setq vundo-glyph-alist vundo-unicode-symbols

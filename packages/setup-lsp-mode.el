@@ -16,6 +16,7 @@
   ;; To consider
   ;;
   ;; (setq lsp-enable-completion-at-point nil) ;; CIDER vs LSP?
+  ;; (remove-hook 'completion-at-point-functions #'cider-complete-at-point t)
 
   :config
   (advice-add 'lsp--info :around #'my/silence-some-lsp-info-messages))
