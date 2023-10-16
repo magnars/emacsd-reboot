@@ -1,4 +1,4 @@
-* The allmighty wishlist [7/12]
+* The allmighty wishlist [11/16]
 ** DONE Fix indent-for-tab-command in BSDmakefile-mode
 ** DONE yas datomic snippets
 ** DONE support custom gitcommit message buffers that start with comments
@@ -6,12 +6,14 @@
 ** DONE Unngå å sette inn dobbelt opp med Co-Author (ved amend)
 ** DONE Unngå feil med file-endings når du gjør M-s M-s i dired
 ** DONE Unngå "welcome to the emacs shell"
+** DONE undersøk muligheten for decision-matrix i emacs org-mode
+** TODO Er det MAGIT som er synderen for perspective!?
 ** TODO diminish clojure-lsp og cider
-** TODO Optimus multiple resource paths
-** TODO splitt core-async-mode og clean-namespace
-** TODO bruk clean-namespace
-** TODO fiks core-async-mode
+** DONE splitt core-async-mode og clean-namespace
+** DONE bruk clean-namespace
+** DONE fiks core-async-mode
+** TODO Undo-Fu-Session can not recover undo data: Invalid read syntax: "#", 41, 311
+** TODO Det nystarta repl-bufferet bør være en del av perspektivet med en gang
+** TODO Man burde ikke trenge trykke C-x C-b for å finne replet, selv om det er cljs-repl som ikke er kobla på enda
 * Wishful thinking [0/1]
 ** TODO lsp-mode: Avoid marking `(def foo ,,,)` in a `(comment` block as unused.
-* Thinking about it [0/1]
-** TODO C-x C-b går til et filtrert buffer - hvordan kan forbedre Christian sine frustrasjoner?

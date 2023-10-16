@@ -7,7 +7,9 @@
         change-number-at-point
         cider-load-buffer
         clj-hippie-expand-no-case-fold
+        cljr-raise-sexp
         cljr-slash
+        cljr-splice-sexp-killing-backward
         clojure-backward-logical-sexp
         clojure-forward-logical-sexp
         copy-region-or-current-line
@@ -18,11 +20,14 @@
         paredit-forward
         paredit-forward-delete
         paredit-forward-kill-word
+        paredit-forward-slurp-sexp
         paredit-kill
         paredit-kill-region-or-backward-word
+        paredit-open-curly
         paredit-raise-sexp
         paredit-semicolon
         paredit-wrap-round
+        paredit-wrap-square
         subtract-number-at-point
         wgrep-mark-deletion
         ))

@@ -1,0 +1,176 @@
+;; Provides basic namespace sorting functionality for clojure
+
+(require 'dash)
+(require 's)
+
+(defun clj-cn--string-natural-comparator (s1 s2)
+  (string< (clj-cn--only-alpha-chars s1)
+           (clj-cn--only-alpha-chars s2)))
+
+(defcustom clj-cn-sort-comparator #'clj-cn--string-natural-comparator
+  "The comparator function to use to sort ns declaration.
+Set your own if you see fit. Comparator is called with two
+elements of the sub section of the ns declaration, and should
+return non-nil if the first element should sort before the
+second.
+
+The following functions are also provided for use with this:
+`clj-cn--string-length-comparator', `clj-cn--semantic-comparator',
+and `clj-cn--string-natural-comparator'"
+  :group 'clj-cn
+  :type 'function)
+
+(defun clj-cn--goto-ns ()
+  (goto-char (point-min))
+  (if (re-search-forward clojure-namespace-name-regex nil t)
+      (clj-cn--goto-toplevel)
+    (error "No namespace declaration found")))
+
+(defun clj-cn--search-forward-within-sexp (s &optional save-excursion)
+  "Searches forward for S in the current sexp.
+
+if SAVE-EXCURSION is T POINT does not move."
+  (let ((bound (save-excursion (forward-list 1) (point))))
+    (if save-excursion
+        (save-excursion
+          (re-search-forward (concat s "\\()\\| \\|$\\)") bound t))
+      (when-let ((result (re-search-forward (concat s "\\()\\| \\|$\\)") bound t)))
+        (when (or  (looking-back " " 1)
+                   (looking-back ")" 1))
+          (forward-char -1))
+        result))))
+
+(defun clj-cn--point-after (&rest actions)
+  "Returns POINT after performing ACTIONS.
+
+An action is either the symbol of a function or a two element
+list of (fn args) to pass to `apply''"
+  (save-excursion
+    (dolist (fn-and-args actions)
+      (let ((f (if (listp fn-and-args) (car fn-and-args) fn-and-args))
+            (args (if (listp fn-and-args) (cdr fn-and-args) nil)))
+        (apply f args)))
+    (point)))
+
+(defun clj-cn--comment-line? ()
+  (save-excursion
+    (goto-char (point-at-bol))
+    (looking-at "\\s-*;+")))
+
+(defun clj-cn--delete-and-extract-sexp ()
+  (let* ((beg (point))
+         (end (clj-cn--point-after 'paredit-forward))
+         (contents (buffer-substring beg end)))
+    (delete-region beg end)
+    contents))
+
+(defun clj-cn--delete-and-extract-sexp-with-nested-sexps ()
+  "Returns list of strings representing the nested sexps if there is any.
+   In case there are no nested sexp the list will have only one element.
+   Not recursive, does not drill down into nested sexps
+   inside the first level nested sexps."
+  (let* ((beg (point))
+         (sexp-start beg)
+         (end (progn (paredit-forward)
+                     (point)))
+         nested)
+    (paredit-backward)
+    (when (looking-at "\\[\\|(")
+      (paredit-forward-down))
+    (while (/= sexp-start end)
+      (paredit-move-forward)
+      (push (s-trim (buffer-substring sexp-start (point))) nested)
+      (setq sexp-start (point)))
+    (delete-region beg end)
+    (nreverse (cons (concat (nth 1 nested) (car nested)) (or (nthcdr 2 nested) '())))))
+
+(defun clj-cn--extract-ns-statements (statement-type with-nested)
+  (clj-cn--goto-ns)
+  (if (or (not (clj-cn--search-forward-within-sexp (concat "(" statement-type)))
+          (clj-cn--comment-line?))
+      '()
+    (let (statements)
+      (while (not (looking-at " *)"))
+        (push (if with-nested
+                  (clj-cn--delete-and-extract-sexp-with-nested-sexps)
+                (clj-cn--delete-and-extract-sexp)) statements))
+      statements)))
+
+(defun clj-cn--only-alpha-chars (s)
+  (replace-regexp-in-string "[^[:alnum:]]" "" s))
+
+(defun clj-cn--string-length-comparator (s1 s2)
+  (> (length s1)
+     (length s2)))
+
+(defun clj-cn--extract-sexp-content (sexp)
+  (replace-regexp-in-string "\\[?(?]?)?" "" sexp))
+
+(defun clj-cn--semantic-comparator (ns s1 s2)
+  "Sorts used, required namespaces closer to the ns of the current buffer
+   before the rest.
+   When above is not applicable falls back to natural comparator."
+  (let ((shared-length-s1
+         (length (s-shared-start ns (clj-cn--extract-sexp-content s1))))
+        (shared-length-s2
+         (length (s-shared-start ns (clj-cn--extract-sexp-content s2)))))
+    (if (/= shared-length-s1 shared-length-s2)
+        (> shared-length-s1 shared-length-s2)
+      (clj-cn--string-natural-comparator s1 s2))))
+
+(defun clj-cn-create-comparator (comparator-fn)
+  (if (eq comparator-fn 'clj-cn--semantic-comparator)
+      (-partial 'clj-cn--semantic-comparator (clojure-find-ns))
+    comparator-fn))
+
+(defun clj-cn--insert-in-ns (type)
+  (clj-cn--goto-ns)
+  (if (clj-cn--search-forward-within-sexp (concat "(" type))
+      (if (looking-at " *)")
+          (progn
+            (search-backward "(")
+            (forward-list 1)
+            (forward-char -1)
+            (insert " "))
+        (search-backward "(")
+        (forward-list 1)
+        (forward-char -1)
+        (newline-and-indent))
+    (forward-list 1)
+    (forward-char -1)
+    (newline-and-indent)
+    (insert "(" type " )")
+    (forward-char -1)))
+
+(defun clj-cn--goto-toplevel ()
+  (paredit-backward-up (cljr--depth-at-point))
+  (when (looking-back "#")
+    (backward-char)))
+
+(defun clj-cn-sort-ns ()
+  "Sort the `ns' form according to `clj-cn-sort-comparator'.
+
+See: https://github.com/clojure-emacs/clj-refactor.el/wiki/clj-cn-sort-ns"
+  (interactive)
+  (save-excursion
+    (let ((buf-already-modified? (buffer-modified-p))
+          (comparator (clj-cn-create-comparator clj-cn-sort-comparator)))
+      (dolist (statement-type '(":require-macros" ":require" ":use" ":import"))
+        (let* ((statement (->> (clj-cn--extract-ns-statements statement-type nil)
+                               (nreverse)
+                               (-map 's-trim)))
+               (sorted-statement (->> statement
+                                      (-sort comparator)
+                                      (-distinct))))
+          (dolist (it sorted-statement)
+            (clj-cn--insert-in-ns statement-type)
+            (insert it))
+          (when (and (not buf-already-modified?)
+                     (buffer-modified-p)
+                     (->> (-interleave statement sorted-statement)
+                          (-partition 2)
+                          (--map (apply 's-equals? it))
+                          (--every? (eq it t))))
+            (not-modified)))))))
+
+(provide 'clj-clean-namespace)
