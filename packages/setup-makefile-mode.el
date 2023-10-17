@@ -38,6 +38,7 @@
              ((or (looking-at "^[ \t]*$")      ;; Blank line
                   (looking-at "^[ \t]*#")      ;; Comment line
                   (looking-at "^[^ \t\n#]+=")  ;; Variable definition
+                  (looking-at "^[A-Z_]+$")     ;; Variable definition in progress
                   (looking-at "^[^ \t\n#]+:")) ;; Rule definition
               0)
              (t 1)))))
