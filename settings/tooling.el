@@ -15,16 +15,19 @@
   (set-temporary-overlay-map
    (let ((map (make-sparse-keymap)))
      (define-key map (kbd key) command)
-     map) 
+     map)
    t))
 
 ;; Instrument a `command' to store the current window configuration in
 ;; `register' and then going fullscreen.
 (defmacro wrap-fullscreen (command register)
   `(defadvice ,command (around ,(intern (concat "wrap-" (symbol-name command) "-fullscreen")) activate)
-     (window-configuration-to-register ,register)
-     ad-do-it
-     (delete-other-windows)))
+     (let ((my/prev (list (current-window-configuration) (point-marker))))
+       ad-do-it
+       (delete-other-windows)
+       (setq-local my/previous-window-configuration my/prev))))
+
+(defvar my/previous-window-configuration nil)
 
 ;; No need to remind me about eldoc-mode all the time
 (diminish 'eldoc-mode)

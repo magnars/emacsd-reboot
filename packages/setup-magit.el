@@ -37,9 +37,10 @@
   "Like magit-mode-bury-buffer, but also restores the window
 configuration stored by magit-status-fullscreen"
   (interactive)
-  (kill-magit-buffers)
-  (funcall magit-bury-buffer-function 'kill-buffer)
-  (jump-to-register :magit-fullscreen))
+  (let ((prev my/previous-window-configuration))
+    (kill-magit-buffers)
+    (funcall magit-bury-buffer-function 'kill-buffer)
+    (when prev (register-val-jump-to prev nil))))
 
 (defvar magit-pair-programming-partner nil)
 

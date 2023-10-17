@@ -9,18 +9,19 @@
   :config
   (wrap-fullscreen deadgrep :deadgrep-fullscreen))
 
-(use-package wgrep 
+(use-package wgrep
   :bind ((:map deadgrep-mode-map
                ("e" . wgrep-change-to-wgrep-mode))))
 
-(use-package wgrep-deadgrep 
+(use-package wgrep-deadgrep
   :hook ((deadgrep-finished . wgrep-deadgrep-setup)))
 
 ;; Consider deadgrep-edit-mode as an alternative to wgrep.
 
 (defun deadgrep-quit ()
   (interactive)
-  (quit-window)
-  (jump-to-register :deadgrep-fullscreen))
+  (let ((prev my/previous-window-configuration))
+    (quit-window)
+    (when prev (register-val-jump-to prev nil))))
 
 (provide 'setup-deadgrep)
