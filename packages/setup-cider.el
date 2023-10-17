@@ -20,7 +20,7 @@
   (define-key clojure-mode-map (kbd "C-c C-l") 'nrepl-warn-when-not-connected)
 
   ;; Keybinding to switch to repl-buffer even if it is the wrong kind
-  (define-key clojure-mode-map (kbd "C-c z") 'cider-switch-to-any-repl-buffer)
+  (define-key clojure-mode-map (kbd "C-c z") 'my/cider-select-repl-buffer)
 
   :custom
   ;; save files when evaluating them
@@ -64,19 +64,16 @@
              def))))
    cider-mode-map))
 
-(defun cider-switch-to-any-repl-buffer (&optional set-namespace)
-  "Switch to current REPL buffer, when possible in an existing window.
-The type of the REPL is inferred from the mode of current buffer.  With a
-prefix arg SET-NAMESPACE sets the namespace in the REPL buffer to that of
-the namespace in the Clojure source buffer"
-  (interactive "P")
-  (or (ignore-errors
-        (cider--switch-to-repl-buffer
-         (cider-current-repl "any" t)
-         set-namespace))
-      (cider--switch-to-repl-buffer
-       (concat "*cider-repl " (car (sesman-current-session 'CIDER)) "(clj)*")
-       set-namespace)))
+(defun my/cider-select-repl-buffer ()
+  (interactive)
+  (pop-to-buffer
+   (completing-read "Which REPL, Sire?"
+                    (-map #'buffer-name
+                          (or (cider--extract-connections (cider--get-sessions-with-same-host
+                                                           (sesman-current-session 'CIDER)
+                                                           (sesman-current-sessions 'CIDER)))
+                              (user-error "No linked %s sessions" 'CIDER)))
+                    nil t)))
 
 (defun cider-find-and-clear-repl-buffer ()
   (interactive)
