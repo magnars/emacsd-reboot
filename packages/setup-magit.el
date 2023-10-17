@@ -70,12 +70,45 @@ configuration stored by magit-status-fullscreen"
   (remove-hook 'git-commit-setup-hook 'magit-insert-pair-programming-co-author)
   (message "Disabled pair programming"))
 
+(defvar my/pair-programming-usual-suspects nil)
+(defvar my/pair-programming-myself nil)
+
+(defun my/remove-same-name (a b)
+  (let ((names (--map (car (s-slice-at "<" it)) b)))
+    (-remove (lambda (elem)
+               (--any (s-starts-with? it elem) names))
+             a)))
+
+(defun my/git-commit-read-ident-candidates ()
+  (let* ((users-from-git-history (my/remove-same-name (delete-dups
+                                                       (magit-git-lines "log" "-n9999" "--format=%aN <%ae>"))
+                                                      my/pair-programming-myself))
+         (usual-suspects-in-history (-intersection users-from-git-history
+                                                   my/pair-programming-usual-suspects))
+         (missing-usual-suspects (my/remove-same-name my/pair-programming-usual-suspects
+                                                      usual-suspects-in-history)))
+    (delete-dups
+     (-concat usual-suspects-in-history
+              missing-usual-suspects
+              users-from-git-history))))
+
+(defun my/git-commit-read-ident (prompt)
+  (let ((str (magit-completing-read
+              prompt
+              (my/git-commit-read-ident-candidates)
+              nil nil nil 'git-commit-read-ident-history)))
+    (save-match-data
+      (if (string-match "\\`\\([^<]+\\) *<\\([^>]+\\)>\\'" str)
+          (list (save-match-data (string-trim (match-string 1 str)))
+                (string-trim (match-string 2 str)))
+        (user-error "Invalid input")))))
+
 (defun magit-toggle-pair-programming-mode ()
   (interactive)
   (if magit-pair-programming-partner
       (magit-disable-pair-programming-mode)
     (magit-enable-pair-programming-mode
-     (git-commit-read-ident "Pair programming with"))))
+     (my/git-commit-read-ident "Pair programming with"))))
 
 (defun my/magit-cursor-fix ()
   (beginning-of-buffer)
