@@ -98,7 +98,7 @@
 
 (define-minor-mode core-async-mode
   "Core async mode"
-  :lighter " async"
+  :lighter ""
   (if core-async-mode
       (add-hook 'before-save-hook 'core-async-update-namespace t t)
     (remove-hook 'before-save-hook 'core-async-update-namespace t)))

@@ -2,6 +2,7 @@
   :hook ((clojure-mode . paredit-mode)
          (cider-repl-mode . paredit-mode)
          (emacs-lisp-mode . paredit-mode))
+  :diminish " ()"
 
   :config
   ;; Rebind nasty paredit keys

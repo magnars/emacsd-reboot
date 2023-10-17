@@ -9,6 +9,7 @@
 
 (use-package cider
   :after (clojure-mode)
+  :diminish " CIDER"
 
   :config
   ;; Warn about missing nREPL instead of doing stupid things

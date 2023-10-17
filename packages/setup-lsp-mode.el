@@ -2,6 +2,7 @@
   :hook ((clojure-mode . lsp)
          (clojurescript-mode-hook . lsp)
          (clojurec-mode-hook . lsp))
+  :diminish " lsp"
 
   :init
   (setq lsp-headerline-breadcrumb-enable nil) ;; Don't need file path in my buffer

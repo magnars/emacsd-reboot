@@ -1,4 +1,4 @@
-* The allmighty wishlist [14/16]
+* The allmighty wishlist [15/15]
 ** DONE Fix indent-for-tab-command in BSDmakefile-mode
 ** DONE yas datomic snippets
 ** DONE support custom gitcommit message buffers that start with comments
@@ -13,7 +13,6 @@
 ** DONE Undo-Fu-Session can not recover undo data: Invalid read syntax: "#", 41, 311
 ** DONE Man burde ikke trenge trykke C-x C-b for å finne replet, selv om det er cljs-repl som ikke er kobla på enda
 ** DONE Er det MAGIT som er synderen for perspective!?
-** TODO Det nystarta repl-bufferet bør være en del av perspektivet med en gang
-** TODO diminish clojure-lsp og cider
+** DONE diminish clojure-lsp og cider
 * Wishful thinking [0/1]
 ** TODO lsp-mode: Avoid marking `(def foo ,,,)` in a `(comment` block as unused.
