@@ -34,7 +34,7 @@ Download [Emacs for Mac OSX](http://emacsformacosx.com/).
 
 - Stop clojure-lsp from adding duplicate namespace declarations:
 
-    Open `.config/clojure-lsp/config.edn` and add:
+    Open `~/.config/clojure-lsp/config.edn` and add:
 
     ```
     {:auto-add-ns-to-new-files? false}
