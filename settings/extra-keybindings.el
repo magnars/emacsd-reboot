@@ -14,4 +14,7 @@
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-x C-z") 'shell)
 
+;; A convenient alternative to C-u as universal argument
+(global-set-key (kbd "s-u") 'universal-argument)
+
 (provide 'extra-keybindings)

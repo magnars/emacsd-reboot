@@ -13,7 +13,9 @@
         clojure-backward-logical-sexp
         clojure-forward-logical-sexp
         copy-region-or-current-line
+        cycle-spacing
         indent-for-tab-command
+        kill-region-or-backward-word
         kill-sexp
         markdown-outdent-or-delete
         paredit-C-j
