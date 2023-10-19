@@ -31,3 +31,14 @@ Download [Emacs for Mac OSX](http://emacsformacosx.com/).
     ```
     brew install xz coreutils
     ```
+
+- Stop clojure-lsp from adding duplicate namespace declarations:
+
+    Open `.config/clojure-lsp/config.edn` and add:
+
+    ```
+    {:auto-add-ns-to-new-files? false}
+    ```
+
+    This is already handled better by clj-refactor (which also inserts test
+    declarations in relevant namespaces).
