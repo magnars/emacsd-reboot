@@ -2,6 +2,8 @@
 
 (global-set-key (kbd "C-<f6>") (λ (with-perspective "org" (find-file "~/Dropbox/org/adventur/adventur-clj.org"))))
 
+(require 'mattilsynet)
+
 ;; Configure pair-programming-mode
 ;;
 ;; Suggest these first:
