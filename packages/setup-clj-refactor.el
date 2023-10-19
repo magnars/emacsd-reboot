@@ -13,6 +13,10 @@
   (define-key clojure-mode-map (kbd "C->") 'cljr-thread)
   (define-key clojure-mode-map (kbd "C-<") 'cljr-unwind)
 
+  (setq cljr-clojure-test-declaration "[clojure.test :refer [deftest is testing]]")
+  (setq cljr-cljs-clojure-test-declaration cljr-clojure-test-declaration)
+  (setq cljr-cljc-clojure-test-declaration cljr-clojure-test-declaration)
+
   (add-hook 'clojure-mode-hook 'clj-refactor-mode)
 
   (require 'core-async-mode)
