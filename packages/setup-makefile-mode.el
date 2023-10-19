@@ -35,11 +35,11 @@
             (cond
              ((my/in-process-of-adding-commands-to-rule?) 1)
 
-             ((or (looking-at "^[ \t]*$")      ;; Blank line
-                  (looking-at "^[ \t]*#")      ;; Comment line
-                  (looking-at "^[^ \t\n#]+=")  ;; Variable definition
-                  (looking-at "^[A-Z_]+$")     ;; Variable definition in progress
-                  (looking-at "^[^ \t\n#]+:")) ;; Rule definition
+             ((or (looking-at "^[ \t]*$")       ;; Blank line
+                  (looking-at "^[ \t]*#")       ;; Comment line
+                  (looking-at "^[^ \t\n#]+ ?=") ;; Variable definition
+                  (looking-at "^[A-Z_]+$")      ;; Variable definition in progress
+                  (looking-at "^[^ \t\n#]+:"))  ;; Rule definition
               0)
              (t 1)))))
     (if (null indent-col)
