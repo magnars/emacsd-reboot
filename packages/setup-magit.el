@@ -23,9 +23,7 @@
   (wrap-fullscreen magit-init :magit-fullscreen)
 
   ;; move cursor into position when entering commit message
-  (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix)
-
-  (require 'magit-header-patch))
+  (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix))
 
 (defun kill-magit-buffers ()
   (let ((current (current-buffer)))
