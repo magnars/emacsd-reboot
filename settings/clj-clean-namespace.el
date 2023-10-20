@@ -3,23 +3,6 @@
 (require 'dash)
 (require 's)
 
-(defun clj-cn--string-natural-comparator (s1 s2)
-  (string< (clj-cn--only-alpha-chars s1)
-           (clj-cn--only-alpha-chars s2)))
-
-(defcustom clj-cn-sort-comparator #'clj-cn--string-natural-comparator
-  "The comparator function to use to sort ns declaration.
-Set your own if you see fit. Comparator is called with two
-elements of the sub section of the ns declaration, and should
-return non-nil if the first element should sort before the
-second.
-
-The following functions are also provided for use with this:
-`clj-cn--string-length-comparator', `clj-cn--semantic-comparator',
-and `clj-cn--string-natural-comparator'"
-  :group 'clj-cn
-  :type 'function)
-
 (defun clj-cn--goto-ns ()
   (goto-char (point-min))
   (if (re-search-forward clojure-namespace-name-regex nil t)
@@ -96,33 +79,6 @@ list of (fn args) to pass to `apply''"
                 (clj-cn--delete-and-extract-sexp)) statements))
       statements)))
 
-(defun clj-cn--only-alpha-chars (s)
-  (replace-regexp-in-string "[^[:alnum:]]" "" s))
-
-(defun clj-cn--string-length-comparator (s1 s2)
-  (> (length s1)
-     (length s2)))
-
-(defun clj-cn--extract-sexp-content (sexp)
-  (replace-regexp-in-string "\\[?(?]?)?" "" sexp))
-
-(defun clj-cn--semantic-comparator (ns s1 s2)
-  "Sorts used, required namespaces closer to the ns of the current buffer
-   before the rest.
-   When above is not applicable falls back to natural comparator."
-  (let ((shared-length-s1
-         (length (s-shared-start ns (clj-cn--extract-sexp-content s1))))
-        (shared-length-s2
-         (length (s-shared-start ns (clj-cn--extract-sexp-content s2)))))
-    (if (/= shared-length-s1 shared-length-s2)
-        (> shared-length-s1 shared-length-s2)
-      (clj-cn--string-natural-comparator s1 s2))))
-
-(defun clj-cn-create-comparator (comparator-fn)
-  (if (eq comparator-fn 'clj-cn--semantic-comparator)
-      (-partial 'clj-cn--semantic-comparator (clojure-find-ns))
-    comparator-fn))
-
 (defun clj-cn--insert-in-ns (type)
   (clj-cn--goto-ns)
   (if (clj-cn--search-forward-within-sexp (concat "(" type))
@@ -148,19 +104,16 @@ list of (fn args) to pass to `apply''"
     (backward-char)))
 
 (defun clj-cn-sort-ns ()
-  "Sort the `ns' form according to `clj-cn-sort-comparator'.
-
-See: https://github.com/clojure-emacs/clj-refactor.el/wiki/clj-cn-sort-ns"
+  "Sort the `ns' form."
   (interactive)
   (save-excursion
-    (let ((buf-already-modified? (buffer-modified-p))
-          (comparator (clj-cn-create-comparator clj-cn-sort-comparator)))
+    (let ((buf-already-modified? (buffer-modified-p)))
       (dolist (statement-type '(":require-macros" ":require" ":use" ":import"))
         (let* ((statement (->> (clj-cn--extract-ns-statements statement-type nil)
                                (nreverse)
                                (-map 's-trim)))
                (sorted-statement (->> statement
-                                      (-sort comparator)
+                                      (-sort 'string<)
                                       (-distinct))))
           (dolist (it sorted-statement)
             (clj-cn--insert-in-ns statement-type)
