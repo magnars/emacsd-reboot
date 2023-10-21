@@ -19,8 +19,8 @@
                ("q" . magit-quit)))
 
   :config
-  (wrap-fullscreen magit-status :magit-fullscreen)
-  (wrap-fullscreen magit-init :magit-fullscreen)
+  (wrap-fullscreen magit-status)
+  (wrap-fullscreen magit-init)
 
   ;; move cursor into position when entering commit message
   (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix))

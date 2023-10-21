@@ -7,7 +7,7 @@
          (:map deadgrep-mode-map
                ("q" . deadgrep-quit)))
   :config
-  (wrap-fullscreen deadgrep :deadgrep-fullscreen))
+  (wrap-fullscreen deadgrep))
 
 (use-package wgrep
   :bind ((:map deadgrep-mode-map

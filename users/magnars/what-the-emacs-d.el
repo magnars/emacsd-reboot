@@ -53,6 +53,6 @@
   (when-let ((prev my/previous-window-configuration))
     (when prev (register-val-jump-to prev nil))))
 
-(wrap-fullscreen what-the-emacsd-post :what-the-emacsd)
+(wrap-fullscreen what-the-emacsd-post)
 
 (provide 'what-the-emacs-d)
