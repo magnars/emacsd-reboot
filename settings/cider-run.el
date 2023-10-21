@@ -29,11 +29,12 @@
   (kaocha-runner--clear-buffer cider-run--out-buffer)
   (cider-nrepl-request:eval
    invocation
-   (let ((original-buffer (current-buffer)))
+   (let ((original-buffer (current-buffer))
+         (any-errors? nil))
      (lambda (response)
        (nrepl-dbind-response response (value out err status)
-         (when out
-           (kaocha-runner--insert cider-run--out-buffer out)
+         (when (or out err)
+           (kaocha-runner--insert cider-run--out-buffer (or out err))
            (kaocha-runner--with-window cider-run--out-buffer original-buffer
              (window-resize nil (- (max 6
                                         (min 15 (line-number-at-pos (point-max))))
@@ -42,11 +43,11 @@
              (recenter (- -1 (min (max 0 scroll-margin)
                                   (truncate (/ (window-body-height) 4.0)))) t)))
          (when err
-           (kaocha-runner--insert cider-run--out-buffer err))
+           (setq any-errors? t))
          (when value
            (message "%s" value))
-         (when (and status (member "done" status))
-           (run-with-timer 3 nil 'kaocha-runner--hide-window cider-run--out-buffer)))))
+         (when (and status (member "done" status) (not any-errors?))
+           (run-with-timer 2 nil 'kaocha-runner--hide-window cider-run--out-buffer)))))
    ns nil nil nil
    (cider-current-repl 'clj 'ensure)))
 
