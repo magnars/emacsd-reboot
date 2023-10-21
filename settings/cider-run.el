@@ -47,7 +47,7 @@
          (when value
            (message "%s" value))
          (when (and status (member "done" status) (not any-errors?))
-           (run-with-timer 2 nil 'kaocha-runner--hide-window cider-run--out-buffer)))))
+           (run-with-timer 1 nil 'kaocha-runner--hide-window cider-run--out-buffer)))))
    ns nil nil nil
    (cider-current-repl 'clj 'ensure)))
 
