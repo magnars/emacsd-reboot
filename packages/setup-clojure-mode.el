@@ -30,21 +30,29 @@
 
 (defun setup-clojure-mode-so ()
   (with-significant-others file-name
-    ("/portfolio/.+/components/" (s-with file-name
-                                   (s-replace "/portfolio/" "/src/")
-                                   (s-replace "_scenes.cljs" ".cljc")))
+    ("/portfolio/.+/components/" (list (s-with file-name
+                                         (s-replace "/portfolio/" "/src/")
+                                         (s-replace "_scenes.cljs" ".cljc"))))
 
-    ("/ui/src/.+/components/" (s-with file-name
-                                (s-replace "/src/" "/portfolio/")
-                                (s-replace ".cljc" "_scenes.cljs")))
+    ("/ui/src/.+/components/" (list (s-with file-name
+                                      (s-replace "/src/" "/portfolio/")
+                                      (s-replace ".cljc" "_scenes.cljs"))))
 
-    ("/src/.+\.clj" (s-with file-name
-                      (s-replace "/src/" "/test/")
-                      (s-replace ".clj" "_test.clj")))
+    ("/src/.+\.cljc" (list (s-with file-name
+                             (s-replace "/src/" "/test/")
+                             (s-replace ".cljc" "_test.clj"))))
 
-    ("/test/.+\.clj" (s-with file-name
-                       (s-replace "/test/" "/src/")
-                       (s-replace "_test.clj" ".clj")))))
+    ("/src/.+\.clj" (list (s-with file-name
+                            (s-replace "/src/" "/test/")
+                            (s-replace ".clj" "_test.clj"))))
+
+    ("/test/.+\.clj" (list
+                      (s-with file-name
+                        (s-replace "/test/" "/src/")
+                        (s-replace "_test.clj" ".clj"))
+                      (s-with file-name
+                        (s-replace "/test/" "/src/")
+                        (s-replace "_test.clj" ".cljc"))))))
 
 ;; Don't fully unthread always
 

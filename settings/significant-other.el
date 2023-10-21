@@ -15,14 +15,17 @@
         (message "Significant other not configured for this mode.")
         nil))
 
+(defun significant-other-find-existing ()
+  (-first 'file-exists-p (funcall significant-other-find-fn)))
+
 (defun significant-other-jump (arg)
   (interactive "P")
-  (when-let (file (funcall significant-other-find-fn))
-    (cond
-     ((file-exists-p file) (find-file file))
-     (arg (find-file file)
-          (save-buffer))
-     (t (ido-find-file-in-dir (file-name-directory file))))))
+  (if-let (file (significant-other-find-existing))
+      (find-file file)
+    (when-let (file (car (funcall significant-other-find-fn)))
+      (if arg
+          (progn (find-file file) (save-buffer))
+        (ido-find-file-in-dir (file-name-directory file))))))
 
 (defmacro with-significant-others (binding &rest mappings)
   (declare (indent 1))
