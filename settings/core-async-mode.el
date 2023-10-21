@@ -56,7 +56,7 @@
           (cljr--insert-in-ns ":require")
           (insert "[clojure.core.async :refer [")
           (apply 'insert (->> usages
-                              (-sort clj-cn-sort-comparator)
+                              (-sort 'string<)
                               (-interpose " ")))
           (insert "]]"))))
     (clj-cn-sort-ns)))
@@ -75,7 +75,7 @@
           (just-one-space)
           (insert "[cljs.core.async :refer [")
           (apply 'insert (->> used-fns
-                              (-sort clj-cn-sort-comparator)
+                              (-sort 'string<)
                               (-interpose " ")))
           (insert "]]"))
         (when used-macros
@@ -83,7 +83,7 @@
           (just-one-space)
           (insert "[cljs.core.async.macros :refer [")
           (apply 'insert (->> used-macros
-                              (-sort clj-cn-sort-comparator)
+                              (-sort 'string<)
                               (-interpose " ")))
           (insert "]]"))
         (clj-cn-sort-ns)))))
