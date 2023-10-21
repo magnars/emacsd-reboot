@@ -1,6 +1,7 @@
 ;;; cider-run.el --- A package for running commands via CIDER. -*- lexical-binding: t; -*-
 
 (require 'kaocha-runner)
+(require 'projectile)
 
 (defvar cider-run--out-buffer "*cider-run-output*")
 
