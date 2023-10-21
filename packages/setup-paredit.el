@@ -60,7 +60,8 @@
     (paredit-backward-kill-word)))
 
 (defun conditionally-enable-paredit-mode ()
-  (when (eq this-command 'eval-expression)
+  (when (or (eq this-command 'eval-expression)
+            (eq this-command 'cider-run-in-dev-namespace))
     (paredit-mode 1)
     (disable-inconvenient-paredit-keybindings-in-minor-mode)))
 
