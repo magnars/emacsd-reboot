@@ -71,13 +71,14 @@
 (defun my/cider-select-repl-buffer ()
   (interactive)
   (pop-to-buffer
-   (completing-read "Which REPL, Sire?"
-                    (-map #'buffer-name
-                          (or (cider--extract-connections (cider--get-sessions-with-same-host
-                                                           (sesman-current-session 'CIDER)
-                                                           (sesman-current-sessions 'CIDER)))
-                              (user-error "No linked %s sessions" 'CIDER)))
-                    nil t)))
+   (let ((buffer-names (-map #'buffer-name
+                             (or (cider--extract-connections (cider--get-sessions-with-same-host
+                                                              (sesman-current-session 'CIDER)
+                                                              (sesman-current-sessions 'CIDER)))
+                                 (user-error "No linked %s sessions" 'CIDER)))))
+     (if (cdr buffer-names)
+         (completing-read "Which REPL, Sire?" buffer-names nil t)
+       (car buffer-names)))))
 
 (defun cider-find-and-clear-repl-buffer ()
   (interactive)
