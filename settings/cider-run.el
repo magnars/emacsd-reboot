@@ -40,7 +40,7 @@
                (kaocha-runner--insert cider-run--out-buffer (or out err))
                (kaocha-runner--with-window cider-run--out-buffer original-buffer
                  (window-resize nil (- (max 6
-                                            (min 15 (line-number-at-pos (point-max))))
+                                            (min 15 (1+ (line-number-at-pos (point-max)))))
                                        (window-height)))
                  (goto-char (point-max))
                  (recenter (- -1 (min (max 0 scroll-margin)
