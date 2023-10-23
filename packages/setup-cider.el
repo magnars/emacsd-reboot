@@ -22,6 +22,7 @@
 
   ;; Keybinding to switch to repl-buffer even if it is the wrong kind
   (define-key clojure-mode-map (kbd "C-c z") 'my/cider-select-repl-buffer)
+  (define-key cider-repl-mode-map (kbd "C-c z") 'my/cider-select-repl-buffer)
 
   (autoload 'cider-run-in-dev-namespace "cider-run")
   (define-key clojure-mode-map (kbd "s-:") 'cider-run-in-dev-namespace)
