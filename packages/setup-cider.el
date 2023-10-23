@@ -11,6 +11,10 @@
   :after (clojure-mode)
   :diminish " CIDER"
 
+  :bind ((:map cider-mode-map
+               ([remap cider-quit] . sesman-quit))
+         (:map cider-repl-mode-map
+               ([remap cider-quit] . sesman-quit)))
   :config
   ;; Warn about missing nREPL instead of doing stupid things
   (my/shadow-cider-keys-with-warning)
