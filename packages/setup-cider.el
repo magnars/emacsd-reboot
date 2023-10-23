@@ -19,6 +19,9 @@
   ;; Warn about missing nREPL instead of doing stupid things
   (my/shadow-cider-keys-with-warning)
 
+  ;; Show the port number when figwheel comes online
+  (add-to-list 'cider--repl-stderr-functions #'my/cider-maybe-log-figwheel-main-port)
+
   ;; Clear CIDER repl buffer with C-c C-l
   (define-key cider-mode-map (kbd "C-c C-l") 'cider-find-and-clear-repl-buffer)
   (define-key cider-repl-mode-map (kbd "C-c C-l") 'cider-repl-clear-buffer)
@@ -43,6 +46,10 @@
 
   ;; always scroll output from interactive evaluations into view
   (cider-repl-display-output-before-window-boundaries t))
+
+(defun my/cider-maybe-log-figwheel-main-port (buffer out)
+  (when (string-match-p "\\[Figwheel\\] Starting Server at" out)
+    (message (propertize out 'face 'cider-repl-stderr-face))))
 
 (defun nrepl-warn-when-not-connected ()
   (interactive)
