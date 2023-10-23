@@ -37,7 +37,11 @@
          (let ((showing? (get-buffer cider-run--out-buffer)))
            (nrepl-dbind-response response (value out err status)
              (when (and (or out err) showing?)
-               (kaocha-runner--insert cider-run--out-buffer (or out err))
+               (with-current-buffer cider-run--out-buffer
+                 (insert (propertize (or out err) 'face
+                                     (if out
+                                         'cider-repl-stdout-face
+                                       'cider-repl-stderr-face))))
                (kaocha-runner--with-window cider-run--out-buffer original-buffer
                  (window-resize nil (- (max 6
                                             (min 15 (1+ (line-number-at-pos (point-max)))))
