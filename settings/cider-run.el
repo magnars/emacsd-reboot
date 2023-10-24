@@ -59,8 +59,12 @@
              (when value
                (message "%s" value))
              (when (and status (member "done" status) (not any-errors?) showing?)
-               (run-with-timer 1 nil 'kaocha-runner--hide-window cider-run--out-buffer))))))
+               (run-with-timer 1 nil 'cider-run--kill-out-buffer))))))
      ns nil nil nil buffer)))
+
+(defun cider-run--kill-out-buffer ()
+  (kaocha-runner--hide-window cider-run--out-buffer)
+  (kill-buffer cider-run--out-buffer))
 
 (defun cider-run-in-dev-namespace ()
   (interactive)
