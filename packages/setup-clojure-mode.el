@@ -10,6 +10,8 @@
   ;; don't steal hippie-expand-lines keybinding
   (unbind-key (kbd "C-:") clojure-mode-map)
 
+  (require 'i18n-edn)
+
   ;; After threading all forms, check if we should maybe unwind once
   ;; according to my tastes
   (defadvice clojure--thread-all (after possibly-unwind-once activate)
@@ -21,7 +23,8 @@
               ([remap paredit-backward] . clojure-backward-logical-sexp)
               ("C-\"" . clojure-toggle-keyword-string)
               ("C-x M-e" . my/cider-eval-including-lets)
-              ("C-." . clj-hippie-expand-no-case-fold)))
+              ("C-." . clj-hippie-expand-no-case-fold)
+              ("C-c i 1 8 n" . i18n-edn-edit-in-multifile)))
 
 ;; Set up jumping to other file (src/test, component/scene)
 
