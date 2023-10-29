@@ -17,8 +17,7 @@
 (global-set-key (kbd "s-y") 'bury-buffer)
 
 ;; Toggle two most recent buffers
-(fset 'quick-switch-buffer [?\C-x ?b return])
-(global-set-key (kbd "s-b") 'quick-switch-buffer)
+(global-set-key (kbd "s-b") 'mode-line-other-buffer)
 
 ;; Eval buffer
 (global-set-key (kbd "C-c C-k") 'eval-buffer)

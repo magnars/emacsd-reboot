@@ -18,6 +18,7 @@
         kill-region-or-backward-word
         kill-sexp
         markdown-outdent-or-delete
+        org-self-insert-command
         paredit-C-j
         paredit-forward
         paredit-forward-delete
