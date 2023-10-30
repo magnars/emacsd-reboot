@@ -42,3 +42,9 @@ Download [Emacs for Mac OSX](http://emacsformacosx.com/).
 
     This is already handled better by clj-refactor (which also inserts test
     declarations in relevant namespaces).
+
+- Add dependencies to the project without CIDER running:
+
+    ```
+    brew install babashka/brew/neil
+    ```

@@ -129,4 +129,6 @@
     (hippie-expand-no-case-fold)
     (modify-syntax-entry ?/ old-syntax)))
 
+(use-package neil :defer t) ;; M-x neil-find-clojure-package
+
 (provide 'setup-clojure-mode)
