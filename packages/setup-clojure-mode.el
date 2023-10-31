@@ -39,7 +39,10 @@
 
     ("/ui/src/.+/components/" (list (s-with file-name
                                       (s-replace "/src/" "/portfolio/")
-                                      (s-replace ".cljc" "_scenes.cljs"))))
+                                      (s-replace ".cljc" "_scenes.cljs"))
+                                    (s-with file-name
+                                      (s-replace "/src/" "/test/")
+                                      (s-replace ".cljc" "_test.clj"))))
 
     ("/src/.+\.cljc" (list (s-with file-name
                              (s-replace "/src/" "/test/")

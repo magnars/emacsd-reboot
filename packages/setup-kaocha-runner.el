@@ -12,22 +12,26 @@
               ("C-c k w" . kaocha-runner-show-warnings)
               ("C-c k h" . kaocha-runner-hide-windows)))
 
-(defun kaocha-runner--is-test? ()
-  (string-match-p "/test/.+\.clj" (buffer-file-name)))
+(defun kaocha-runner--is-test? (s)
+  (string-match-p "/test/.+\.clj" s))
+
+(defun kaocha-runner--significant-other-find-existing-test ()
+  (--first
+   (and (file-exists-p it)
+        (kaocha-runner--is-test? it))
+   (funcall significant-other-find-fn)))
 
 (defun kaocha-runner-run-relevant-tests ()
   (interactive)
   (when (cljr--project-depends-on-p "kaocha")
-    (if (kaocha-runner--is-test?)
+    (if (kaocha-runner--is-test? (buffer-file-name))
         (kaocha-runner--run-tests
          (kaocha-runner--testable-sym (cider-current-ns) nil nil)
          nil t)
       (let ((original-buffer (current-buffer)))
         (save-window-excursion
-          (when-let ((file (significant-other-find-existing)))
-            (when (file-exists-p file)
-              (find-file file)))
-          (when (kaocha-runner--is-test?)
+          (when-let ((file (kaocha-runner--significant-other-find-existing-test)))
+            (find-file file)
             (kaocha-runner--run-tests
              (kaocha-runner--testable-sym (cider-current-ns) nil nil)
              nil t original-buffer)))))))

@@ -1,4 +1,4 @@
-* The allmighty wishlist [18/20]
+* The allmighty wishlist [19/20]
 ** DONE Fix indent-for-tab-command in BSDmakefile-mode
 ** DONE yas datomic snippets
 ** DONE support custom gitcommit message buffers that start with comments
@@ -17,7 +17,7 @@
 ** DONE fiks Makefile-mode til å ikke indentere flere VARS feil
 ** DONE Finn forskjellen på matvaretabellen og parenteser vedr saving for reload
 ** DONE cider-run er lenge-levende og lager trøbbel lenge etter at man har startet
+** DONE i18n multifiles
 ** TODO core-async-mode ... also for clojure.test? -> generalize
-** TODO i18n multifiles
 * Wishful thinking [0/1]
 ** TODO lsp-mode: Avoid marking `(def foo ,,,)` in a `(comment` block as unused.

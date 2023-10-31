@@ -21,6 +21,7 @@
         org-self-insert-command
         paredit-C-j
         paredit-forward
+        paredit-forward-barf-sexp
         paredit-forward-delete
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
