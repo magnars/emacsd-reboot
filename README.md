@@ -48,3 +48,9 @@ Download [Emacs for Mac OSX](http://emacsformacosx.com/).
     ```
     brew install babashka/brew/neil
     ```
+
+- Static analysis for CSS with LSP
+
+    ```
+    npm install -g vscode-langservers-extracted
+    ```
