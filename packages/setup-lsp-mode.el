@@ -1,7 +1,8 @@
 (use-package lsp-mode
   :hook ((clojure-mode . lsp)
-         (clojurescript-mode-hook . lsp)
-         (clojurec-mode-hook . lsp))
+         (clojurescript-mode . lsp)
+         (clojurec-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
   :diminish " lsp"
 
   :init

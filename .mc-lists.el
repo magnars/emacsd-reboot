@@ -20,6 +20,7 @@
         markdown-outdent-or-delete
         org-self-insert-command
         paredit-C-j
+        paredit-doublequote
         paredit-forward
         paredit-forward-barf-sexp
         paredit-forward-delete
@@ -28,6 +29,7 @@
         paredit-kill
         paredit-kill-region-or-backward-word
         paredit-open-curly
+        paredit-open-square
         paredit-raise-sexp
         paredit-semicolon
         paredit-wrap-round
