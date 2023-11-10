@@ -10,6 +10,10 @@
   ;; C-a is nicer in dired if it moves back to start of files
   (define-key dired-mode-map (kbd "C-a") 'dired-back-to-start-of-files)
 
+  ;; Mirror OSX folder navigation
+  (define-key dired-mode-map (kbd "M-<up>") 'dired-jump)
+  (define-key dired-mode-map (kbd "M-<down>") 'dired-find-file)
+
   ;; Delete files with k
   (define-key dired-mode-map (kbd "k") 'dired-do-delete))
 

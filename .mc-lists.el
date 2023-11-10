@@ -14,6 +14,7 @@
         clojure-forward-logical-sexp
         copy-region-or-current-line
         cycle-spacing
+        duplicate-current-line-or-region
         indent-for-tab-command
         kill-region-or-backward-word
         kill-sexp
@@ -35,6 +36,7 @@
         paredit-wrap-round
         paredit-wrap-square
         subtract-number-at-point
+        wdired--self-insert
         wgrep-mark-deletion
         ))
 
