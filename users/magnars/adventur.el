@@ -9,3 +9,5 @@
 (global-set-key (kbd "C-x p n") (λ (projectile-switch-project-by-name "~/projects/no-adventur")))
 (global-set-key (kbd "C-x p m") (λ (require 'adventur-mode)
                                    (with-perspective "eventyr" (find-file "~/projects/eventyr/master/notat.org"))))
+
+(setq magit-bind-magit-project-status nil)
