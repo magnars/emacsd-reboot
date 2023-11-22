@@ -1,24 +1,3 @@
-* The allmighty wishlist [20/21]
-** DONE Fix indent-for-tab-command in BSDmakefile-mode
-** DONE yas datomic snippets
-** DONE support custom gitcommit message buffers that start with comments
-** DONE Unngå feilmelding når du gjør C-c p i magit-bufferet
-** DONE Unngå å sette inn dobbelt opp med Co-Author (ved amend)
-** DONE Unngå feil med file-endings når du gjør M-s M-s i dired
-** DONE Unngå "welcome to the emacs shell"
-** DONE undersøk muligheten for decision-matrix i emacs org-mode
-** DONE splitt core-async-mode og clean-namespace
-** DONE bruk clean-namespace
-** DONE fiks core-async-mode
-** DONE Undo-Fu-Session can not recover undo data: Invalid read syntax: "#", 41, 311
-** DONE Man burde ikke trenge trykke C-x C-b for å finne replet, selv om det er cljs-repl som ikke er kobla på enda
-** DONE Er det MAGIT som er synderen for perspective!?
-** DONE diminish clojure-lsp og cider
-** DONE fiks Makefile-mode til å ikke indentere flere VARS feil
-** DONE Finn forskjellen på matvaretabellen og parenteser vedr saving for reload
-** DONE cider-run er lenge-levende og lager trøbbel lenge etter at man har startet
-** DONE i18n multifiles
-** DONE lsp for css
+* The allmighty wishlist [1/2]
+** DONE Keybinding s-m to run targets from Makefile
 ** TODO core-async-mode ... also for clojure.test? -> generalize
-* Wishful thinking [0/1]
-** TODO lsp-mode: Avoid marking `(def foo ,,,)` in a `(comment` block as unused.
