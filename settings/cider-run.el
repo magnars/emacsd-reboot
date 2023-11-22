@@ -4,26 +4,40 @@
 (require 'projectile)
 
 (defvar cider-run--out-buffer "*cider-run-output*")
+(defvar ns-regex "^(ns \\([^\s]+\\)")
 
-(defun cider-run--find-dev-namespace ()
+(defun cider-run--find-comment-forms ()
+  (when (re-search-forward "^(comment ;; s-:" nil t)
+    (let (forms beg end)
+      (while (ignore-errors
+               (forward-sexp) (setq end (point))
+               (backward-sexp) (setq beg (point))
+               (!cons (buffer-substring-no-properties beg end) forms)
+               (forward-sexp)
+               t))
+      forms)))
+
+(defun cider-run--find-dev-namespace-and-comment-forms ()
   "Find and return the first Clojure namespace in dev.clj files under dev/ and its subdirectories."
-  (let ((project-root (projectile-project-root))
-        (ns-regex "^(ns \\([^\s]+\\)"))
+  (let ((project-root (projectile-project-root)))
     (when project-root
       (let ((find-cmd (format "find %sdev -type f -name dev.clj" project-root))
-            ns)
+            ns
+            forms)
         (with-temp-buffer
           (call-process-shell-command find-cmd nil t)
           (goto-char (point-min))
           (while (and (not ns) (not (eobp)))
-            (let ((file (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+            (let ((file (buffer-substring (line-beginning-position) (line-end-position))))
               (with-temp-buffer
                 (insert-file-contents file)
                 (goto-char (point-min))
                 (when (re-search-forward ns-regex nil t)
-                  (setq ns (match-string 1)))))
+                  (setq ns (match-string 1))
+                  (setq forms (cider-run--find-comment-forms)))))
             (forward-line 1)))
-        (s-trim ns)))))
+        (cons (s-trim ns)
+              forms)))))
 
 (defun cider-run--run-in-repl (ns invocation)
   (interactive)
@@ -68,10 +82,11 @@
 
 (defun cider-run-in-dev-namespace ()
   (interactive)
-  (if-let ((dev-ns (cider-run--find-dev-namespace)))
-      (cider-run--run-in-repl dev-ns
-                              (completing-read (format "Eval in %s: " dev-ns)
-                                               cider-run-in-dev-namespace-default-suggestions))
+  (if-let ((ns+forms (cider-run--find-dev-namespace-and-comment-forms)))
+      (cider-run--run-in-repl (car ns+forms)
+                              (completing-read (format "Eval in %s: " (car ns+forms))
+                                               (or (cdr ns+forms)
+                                                   cider-run-in-dev-namespace-default-suggestions)))
     (message "No dev namespace found")))
 
 (defvar cider-run-in-dev-namespace-default-suggestions
