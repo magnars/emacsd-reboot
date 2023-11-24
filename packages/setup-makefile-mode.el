@@ -1,4 +1,4 @@
-;;; Inject some Emacs into makefile-mode. -*- lexical-binding: t; -*-
+;;; Inject some Emacs into makefile-mode.
 
 (defun my/tab-indent (n)
   (back-to-indentation)
@@ -74,23 +74,29 @@
 
 (defun makefile-invoke-target ()
   (interactive)
-  (let ((file (concat (projectile-project-root) "Makefile"))
-        (short-dir (shorten-path (projectile-project-root)))
-        (default-directory (projectile-project-root))
-        (prev (unless (get-buffer "*Async Shell Command*")
-                (list (current-window-configuration) (point-marker)))))
+  (let* ((file (concat (projectile-project-root) "Makefile"))
+         (short-dir (shorten-path (projectile-project-root)))
+         (default-directory (projectile-project-root))
+         (make-buffer-name (concat "*Make " (projectile-project-name) "*")))
     (if (file-exists-p file)
-        (progn (async-shell-command
-                (completing-read (format "Make in %s: " short-dir)
-                                 (--map
-                                  (concat "make " it)
-                                  (with-temp-buffer
-                                    (insert-file-contents file)
-                                    (makefile-find-targets)))))
-               (switch-to-buffer-other-window "*Async Shell Command*")
-               (when prev
-                 (local-set-key (kbd "q") (λ (kill-buffer)
-                                             (register-val-jump-to prev nil)))))
+        (progn
+          (unless (get-buffer make-buffer-name)
+            (setq-local my/previous-window-configuration
+                        (list (current-window-configuration) (point-marker))))
+          (async-shell-command (completing-read (format "Make in %s: " short-dir)
+                                                (--map
+                                                 (concat "make " it)
+                                                 (with-temp-buffer
+                                                   (insert-file-contents file)
+                                                   (makefile-find-targets))))
+                               make-buffer-name)
+          (unless (s-equals? (buffer-name) make-buffer-name)
+            (switch-to-buffer-other-window make-buffer-name))
+          (read-only-mode)
+          (local-set-key (kbd "m") 'makefile-invoke-target)
+          (local-set-key (kbd "q") (λ (kill-buffer)
+                                      (when my/previous-window-configuration
+                                        (register-val-jump-to my/previous-window-configuration nil)))))
       (message "No Makefile found in %s" short-dir))))
 
 (global-set-key (kbd "s-m") 'makefile-invoke-target)

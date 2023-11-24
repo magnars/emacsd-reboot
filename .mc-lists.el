@@ -21,6 +21,8 @@
         markdown-outdent-or-delete
         org-self-insert-command
         paredit-C-j
+        paredit-backward
+        paredit-close-square
         paredit-doublequote
         paredit-forward
         paredit-forward-barf-sexp
