@@ -1,3 +1,5 @@
+;;; Inject some Emacs into makefile-mode. -*- lexical-binding: t; -*-
+
 (defun my/tab-indent (n)
   (back-to-indentation)
   (delete-horizontal-space)
@@ -74,15 +76,21 @@
   (interactive)
   (let ((file (concat (projectile-project-root) "Makefile"))
         (short-dir (shorten-path (projectile-project-root)))
-        (default-directory (projectile-project-root)))
+        (default-directory (projectile-project-root))
+        (prev (unless (get-buffer "*Async Shell Command*")
+                (list (current-window-configuration) (point-marker)))))
     (if (file-exists-p file)
-        (async-shell-command
-         (completing-read (format "Make in %s: " short-dir)
-                          (--map
-                           (concat "make " it)
-                           (with-temp-buffer
-                             (insert-file-contents file)
-                             (makefile-find-targets)))))
+        (progn (async-shell-command
+                (completing-read (format "Make in %s: " short-dir)
+                                 (--map
+                                  (concat "make " it)
+                                  (with-temp-buffer
+                                    (insert-file-contents file)
+                                    (makefile-find-targets)))))
+               (switch-to-buffer-other-window "*Async Shell Command*")
+               (when prev
+                 (local-set-key (kbd "q") (λ (kill-buffer)
+                                             (register-val-jump-to prev nil)))))
       (message "No Makefile found in %s" short-dir))))
 
 (global-set-key (kbd "s-m") 'makefile-invoke-target)
