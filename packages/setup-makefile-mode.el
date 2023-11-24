@@ -72,31 +72,40 @@
         (concat "~" (substring path (length home)))
       path)))
 
-(defun makefile-invoke-target ()
+(defvar makefile--previous-window-configuration nil)
+(defvar makefile--previous-target nil)
+
+(defun makefile-invoke-target (&optional repeat?)
   (interactive)
   (let* ((file (concat (projectile-project-root) "Makefile"))
          (short-dir (shorten-path (projectile-project-root)))
          (default-directory (projectile-project-root))
-         (make-buffer-name (concat "*Make " (projectile-project-name) "*")))
+         (make-buffer-name (concat "*Make " (projectile-project-name) "*"))
+         (prev (if (get-buffer make-buffer-name)
+                   (with-current-buffer make-buffer-name
+                     makefile--previous-window-configuration)
+                 (list (current-window-configuration) (point-marker))))
+         (target (or (and repeat? (with-current-buffer make-buffer-name
+                                    makefile--previous-target))
+                     (completing-read (format "Make in %s: " short-dir)
+                                      (--map
+                                       (concat "make " it)
+                                       (with-temp-buffer
+                                         (insert-file-contents file)
+                                         (makefile-find-targets)))))))
     (if (file-exists-p file)
         (progn
-          (unless (get-buffer make-buffer-name)
-            (setq-local my/previous-window-configuration
-                        (list (current-window-configuration) (point-marker))))
-          (async-shell-command (completing-read (format "Make in %s: " short-dir)
-                                                (--map
-                                                 (concat "make " it)
-                                                 (with-temp-buffer
-                                                   (insert-file-contents file)
-                                                   (makefile-find-targets))))
-                               make-buffer-name)
+          (async-shell-command target make-buffer-name)
           (unless (s-equals? (buffer-name) make-buffer-name)
             (switch-to-buffer-other-window make-buffer-name))
+          (setq-local makefile--previous-window-configuration prev)
+          (setq-local makefile--previous-target target)
           (read-only-mode)
           (local-set-key (kbd "m") 'makefile-invoke-target)
-          (local-set-key (kbd "q") (λ (kill-buffer)
-                                      (when my/previous-window-configuration
-                                        (register-val-jump-to my/previous-window-configuration nil)))))
+          (local-set-key (kbd "g") (λ (makefile-invoke-target t)))
+          (local-set-key (kbd "q") (λ (let ((conf makefile--previous-window-configuration))
+                                        (kill-buffer)
+                                        (when conf (register-val-jump-to conf nil))))))
       (message "No Makefile found in %s" short-dir))))
 
 (global-set-key (kbd "s-m") 'makefile-invoke-target)
