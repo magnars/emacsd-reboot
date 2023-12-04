@@ -19,8 +19,22 @@
 
   (add-hook 'clojure-mode-hook 'clj-refactor-mode)
 
-  (require 'core-async-mode)
-  (add-hook 'clojure-mode-hook 'core-async-mode)
+  (require 'clj-auto-refer-mode)
+  (setq auto-refer-packages
+        '((:ns "clojure.core.async"
+           :functions ("<!" "<!!" ">!" ">!!" "admix" "alt!" "alt!!" "alts!" "alts!!" "buffer"
+                       "chan" "close!" "do-alts" "dropping-buffer" "mix" "mult" "offer!"
+                       "onto-chan" "pipe" "pipeline" "pipeline-async" "pipeline-blocking"
+                       "poll!" "pub" "put!" "sliding-buffer" "solo-mode" "sub" "take!"
+                       "tap" "thread" "thread-call" "timeout" "to-chan" "unblocking-buffer?"
+                       "unmix" "unmix-all" "unsub" "unsub-all" "untap" "untap-all")
+           :macros ("go" "go-loop")
+           :cljs-ns "cljs.core.async"
+           :cljs-macro-ns "cljs.core.async.macros")
+
+          (:ns "clojure.test"
+           :macros ("deftest" "testing" "is"))))
+  (add-hook 'clojure-mode-hook 'auto-refer-mode)
 
   (advice-add 'cljr-update-project-dependency :around #'my/cljr-handle-git-sha-deps))
 
