@@ -27,12 +27,16 @@
 (defun core-async--in-comment? ()
   (nth 4 (syntax-ppss)))
 
+(defun core-async--in-string? ()
+  (nth 3 (syntax-ppss)))
+
 (defun core-async--find-usages ()
   (let (result)
     (save-excursion
       (goto-char (point-min))
       (while (re-search-forward core-async--functions-re nil t)
-        (unless (core-async--in-comment?)
+        (unless (or (core-async--in-comment?)
+                    (core-async--in-string?))
           (!cons (cider-symbol-at-point) result))))
     (-distinct result)))
 
