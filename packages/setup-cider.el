@@ -33,6 +33,7 @@
 
   (autoload 'cider-run-in-dev-namespace "cider-run")
   (define-key clojure-mode-map (kbd "s-:") 'cider-run-in-dev-namespace)
+  (define-key cider-repl-mode-map (kbd "s-:") 'cider-run-in-dev-namespace)
 
   :custom
   ;; save files when evaluating them
