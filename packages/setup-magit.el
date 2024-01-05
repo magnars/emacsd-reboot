@@ -25,6 +25,10 @@
   ;; move cursor into position when entering commit message
   (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix))
 
+(use-package git-timemachine
+  :defer t
+  :bind (("C-x v t" . git-timemachine)))
+
 (defun kill-magit-buffers ()
   (let ((current (current-buffer)))
     (dolist (buf (magit-mode-get-buffers))
