@@ -15,6 +15,7 @@
         copy-region-or-current-line
         cycle-spacing
         duplicate-current-line-or-region
+        forward-sexp
         indent-for-tab-command
         kill-region-or-backward-word
         kill-sexp
@@ -27,6 +28,7 @@
         paredit-forward
         paredit-forward-barf-sexp
         paredit-forward-delete
+        paredit-forward-down
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
         paredit-kill

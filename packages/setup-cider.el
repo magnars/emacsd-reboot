@@ -75,11 +75,18 @@
              def))))
    cider-mode-map))
 
+(defun my/get-sessions-with-same-project-dir (session sessions)
+  "Returns a list of SESSIONS with the same project-dir as SESSION."
+  (--filter
+   (s-equals? (plist-get (cider--gather-session-params session) :project-dir)
+              (plist-get (cider--gather-session-params it) :project-dir))
+   sessions))
+
 (defun my/cider-select-repl-buffer ()
   (interactive)
   (pop-to-buffer
    (let ((buffer-names (-map #'buffer-name
-                             (or (cider--extract-connections (cider--get-sessions-with-same-host
+                             (or (cider--extract-connections (my/get-sessions-with-same-project-dir
                                                               (sesman-current-session 'CIDER)
                                                               (sesman-current-sessions 'CIDER)))
                                  (user-error "No linked %s sessions" 'CIDER)))))
