@@ -4,7 +4,9 @@
 (setq mc/cmds-to-run-for-all
       '(
         backward-kill-sexp
+        backward-sexp
         change-number-at-point
+        changes
         cider-load-buffer
         clj-hippie-expand-no-case-fold
         cljr-raise-sexp
@@ -12,17 +14,27 @@
         cljr-splice-sexp-killing-backward
         clojure-backward-logical-sexp
         clojure-forward-logical-sexp
+        clojure-unwind
+        comment-dwim
         copy-region-or-current-line
         cycle-spacing
         duplicate-current-line-or-region
         forward-sexp
+        inc-number-at-point
         indent-for-tab-command
+        isearch-forward-use-region
         kill-region-or-backward-word
+        kill-sentence
         kill-sexp
+        kmacro-start-macro-or-insert-counter
         markdown-outdent-or-delete
         org-self-insert-command
+        org-shiftright
         paredit-C-j
-        paredit-backward
+        paredit-C-j
+        paredit-backward-kill-word
+        paredit-backward-slurp-sexp
+        paredit-close-curly
         paredit-close-square
         paredit-doublequote
         paredit-forward
@@ -34,16 +46,22 @@
         paredit-kill
         paredit-kill-region-or-backward-word
         paredit-open-curly
+        paredit-open-round
         paredit-open-square
         paredit-raise-sexp
         paredit-semicolon
+        paredit-splice-sexp-killing-backward
+        paredit-split-sexp
         paredit-wrap-round
         paredit-wrap-square
         subtract-number-at-point
-        wdired--self-insert
+        transpose-sexps
+        upstream
         wgrep-mark-deletion
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        mouse-set-region
+        persp-switch-to-buffer*
         ))
