@@ -1,7 +1,8 @@
 (use-package paredit
   :hook ((clojure-mode . paredit-mode)
          (cider-repl-mode . paredit-mode)
-         (emacs-lisp-mode . paredit-mode))
+         (emacs-lisp-mode . paredit-mode)
+         (lisp-data-mode . paredit-mode))
   :diminish " ()"
 
   :config
