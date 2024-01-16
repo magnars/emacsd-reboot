@@ -101,7 +101,7 @@
 
 (define-minor-mode auto-refer-mode
     "Auto refer mode"
-  :lighter "aaaaa"
+  :lighter ""
   (if auto-refer-mode
       (add-hook 'before-save-hook 'auto-refer-update-namespace t t)
     (remove-hook 'before-save-hook 'auto-refer-update-namespace t)))
