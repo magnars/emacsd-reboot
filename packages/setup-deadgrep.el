@@ -6,6 +6,10 @@
   :bind (("M-s s" . deadgrep)
          (:map deadgrep-mode-map
                ("q" . deadgrep-quit)))
+  :custom
+  (deadgrep-extra-arguments '("--no-config"
+                              "--hidden"))
+
   :config
   (wrap-fullscreen deadgrep))
 
