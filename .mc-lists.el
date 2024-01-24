@@ -28,12 +28,15 @@
         kill-sexp
         kmacro-start-macro-or-insert-counter
         markdown-outdent-or-delete
+        open-line-and-indent
         org-self-insert-command
         org-shiftright
         paredit-C-j
         paredit-C-j
+        paredit-backward-down
         paredit-backward-kill-word
         paredit-backward-slurp-sexp
+        paredit-backward-up
         paredit-close-curly
         paredit-close-square
         paredit-doublequote
@@ -43,6 +46,7 @@
         paredit-forward-down
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
+        paredit-forward-up
         paredit-kill
         paredit-kill-region-or-backward-word
         paredit-open-curly
@@ -54,6 +58,7 @@
         paredit-split-sexp
         paredit-wrap-round
         paredit-wrap-square
+        sort-lines
         subtract-number-at-point
         transpose-sexps
         upstream
@@ -62,6 +67,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        cleanup-buffer
         mouse-set-region
         persp-switch-to-buffer*
         ))

@@ -1,3 +1,5 @@
-* The allmighty wishlist [2/2]
+* The allmighty wishlist [2/4]
+** TODO tailwindcss lsp-mode?
+** TODO tailwindcss lsp-mode in hiccup?
 ** DONE Keybinding s-m to run targets from Makefile
 ** DONE core-async-mode ... also for clojure.test? -> generalize
