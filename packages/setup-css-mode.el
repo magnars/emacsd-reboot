@@ -2,4 +2,10 @@
 
 (setq css-fontify-colors nil)
 
+(use-package lsp-tailwindcss
+  :init
+  (setq lsp-tailwindcss-add-on-mode t))
+
+(require 'lsp-tailwindcss)
+
 (provide 'setup-css-mode)
