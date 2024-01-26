@@ -1,5 +1,16 @@
-* The allmighty wishlist [2/4]
+* The allmighty wishlist [2/5]
 ** TODO tailwindcss lsp-mode?
 ** TODO tailwindcss lsp-mode in hiccup?
+** TODO clj-clean-namespace: bail when seeing comments on own line:
+
+(ns portfolio.components.reagent
+  (:require
+   ;; If you are using an older version of react use the following:
+   #_[portfolio.reagent :refer-macros [defscene]]
+   ;; For react versions 18+ use the following:
+   ;; This is due to the new API https://www.metosin.fi/blog/reagent-towards-react-18/
+   [portfolio.reagent-18 :refer-macros [defscene]]
+   [portfolio.components.reagent-component :as rc]))
+
 ** DONE Keybinding s-m to run targets from Makefile
 ** DONE core-async-mode ... also for clojure.test? -> generalize
