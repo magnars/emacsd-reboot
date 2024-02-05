@@ -13,6 +13,9 @@
   :init
   (persp-mode))
 
+;; Avoid popping ediff up in separate window, it breaks perspective
+(setq ediff-window-setup-function #'ediff-setup-windows-plain)
+
 ;; Macro to open perspective with `name' and evaluate `body'
 (defmacro with-perspective (name &rest body)
   `(let ((initialize (not (gethash ,name (perspectives-hash))))
