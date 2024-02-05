@@ -5,6 +5,9 @@
          (lsp-mode . lsp-enable-which-key-integration))
   :diminish " lsp"
 
+  :bind ((:map lsp-mode-map
+               ("s-l w l" . lsp-workspace-show-log)))
+
   :init
   (setq lsp-headerline-breadcrumb-enable nil) ;; Don't need file path in my buffer
   (setq lsp-lens-enable nil) ;; Hide clutter (reference and test counts)
