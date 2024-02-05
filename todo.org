@@ -1,8 +1,8 @@
-* The allmighty wishlist [2/5]
-** TODO tailwindcss lsp-mode?
+* The allmighty wishlist [4/6]
+** DONE tailwindcss lsp-mode?
 ** TODO tailwindcss lsp-mode in hiccup?
-** TODO clj-clean-namespace: bail when seeing comments on own line:
-
+** TODO clj-clean-namespace: support comments on same line, don't bail, maintain
+** DONE clj-clean-namespace: bail when seeing comments on own line:
 (ns portfolio.components.reagent
   (:require
    ;; If you are using an older version of react use the following:
