@@ -91,14 +91,13 @@
 
 (defun auto-refer-update-namespace ()
   (interactive)
-  (unless (clj-cn-comments-in-ns?)
-    (cond ((s-ends-with? ".clj" (buffer-file-name))
-           (--each auto-refer-packages
-             (auto-refer--update-clj-namespace it)))
+  (cond ((s-ends-with? ".clj" (buffer-file-name))
+         (--each auto-refer-packages
+           (auto-refer--update-clj-namespace it)))
 
-          ((s-ends-with? ".cljs" (buffer-file-name))
-           (--each auto-refer-packages
-             (auto-refer--update-cljs-namespace it))))))
+        ((s-ends-with? ".cljs" (buffer-file-name))
+         (--each auto-refer-packages
+           (auto-refer--update-cljs-namespace it)))))
 
 (define-minor-mode auto-refer-mode
   "Auto refer mode"

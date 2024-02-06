@@ -1,7 +1,7 @@
-* The allmighty wishlist [4/6]
+* The allmighty wishlist [5/6]
 ** DONE tailwindcss lsp-mode?
 ** TODO tailwindcss lsp-mode in hiccup?
-** TODO clj-clean-namespace: support comments on same line, don't bail, maintain
+** DONE clj-clean-namespace: support comments on same line, don't bail, maintain
 ** DONE clj-clean-namespace: bail when seeing comments on own line:
 (ns portfolio.components.reagent
   (:require

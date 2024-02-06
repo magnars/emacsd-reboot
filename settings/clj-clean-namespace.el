@@ -23,63 +23,61 @@ if SAVE-EXCURSION is T POINT does not move."
           (forward-char -1))
         result))))
 
-(defun clj-cn--point-after (&rest actions)
-  "Returns POINT after performing ACTIONS.
-
-An action is either the symbol of a function or a two element
-list of (fn args) to pass to `apply''"
-  (save-excursion
-    (dolist (fn-and-args actions)
-      (let ((f (if (listp fn-and-args) (car fn-and-args) fn-and-args))
-            (args (if (listp fn-and-args) (cdr fn-and-args) nil)))
-        (apply f args)))
-    (point)))
-
 (defun clj-cn--comment-line? ()
   (save-excursion
-    (goto-char (point-at-bol))
-    (looking-at "\\s-*;+")))
+    (back-to-indentation)
+    (or (looking-at ";")
+        (looking-at "#_"))))
 
 (defun clj-cn--delete-and-extract-sexp ()
-  (let* ((beg (point))
-         (end (clj-cn--point-after 'paredit-forward))
-         (contents (buffer-substring beg end)))
-    (delete-region beg end)
-    contents))
+  (let (sexp comment-before comment-after beg end)
+    ;; start at the beginning
+    (setq beg (point))
 
-(defun clj-cn--delete-and-extract-sexp-with-nested-sexps ()
-  "Returns list of strings representing the nested sexps if there is any.
-   In case there are no nested sexp the list will have only one element.
-   Not recursive, does not drill down into nested sexps
-   inside the first level nested sexps."
-  (let* ((beg (point))
-         (sexp-start beg)
-         (end (progn (paredit-forward)
-                     (point)))
-         nested)
-    (paredit-backward)
-    (when (looking-at "\\[\\|(")
-      (paredit-forward-down))
-    (while (/= sexp-start end)
-      (paredit-move-forward)
-      (push (s-trim (buffer-substring sexp-start (point))) nested)
-      (setq sexp-start (point)))
-    (delete-region beg end)
-    (nreverse (cons (concat (nth 1 nested) (car nested)) (or (nthcdr 2 nested) '())))))
+    ;; move forward to the the first non-comment sexp
+    (clojure-forward-logical-sexp)
+    (while (clj-cn--comment-line?)
+      (clojure-forward-logical-sexp))
+    (clojure-backward-logical-sexp)
 
-(defun clj-cn--extract-ns-statements (statement-type with-nested)
+    ;; extract any full-line comments before the sexp
+    (setq comment-before (s-trim (buffer-substring-no-properties beg (point))))
+
+    ;; extract the sexp itself
+    (let ((here (point)))
+      (clojure-forward-logical-sexp)
+      (setq sexp (buffer-substring-no-properties here (point))))
+
+    ;; extract any inline comments after the sexp
+    (when (looking-at "\s*;")
+      (let ((here (point)))
+        (end-of-line)
+        (setq comment-after (buffer-substring-no-properties here (point)))))
+
+    (let ((contents (buffer-substring beg (point))))
+      (delete-region beg (point))
+      (list :sexp sexp
+            :contents contents
+            :comment-before (unless (string= "" comment-before)
+                              comment-before)
+            :comment-after comment-after))))
+
+(defun clj-cn--end-of-statement? ()
+  (not
+   (ignore-errors
+     (save-excursion (forward-sexp)) t)))
+
+(defun clj-cn--extract-ns-statements (statement-type)
   (clj-cn--goto-ns)
-  (if (or (not (clj-cn--search-forward-within-sexp (concat "(" statement-type)))
-          (clj-cn--comment-line?))
-      '()
+  (when (and (clj-cn--search-forward-within-sexp (concat "(" statement-type))
+             (not (clj-cn--comment-line?)))
     (let (statements)
-      (while (not (looking-at " *)"))
-        (push (if with-nested
-                  (clj-cn--delete-and-extract-sexp-with-nested-sexps)
-                (clj-cn--delete-and-extract-sexp)) statements))
+      (while (not (clj-cn--end-of-statement?))
+        (push (clj-cn--delete-and-extract-sexp)
+              statements))
       statements)))
 
-(defun clj-cn--insert-in-ns (type)
+(defun clj-cn--prepare-insert-in-ns (type)
   (clj-cn--goto-ns)
   (if (clj-cn--search-forward-within-sexp (concat "(" type))
       (if (looking-at " *)")
@@ -103,39 +101,66 @@ list of (fn args) to pass to `apply''"
   (when (looking-back "#")
     (backward-char)))
 
-(defun clj-cn-comments-in-ns? ()
+(defun clj-cn--extract-ns-form ()
   (save-excursion
     (clj-cn--goto-ns)
     (let ((beg (point))
           (end (progn (paredit-forward)
                       (point))))
-      (or (progn (goto-char beg)
-                 (search-forward ";;" end t))
-          (progn (goto-char beg)
-                 (search-forward "#_" end t))))))
+      (buffer-substring-no-properties beg end))))
+
+(defun clj-cn--comparator (a b)
+  (string< (plist-get a :sexp)
+           (plist-get b :sexp)))
+
+(defun clj-cn--remove-blank-lines (beg end)
+  (save-excursion
+    (goto-char beg)
+    (while (re-search-forward "^\\s-*$" end t)
+      (delete-char 1)
+      (setq end (- end 1)))))
+
+(defun clj-cn--clean-up (statement-type f)
+  (clj-cn--goto-ns)
+  (when (and (clj-cn--search-forward-within-sexp (concat "(" statement-type))
+             (not (clj-cn--comment-line?)))
+    (paredit-backward-up)
+    (let ((beg (point))
+          (end (progn (paredit-forward)
+                      (point))))
+      (funcall f beg end))))
 
 (defun clj-cn-sort-ns ()
   "Sort the `ns' form."
   (interactive)
-  (unless (clj-cn-comments-in-ns?)
+  (let ((buf-already-modified? (buffer-modified-p))
+        (ns-form-before (clj-cn--extract-ns-form)))
     (save-excursion
-      (let ((buf-already-modified? (buffer-modified-p)))
-        (dolist (statement-type '(":require-macros" ":require" ":use" ":import"))
-          (let* ((statement (->> (clj-cn--extract-ns-statements statement-type nil)
-                                 (nreverse)
-                                 (-map 's-trim)))
-                 (sorted-statement (->> statement
-                                        (-sort 'string<)
+      (dolist (statement-type '(":require" ":use" ":import" ":require-macros"))
+        (clj-cn--goto-ns)
+        (when (clj-cn--search-forward-within-sexp (concat "(" statement-type))
+          (let* ((own-line? (eolp))
+                 (statements (clj-cn--extract-ns-statements statement-type))
+                 (sorted-statement (->> statements
+                                        (nreverse)
+                                        (-sort 'clj-cn--comparator)
                                         (-distinct))))
+            (while (not (looking-at ")"))
+              (delete-char 1))
             (dolist (it sorted-statement)
-              (clj-cn--insert-in-ns statement-type)
-              (insert it))
-            (when (and (not buf-already-modified?)
-                       (buffer-modified-p)
-                       (->> (-interleave statement sorted-statement)
-                            (-partition 2)
-                            (--map (apply 's-equals? it))
-                            (--every? (eq it t))))
-              (not-modified))))))))
+              (clj-cn--prepare-insert-in-ns statement-type)
+              (when own-line?
+                (delete-char -1)
+                (insert "\n"))
+              (insert (s-trim (plist-get it :contents)))
+              (when (plist-get it :comment-after)
+                (insert "\n")))
+            (clj-cn--clean-up statement-type #'clj-cn--remove-blank-lines)
+            (clj-cn--clean-up statement-type #'indent-region)))))
+    (when (and (not buf-already-modified?)
+               (buffer-modified-p)
+               (s-equals? ns-form-before
+                          (clj-cn--extract-ns-form)))
+      (not-modified))))
 
 (provide 'clj-clean-namespace)
