@@ -75,6 +75,12 @@
   :defer 2 ;; Loads after 2 seconds of idle time.
   :custom (uniquify-buffer-name-style 'forward))
 
+;; Start Emacs server for emacsclient
+(use-package server
+  :defer 2
+  :config (unless (server-running-p)
+            (server-start)))
+
 ;; Show more than 4 levels when evaling expressions
 (setq eval-expression-print-level 100)
 

@@ -13,6 +13,7 @@
         cljr-slash
         cljr-splice-sexp-killing-backward
         clojure-backward-logical-sexp
+        clojure-convert-collection-to-list
         clojure-forward-logical-sexp
         clojure-unwind
         comment-dwim
@@ -29,6 +30,8 @@
         kmacro-start-macro-or-insert-counter
         markdown-outdent-or-delete
         open-line-and-indent
+        open-line-below
+        org-delete-char
         org-self-insert-command
         org-shiftright
         paredit-C-j
