@@ -60,6 +60,13 @@
                         (s-replace "/test/" "/src/")
                         (s-replace "_test.clj" ".cljc"))))))
 
+;; Set up Clojure CSS completions
+
+(require 'css-completions)
+(add-hook 'clojure-mode-hook 'cssc/enable-for-clojure)
+(add-hook 'clojurescript-mode-hook 'cssc/enable-for-clojure)
+(add-hook 'clojurec-mode-hook 'cssc/enable-for-clojure)
+
 ;; Don't fully unthread always
 
 (defun my/clojure-should-unwind-once? ()
