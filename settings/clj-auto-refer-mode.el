@@ -57,12 +57,12 @@
       (clj-cn-sort-ns))))
 
 (defun auto-refer--update-cljs-namespace (package)
-  (let ((ns (or (plist-get package :cljs-ns)
-                (plist-get package :ns)))
-        (macro-ns (or (plist-get package :cljs-macro-ns)
-                      ns))
-        (functions (plist-get package :functions))
-        (macros (plist-get package :macros)))
+  (let* ((ns (or (plist-get package :cljs-ns)
+                 (plist-get package :ns)))
+         (macro-ns (or (plist-get package :cljs-macro-ns)
+                       ns))
+         (functions (plist-get package :functions))
+         (macros (plist-get package :macros)))
     (save-excursion
       (cljr--goto-ns)
       (unless (cljr--search-forward-within-sexp (concat ns " :as"))
