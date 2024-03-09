@@ -79,14 +79,23 @@
 (defun cssc/find-string-class-name-position ()
   "Are we completing a symbol in a string inside some structure assigning to :class?"
   (when-let ((bounds (bounds-of-thing-at-point 'symbol)))
-    (when (cider-in-string-p)
-      (let ((s (buffer-substring-no-properties (car bounds)
-                                               (cdr bounds))))
-        (when (cssc/inside-clojure-class-structure?)
-          (list
-           (car bounds)
-           (cdr bounds)
-           ""))))))
+    (when (and (cider-in-string-p)
+               (cssc/inside-clojure-class-structure?))
+      (list
+       (car bounds)
+       (cdr bounds)
+       ""))))
+
+(defun cssc/find-html-class-name-position ()
+  (when-let ((bounds (bounds-of-thing-at-point 'symbol)))
+    (when (and (nth 3 (syntax-ppss))
+               (save-excursion
+                 (goto-char (nth 8 (syntax-ppss)))
+                 (looking-back "class=" (- (point) 10))))
+      (list
+       (car bounds)
+       (cdr bounds)
+       ""))))
 
 (defvar cssc/find-class-name-position-fns ())
 (make-variable-buffer-local 'cssc/find-class-name-position-fns)
@@ -107,5 +116,11 @@
         (list #'cssc/find-hiccup-class-name-position
               #'cssc/find-keyword-class-name-position
               #'cssc/find-string-class-name-position)))
+
+(defun cssc/enable-for-html ()
+  (add-to-list 'completion-at-point-functions
+               #'cssc/css-classes-completion-at-point)
+  (setq cssc/find-class-name-position-fns
+        (list #'cssc/find-html-class-name-position)))
 
 (provide 'css-completions)
