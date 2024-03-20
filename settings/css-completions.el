@@ -123,4 +123,15 @@
   (setq cssc/find-class-name-position-fns
         (list #'cssc/find-html-class-name-position)))
 
+(defun cssc/skip-in-front-of-the-completion-chain ()
+  (when (-contains? completion-at-point-functions
+                    #'cssc/css-classes-completion-at-point)
+    (remove-hook 'completion-at-point-functions
+                 #'cssc/css-classes-completion-at-point
+                 t)
+    (add-to-list 'completion-at-point-functions
+                 #'cssc/css-classes-completion-at-point)))
+
+(add-hook 'lsp-completion-mode-hook 'cssc/skip-in-front-of-the-completion-chain)
+
 (provide 'css-completions)
