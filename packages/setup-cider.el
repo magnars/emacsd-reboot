@@ -10,6 +10,7 @@
 (use-package cider
   :after (clojure-mode)
   :diminish " CIDER"
+  :defer t
 
   :bind ((:map cider-mode-map
                ([remap cider-quit] . sesman-quit))

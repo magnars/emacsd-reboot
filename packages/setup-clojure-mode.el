@@ -62,10 +62,16 @@
 
 ;; Set up Clojure CSS completions
 
-(require 'css-completions)
-(add-hook 'clojure-mode-hook 'cssc/enable-for-clojure)
-(add-hook 'clojurescript-mode-hook 'cssc/enable-for-clojure)
-(add-hook 'clojurec-mode-hook 'cssc/enable-for-clojure)
+(use-package css-completions
+  :after (cider projectile)
+  :ensure nil
+  :defer t
+  :commands (cssc/enable-for-clojure)
+  :init
+  (add-hook 'clojure-mode-hook 'cssc/enable-for-clojure)
+  (add-hook 'clojurescript-mode-hook 'cssc/enable-for-clojure)
+  (add-hook 'clojurec-mode-hook 'cssc/enable-for-clojure)
+  (add-hook 'mhtml-mode-hook 'cssc/enable-for-html))
 
 ;; Don't fully unthread always
 
