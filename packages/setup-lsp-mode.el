@@ -24,7 +24,16 @@
   ;; (remove-hook 'completion-at-point-functions #'cider-complete-at-point t)
 
   :config
-  (advice-add 'lsp--info :around #'my/silence-some-lsp-info-messages))
+  (advice-add 'lsp--info :around #'my/silence-some-lsp-info-messages)
+  (add-hook 'lsp-completion-mode-hook 'my/use-lsp-completion-only-as-fallback))
+
+(defun my/use-lsp-completion-only-as-fallback ()
+  (when (-contains? completion-at-point-functions #'lsp-completion-at-point)
+    (remove-hook 'completion-at-point-functions #'tags-completion-at-point-function t)
+    (remove-hook 'completion-at-point-functions #'lsp-completion-at-point t)
+    (remove-hook 'completion-at-point-functions t t)
+    (add-to-list 'completion-at-point-functions #'lsp-completion-at-point t)
+    (add-to-list 'completion-at-point-functions t t)))
 
 (defun my/silence-some-lsp-info-messages (orig-fn &rest args)
   (unless (or (string-equal (car args) "Connected to %s.")

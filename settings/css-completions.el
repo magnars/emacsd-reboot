@@ -133,5 +133,6 @@
                  #'cssc/css-classes-completion-at-point)))
 
 (add-hook 'lsp-completion-mode-hook 'cssc/skip-in-front-of-the-completion-chain)
+(add-hook 'cider-mode-hook 'cssc/skip-in-front-of-the-completion-chain)
 
 (provide 'css-completions)
