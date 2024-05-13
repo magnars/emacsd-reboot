@@ -26,6 +26,9 @@
               ("C-." . clj-hippie-expand-no-case-fold)
               ("C-c i 1 8 n" . i18n-edn-edit-in-multifile)))
 
+(use-package zprint-mode
+  :defer 2)
+
 ;; Set up jumping to other file (src/test, component/scene)
 
 (require 's)
