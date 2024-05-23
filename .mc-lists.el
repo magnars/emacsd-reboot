@@ -28,6 +28,7 @@
         kill-sentence
         kill-sexp
         kmacro-start-macro-or-insert-counter
+        markdown-end-of-line
         markdown-outdent-or-delete
         open-line-and-indent
         open-line-below
@@ -65,6 +66,7 @@
         subtract-number-at-point
         transpose-sexps
         upstream
+        wdired--self-insert
         wgrep-mark-deletion
         ))
 

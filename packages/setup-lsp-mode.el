@@ -18,6 +18,8 @@
   (setq lsp-completion-provider :none) ;; Skip company-mode
   (setq lsp-enable-symbol-highlighting nil) ;; Don't highlight current symbol
 
+  (setq lsp-apply-edits-after-file-operations nil) ;; Disable broken lsp feature: https://github.com/clojure-lsp/clojure-lsp/issues/1813
+
   ;; To consider
   ;;
   ;; (setq lsp-enable-completion-at-point nil) ;; CIDER vs LSP?
