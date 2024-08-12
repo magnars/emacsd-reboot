@@ -14,13 +14,4 @@
     (quit-window)
     (when prev (register-val-jump-to prev nil))))
 
-(prodigy-define-service
-  :name "www.parens-of-the-dead.com"
-  :port 3334
-  :command "lein"
-  :args '("ring" "server-headless")
-  :cwd "~/projects/www.parens-of-the-dead.com"
-  :stop-signal 'sigkill
-  :kill-process-buffer-on-stop t)
-
 (provide 'setup-prodigy)

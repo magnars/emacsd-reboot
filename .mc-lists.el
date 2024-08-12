@@ -14,7 +14,9 @@
         cljr-splice-sexp-killing-backward
         clojure-backward-logical-sexp
         clojure-convert-collection-to-list
+        clojure-convert-collection-to-vector
         clojure-forward-logical-sexp
+        clojure-toggle-keyword-string
         clojure-unwind
         comment-dwim
         copy-region-or-current-line
