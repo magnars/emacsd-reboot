@@ -23,13 +23,17 @@
   :name "Jaeger"
   :tags '(matnyttig otel)
   :command "docker"
-
-  :args '("run" "--rm"
-          "-p" "16686:16686"
-          "-p" "4318:4318"
-          "-p" "4317:4317"
-          "jaegertracing/all-in-one"
-          "--collector.otlp.enabled=true")
+  :args (list "run" "--rm"
+              "-e" "SPAN_STORAGE_TYPE=badger"
+              "-e" "BADGER_EPHEMERAL=false"
+              "-e" "BADGER_DIRECTORY_VALUE=/badger/data"
+              "-e" "BADGER_DIRECTORY_KEY=/badger/key"
+              "-v" (concat (expand-file-name "~/data/badger") ":/badger")
+              "-p" "16686:16686"
+              "-p" "4318:4318"
+              "-p" "4317:4317"
+              "jaegertracing/all-in-one"
+              "--collector.otlp.enabled=true")
   :cwd "~/"
   :stop-signal 'sigkill
   :kill-process-buffer-on-stop t)
