@@ -43,6 +43,9 @@
   ;; don't pop up repl when connecting
   (cider-repl-pop-to-buffer-on-connect nil)
 
+  ;; re-use dead buffers without asking me about it when there is only one choice
+  (cider-reuse-dead-repls 'auto)
+
   ;; show stacktraces for everything, until https://github.com/clojure-emacs/cider/issues/3495 is solved
   (cider-clojure-compilation-error-phases nil)
 
