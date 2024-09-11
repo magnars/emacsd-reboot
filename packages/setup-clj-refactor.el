@@ -83,4 +83,25 @@
   (unless (my/clj-refactor-upgrade-git-sha-dep)
     (apply orig-fn args)))
 
+(defun cljr--add-test-declarations ()
+  (save-excursion
+    (let* ((ns (clojure-find-ns))
+           (source-ns (cljr--find-source-ns-of-test-ns ns (buffer-file-name))))
+      (cljr--insert-in-ns ":require")
+      (when source-ns
+        (insert "[" source-ns " :as "
+                (car (last (s-split "\\." source-ns))) "]"))
+      (cljr--insert-in-ns ":require")
+      (insert (cond
+               ((cljr--project-depends-on-p "midje")
+                cljr-midje-test-declaration)
+               ((cljr--project-depends-on-p "expectations")
+                cljr-expectations-test-declaration)
+               ((cljr--cljs-file-p)
+                cljr-cljs-clojure-test-declaration)
+               ((cljr--cljc-file-p)
+                cljr-cljc-clojure-test-declaration)
+               (t cljr-clojure-test-declaration))))
+    (indent-region (point-min) (point-max))))
+
 (provide 'setup-clj-refactor)
