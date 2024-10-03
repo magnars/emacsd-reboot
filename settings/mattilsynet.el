@@ -20,6 +20,24 @@
   :kill-process-buffer-on-stop t)
 
 (prodigy-define-service
+  :name "Shadow-CLJS watcher"
+  :tags '(matnyttig cljs)
+  :command "npx"
+  :args '("shadow-cljs" "watch" "client")
+  :cwd "~/work/matnyttig"
+  :stop-signal 'sigkill
+  :kill-process-buffer-on-stop t)
+
+(prodigy-define-service
+  :name "Launchpad"
+  :tags '(matnyttig)
+  :command "make"
+  :args '("launch")
+  :cwd "~/work/matnyttig"
+  :stop-signal 'sigkill
+  :kill-process-buffer-on-stop t)
+
+(prodigy-define-service
   :name "Jaeger"
   :tags '(matnyttig otel)
   :command "docker"
