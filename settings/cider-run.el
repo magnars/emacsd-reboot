@@ -46,34 +46,38 @@
     (cider-nrepl-request:eval
      invocation
      (let ((original-buffer (current-buffer))
-           (any-errors? nil))
+           (any-errors? nil)
+           (done? nil))
        (lambda (response)
          (let ((showing? (get-buffer cider-run--out-buffer)))
            (nrepl-dbind-response response (value out err status)
-             (when (and (or out err) showing?)
-               (with-current-buffer cider-run--out-buffer
-                 (insert (propertize (or out err) 'face
-                                     (if out
-                                         'cider-repl-stdout-face
-                                       'cider-repl-stderr-face))))
-               (kaocha-runner--with-window cider-run--out-buffer original-buffer
-                 (window-resize nil (- (max 6
-                                            (min 15 (1+ (line-number-at-pos (point-max)))))
-                                       (window-height)))
-                 (goto-char (point-max))
-                 (recenter (- -1 (min (max 0 scroll-margin)
-                                      (truncate (/ (window-body-height) 4.0)))) t)))
-             (when out
-               (ignore-errors
-                 (cider-repl-emit-stdout buffer out)))
-             (when err
-               (setq any-errors? t)
-               (ignore-errors
-                 (cider-repl-emit-stderr buffer err)))
-             (when value
-               (message "%s" value))
-             (when (and status (member "done" status) (not any-errors?) showing?)
-               (run-with-timer 1 nil 'cider-run--kill-out-buffer))))))
+             (unless done?
+               (when (and (or out err) showing?)
+                 (with-current-buffer cider-run--out-buffer
+                   (insert (propertize (or out err) 'face
+                                       (if out
+                                           'cider-repl-stdout-face
+                                         'cider-repl-stderr-face))))
+                 (kaocha-runner--with-window cider-run--out-buffer original-buffer
+                   (window-resize nil (- (max 6
+                                              (min 15 (1+ (line-number-at-pos (point-max)))))
+                                         (window-height)))
+                   (goto-char (point-max))
+                   (recenter (- -1 (min (max 0 scroll-margin)
+                                        (truncate (/ (window-body-height) 4.0)))) t)))
+               (when out
+                 (ignore-errors
+                   (cider-repl-emit-stdout buffer out)))
+               (when err
+                 (setq any-errors? t)
+                 (ignore-errors
+                   (cider-repl-emit-stderr buffer err)))
+               (when value
+                 (message "%s" value))
+               (when (and status (member "done" status))
+                 (setq done? t)
+                 (when (and (not any-errors?) showing?)
+                   (run-with-timer 1 nil 'cider-run--kill-out-buffer))))))))
      ns nil nil nil buffer)))
 
 (defun cider-run--kill-out-buffer ()
