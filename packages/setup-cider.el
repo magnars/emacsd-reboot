@@ -40,6 +40,11 @@
   ;; save files when evaluating them
   (cider-save-file-on-load t)
 
+  ;; try working around a bug where sesman is way too friendly when selecting
+  ;; repl-s from adjacent projects
+  ;; https://clojurians.slack.com/archives/C0617A8PQ/p1718608002044069
+  (sesman-use-friendly-sessions nil)
+
   ;; don't pop up repl when connecting
   (cider-repl-pop-to-buffer-on-connect nil)
 
