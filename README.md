@@ -20,6 +20,15 @@ Download [Emacs for Mac OSX](http://emacsformacosx.com/).
     brew install clojure-lsp/brew/clojure-lsp-native
     ```
 
+    or get the nightly:
+
+    ```
+    bash <(curl https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install) --version nightly --dir ~/bin
+    ```
+
+    (place somewhere on your path before homebrew)
+
+
 - Fast grepping:
 
     ```
