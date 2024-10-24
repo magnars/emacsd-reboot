@@ -22,10 +22,10 @@
 (global-set-key (kbd "M-n") 'forward-paragraph)
 
 ;; Move more quickly
-(global-set-key (kbd "C-S-n") (λ (ignore-errors (forward-line 5))))
-(global-set-key (kbd "C-S-p") (λ (ignore-errors (forward-line -5))))
-(global-set-key (kbd "C-S-f") (λ (ignore-errors (forward-char 5))))
-(global-set-key (kbd "C-S-b") (λ (ignore-errors (backward-char 5))))
+(global-set-key (kbd "C-S-n") (λ (ignore-errors (forward-line 5) (recenter))))
+(global-set-key (kbd "C-S-p") (λ (ignore-errors (forward-line -5) (recenter))))
+(global-set-key (kbd "C-S-f") (λ (ignore-errors (forward-char 5) (recenter))))
+(global-set-key (kbd "C-S-b") (λ (ignore-errors (backward-char 5) (recenter))))
 
 ;; Readily navigate in modes with significant whitespace
 (global-set-key (kbd "H-n") 'goto-next-line-with-same-indentation)
