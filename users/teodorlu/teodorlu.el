@@ -7,3 +7,11 @@
 (defun teodorlu-today ()
   (interactive)
   (insert (format-time-string "%Y-%m-%d")))
+
+(defun teodorlu-insert-en-dash ()
+  (interactive)
+  (insert "-"))
+
+(defun teodorlu-insert-em-dash ()
+  (interactive)
+  (insert "—"))
