@@ -24,7 +24,11 @@
               ("C-\"" . clojure-toggle-keyword-string)
               ("C-x M-e" . my/cider-eval-including-lets)
               ("C-." . clj-hippie-expand-no-case-fold)
-              ("C-c i 1 8 n" . i18n-edn-edit-in-multifile)))
+              ("C-c i 1 8 n" . i18n-edn-edit-in-multifile)
+              ("<f7>" . cider-eval-last-sexp)
+              ("<f6>" . cider-pprint-eval-last-sexp)
+              ("<f5>" . delete-other-windows)
+              ("s-<return>" . clerk-show)))
 
 (use-package zprint-mode
   :defer 2)
@@ -147,6 +151,15 @@
     (modify-syntax-entry ?/ " ")
     (hippie-expand-no-case-fold)
     (modify-syntax-entry ?/ old-syntax)))
+
+(defun clerk-show ()
+  (interactive)
+  (when-let
+      ((filename
+        (buffer-file-name)))
+    (save-buffer)
+    (cider-interactive-eval
+     (concat "(nextjournal.clerk/show! \"" filename "\")"))))
 
 (use-package neil :defer t) ;; M-x neil-find-clojure-package
 
