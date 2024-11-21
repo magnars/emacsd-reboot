@@ -23,3 +23,15 @@
 (defun teodorlu-insert-em-dash ()
   (interactive)
   (insert "—"))
+
+(defun clerk-tap-viewer ()
+  (interactive)
+  (cider-interactive-eval "(nextjournal.clerk/show! 'nextjournal.clerk.tap)"))
+
+(defun clerk-serve-browse ()
+  (interactive)
+  (cider-interactive-eval "((requiring-resolve 'nextjournal.clerk/serve!) {:browse true})"))
+
+(defun clerk-halt ()
+  (interactive)
+  (cider-interactive-eval "(nextjournal.clerk/halt!)"))
