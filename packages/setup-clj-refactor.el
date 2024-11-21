@@ -33,7 +33,7 @@
            :cljs-macro-ns "cljs.core.async.macros")
 
           (:ns "clojure.test"
-           :macros ("deftest" "testing" "is"))))
+           :macros ("deftest" "testing" "is" "are"))))
   (add-hook 'clojure-mode-hook 'auto-refer-mode)
 
   (advice-add 'cljr-update-project-dependency :around #'my/cljr-handle-git-sha-deps))
