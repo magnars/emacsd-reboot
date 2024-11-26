@@ -161,6 +161,14 @@
     (cider-interactive-eval
      (concat "(nextjournal.clerk/show! \"" filename "\")"))))
 
+(defun my/cider-unload-current-namespace-aliases ()
+  ;; A clojure.tools.namespace.refresh can leave namespaces with aliases that
+  ;; point to nothingness! Those namespaces pointing to nothingness prevent the
+  ;; (ns ,,,) form from evaluating. A workaround is to unload the aliases for
+  ;; your currently open namespace.
+  (interactive)
+  (cider-interactive-eval "(doseq [a (keys (ns-aliases *ns*))] (ns-unalias (symbol (str *ns*)) a))"))
+
 (use-package neil :defer t) ;; M-x neil-find-clojure-package
 
 (provide 'setup-clojure-mode)
