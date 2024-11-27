@@ -31,6 +31,8 @@
 
 (use-package browse-at-remote
   :defer t
+  :custom
+  (browse-at-remote-prefer-symbolic nil)
   :bind (("C-x v w" . browse-at-remote-kill)))
 
 (defun kill-magit-buffers ()
