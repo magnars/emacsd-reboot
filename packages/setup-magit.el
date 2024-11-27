@@ -29,6 +29,10 @@
   :defer t
   :bind (("C-x v t" . git-timemachine)))
 
+(use-package browse-at-remote
+  :defer t
+  :bind (("C-x v w" . browse-at-remote-kill)))
+
 (defun kill-magit-buffers ()
   (let ((current (current-buffer)))
     (dolist (buf (magit-mode-get-buffers))
