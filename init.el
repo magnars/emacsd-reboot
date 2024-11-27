@@ -27,6 +27,7 @@
 (require 'navigation)
 (require 'editing)
 (require 'buffers)
+(require 'windows)
 (require 'extra-keybindings)
 (require 'indented-yank)
 
