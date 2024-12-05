@@ -33,6 +33,12 @@
           ,(s-capitalize it))
      (split-string component " "))))
 
+;; Use + to join parts of same long word
+
+(defun orderless-long-words-plus (component)
+  (orderless--separated-by '(one-or-more word)
+    (split-string component "+")))
+
 ;; Use the `orderless' completion style.
 (use-package orderless
   :init
@@ -42,7 +48,7 @@
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))
-        orderless-matching-styles '(orderless-prefixes orderless-initialism orderless-camel-case)))
+        orderless-matching-styles '(orderless-prefixes orderless-initialism orderless-camel-case orderless-long-words-plus)))
 
 ;; Persist minibuffer history over Emacs restarts. Vertico sorts from history.
 (use-package savehist
