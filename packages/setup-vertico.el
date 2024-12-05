@@ -24,6 +24,15 @@
   ;; cleans ~/foo/bar/// to /, and ~/foo/bar/~/ to ~/.
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
+;; Camel Case
+
+(defun orderless-camel-case (component)
+  (orderless--separated-by '(zero-or-more nonl)
+    (--map
+     `(or (seq word-boundary ,it)
+          ,(s-capitalize it))
+     (split-string component " "))))
+
 ;; Use the `orderless' completion style.
 (use-package orderless
   :init
@@ -33,7 +42,7 @@
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))
-        orderless-matching-styles '(orderless-prefixes orderless-initialism)))
+        orderless-matching-styles '(orderless-prefixes orderless-initialism orderless-camel-case)))
 
 ;; Persist minibuffer history over Emacs restarts. Vertico sorts from history.
 (use-package savehist
