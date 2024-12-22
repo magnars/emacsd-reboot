@@ -16,6 +16,13 @@
   (interactive)
   (insert (format-time-string "%Y-%m-%d")))
 
+(defun teodorlu-current-time ()
+  (shell-command-to-string "echo -n `date \"+%H:%M\"`"))
+
+(defun teodorlu-now ()
+  (interactive)
+  (insert (shell-command-to-string "echo -n `date \"+%H:%M\"`")))
+
 (defun teodorlu-insert-en-dash ()
   (interactive)
   (insert "-"))
@@ -30,8 +37,14 @@
 
 (defun clerk-serve-browse ()
   (interactive)
-  (cider-interactive-eval "((requiring-resolve 'nextjournal.clerk/serve!) {:browse true})"))
+  (cider-interactive-eval "((requiring-resolve 'nextjournal.clerk/serve!) {:browse true :port 7799})"))
 
 (defun clerk-halt ()
   (interactive)
   (cider-interactive-eval "(nextjournal.clerk/halt!)"))
+
+(defun teodorlu-clojure-remove-namespace ()
+  (interactive)
+  (cider-interactive-eval "(remove-ns (symbol (str *ns*)))"))
+
+(use-package clay)
