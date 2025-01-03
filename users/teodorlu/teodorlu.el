@@ -55,4 +55,8 @@
   (interactive)
   (cider-interactive-eval "(remove-ns (symbol (str *ns*)))"))
 
+(defun teodorlu-garden-deploy ()
+  (interactive)
+  (projectile-run-shell-command-in-root "garden deploy"))
+
 (use-package clay)
