@@ -31,6 +31,14 @@
   (interactive)
   (insert "—"))
 
+(defun teodorlu-add-clerk ()
+  (interactive)
+  (cider-interactive-eval "(clojure.repl.deps/add-lib 'io.github.nextjournal/clerk)"))
+
+(defun teodorlu-add-kaocha ()
+  (interactive)
+  (cider-interactive-eval "(clojure.repl.deps/add-lib 'lambdaisland/kaocha)"))
+
 (defun clerk-tap-viewer ()
   (interactive)
   (cider-interactive-eval "(nextjournal.clerk/show! 'nextjournal.clerk.tap)"))
