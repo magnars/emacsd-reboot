@@ -7,6 +7,29 @@
 ;; compilation, debugging, definition and documentation lookup, running tests
 ;; and so on.
 
+(defun nrepl-warn-when-not-connected ()
+  (interactive)
+  (message "Oops! You're not connected to an nREPL server. Please run M-x cider or M-x cider-jack-in to connect."))
+
+(defun my/shadow-cider-keys-with-warning ()
+  "Rebind all keys from `cider-mode-map` to `nrepl-warn-when-not-connected` in `clojure-mode-map`."
+  (interactive)
+  (map-keymap
+   (lambda (key def)
+     ;; Check if 'def' is a command or another keymap.
+     (cond ((commandp def)
+            ;; If 'def' is a command, rebind it in `clojure-mode-map`.
+            (define-key clojure-mode-map (vector key) 'nrepl-warn-when-not-connected))
+           ((keymapp def)
+            ;; If 'def' is another keymap, recursively apply the same process.
+            (map-keymap
+             (lambda (sub-key sub-def)
+               (when (commandp sub-def)
+                 (define-key clojure-mode-map (vconcat (vector key) (vector sub-key))
+                             'nrepl-warn-when-not-connected)))
+             def))))
+   cider-mode-map))
+
 (use-package cider
   :after (clojure-mode)
   :diminish " CIDER"
@@ -60,29 +83,6 @@
 (defun my/cider-maybe-log-figwheel-main-port (buffer out)
   (when (string-match-p "\\[Figwheel\\] Starting Server at" out)
     (message (propertize out 'face 'cider-repl-stderr-face))))
-
-(defun nrepl-warn-when-not-connected ()
-  (interactive)
-  (message "Oops! You're not connected to an nREPL server. Please run M-x cider or M-x cider-jack-in to connect."))
-
-(defun my/shadow-cider-keys-with-warning ()
-  "Rebind all keys from `cider-mode-map` to `nrepl-warn-when-not-connected` in `clojure-mode-map`."
-  (interactive)
-  (map-keymap
-   (lambda (key def)
-     ;; Check if 'def' is a command or another keymap.
-     (cond ((commandp def)
-            ;; If 'def' is a command, rebind it in `clojure-mode-map`.
-            (define-key clojure-mode-map (vector key) 'nrepl-warn-when-not-connected))
-           ((keymapp def)
-            ;; If 'def' is another keymap, recursively apply the same process.
-            (map-keymap
-             (lambda (sub-key sub-def)
-               (when (commandp sub-def)
-                 (define-key clojure-mode-map (vconcat (vector key) (vector sub-key))
-                             'nrepl-warn-when-not-connected)))
-             def))))
-   cider-mode-map))
 
 (defun my/get-sessions-with-same-project-dir (session sessions)
   "Returns a list of SESSIONS with the same project-dir as SESSION."
