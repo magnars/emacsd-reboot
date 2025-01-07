@@ -64,6 +64,13 @@ Download [Emacs for Mac OSX](http://emacsformacosx.com/).
     npm install -g vscode-langservers-extracted
     ```
 
+- On a Mac you might want to do this, to disable `C-M-d` in your OS, making it
+  available for `paredit-forward-down`:
+
+    ```
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 70 '<dict><key>enabled</key><false/></dict>'
+    ```
+
 ## Tips for using these emacs settings
 
 If you want to use my settings straight out of the box, here are some things to note:
