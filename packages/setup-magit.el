@@ -15,6 +15,7 @@
 
   :bind (("C-x m" . magit-status)
          ("C-c p" . magit-toggle-pair-programming-mode)
+         ("C-c P" . magit-add-pair-programming-partner)
          (:map magit-status-mode-map
                ("q" . magit-quit)))
 
@@ -50,32 +51,33 @@ configuration stored by magit-status-fullscreen"
     (funcall magit-bury-buffer-function 'kill-buffer)
     (when prev (register-val-jump-to prev nil))))
 
-(defvar magit-pair-programming-partner nil)
+(defvar magit-pair-programming-partners nil)
 
 (defun is-commit-message-buffer? ()
   (when (buffer-file-name)
     (equal (buffer-file-name-body) "COMMIT_EDITMSG")))
 
-(defun magit-insert-pair-programming-co-author ()
-  (unless (save-excursion
-            (goto-char (point-min))
-            (search-forward "Co-authored-by: " nil t))
-    (apply #'git-commit-insert-header "Co-authored-by" magit-pair-programming-partner)))
+(defun magit-insert-pair-programming-co-authors ()
+  (dolist (partner magit-pair-programming-partners)
+    (unless (save-excursion
+              (goto-char (point-min))
+              (search-forward (concat "Co-authored-by: " (car partner)) nil t))
+      (apply #'git-commit-insert-header "Co-authored-by" partner))))
 
 (defun magit-enable-pair-programming-mode (details)
-  (setq magit-pair-programming-partner details)
+  (add-to-list 'magit-pair-programming-partners details)
   (when (is-commit-message-buffer?)
-    (magit-insert-pair-programming-co-author))
-  (add-hook 'git-commit-setup-hook 'magit-insert-pair-programming-co-author)
+    (magit-insert-pair-programming-co-authors))
+  (add-hook 'git-commit-setup-hook 'magit-insert-pair-programming-co-authors)
   (message "Enabled pair programming with %s" (car details)))
 
 (defun magit-disable-pair-programming-mode ()
-  (setq magit-pair-programming-partner nil)
+  (setq magit-pair-programming-partners nil)
   (when (is-commit-message-buffer?)
     (save-excursion
       (goto-char (point-min))
       (flush-lines "Co-authored-by")))
-  (remove-hook 'git-commit-setup-hook 'magit-insert-pair-programming-co-author)
+  (remove-hook 'git-commit-setup-hook 'magit-insert-pair-programming-co-authors)
   (message "Disabled pair programming"))
 
 (defvar my/pair-programming-usual-suspects nil)
@@ -113,10 +115,15 @@ configuration stored by magit-status-fullscreen"
 
 (defun magit-toggle-pair-programming-mode ()
   (interactive)
-  (if magit-pair-programming-partner
+  (if magit-pair-programming-partners
       (magit-disable-pair-programming-mode)
     (magit-enable-pair-programming-mode
      (my/git-commit-read-ident "Pair programming with"))))
+
+(defun magit-add-pair-programming-partner ()
+  (interactive)
+  (magit-enable-pair-programming-mode
+   (my/git-commit-read-ident "Pair programming with")))
 
 (defun my/magit-cursor-fix ()
   (beginning-of-buffer)
