@@ -59,6 +59,8 @@
   (define-key clojure-mode-map (kbd "s-:") 'cider-run-in-dev-namespace)
   (define-key cider-repl-mode-map (kbd "s-:") 'cider-run-in-dev-namespace)
 
+  (define-key cider-mode-map (kbd "C-c M-w") 'my/cider-eval-to-clipboard)
+
   :custom
   ;; save files when evaluating them
   (cider-save-file-on-load t)
@@ -106,5 +108,18 @@
 (defun cider-find-and-clear-repl-buffer ()
   (interactive)
   (cider-find-and-clear-repl-output t))
+
+(defun my/cider-eval-to-clipboard ()
+  "Evaluate the Clojure form at point and put the result on the clipboard."
+  (interactive)
+  (let ((form (cider-last-sexp)))
+    (cider-nrepl-request:eval
+     form
+     (lambda (response)
+       (when (nrepl-dict-get response "value")
+         (let ((result (nrepl-dict-get response "value")))
+           (kill-new result)
+           (message "Result copied to clipboard: %s" result))))
+     (cider-current-ns))))
 
 (provide 'setup-cider)
