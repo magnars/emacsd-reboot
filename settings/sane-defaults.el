@@ -115,4 +115,9 @@
 ;; No electric indent
 (setq electric-indent-mode nil)
 
+;; Automatically prompt for sudo in write protected files
+(use-package auto-sudoedit
+  :defer 1
+  :config (auto-sudoedit-mode 1))
+
 (provide 'sane-defaults)
