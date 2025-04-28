@@ -4,9 +4,8 @@
 ;; https://sive.rs/1s
 (remove-hook 'markdown-mode-hook 'auto-fill-mode)
 
-;; I can't get C-@ to work, use C-ø
-(global-set-key (kbd "C-ø") 'er/expand-region)
-(global-set-key (kbd "C-Ø") 'er/contract-region)
+;; A quicker save is helpful for non-interactive languages that require saving files to reload code
+(global-set-key (kbd "C-ø") 'save-buffer)
 
 (defun teodorlu-magnar-emacs-cheat-sheet ()
   (interactive)
