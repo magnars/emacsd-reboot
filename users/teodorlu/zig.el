@@ -1,7 +1,12 @@
-(use-package zig-mode)
-
-;; additional setup:
-;; - brew install zig
-;; - brew install zls
+;; Zig is still not released as a stable release. Certain Internet guides
+;; recommending following the latest unstable Zig release. I choose to follow
+;; the latest tagged release instead. For that, we can install with Homebrew.
 ;;
-;; now, enable lsp-mode in a Zig buffer, and you should be all set!
+;; Prerequisites:
+;;
+;;    brew install zig
+;;    brew install zls
+
+(use-package zig-mode)
+(require 'lsp-mode)
+(add-hook 'zig-mode-hook #'lsp-deferred)
