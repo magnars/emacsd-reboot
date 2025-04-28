@@ -14,11 +14,13 @@
         cljr-splice-sexp-killing-backward
         clojure-backward-logical-sexp
         clojure-convert-collection-to-list
+        clojure-convert-collection-to-set
         clojure-convert-collection-to-vector
         clojure-forward-logical-sexp
         clojure-toggle-keyword-string
         clojure-unwind
         comment-dwim
+        completion-at-point
         copy-region-or-current-line
         cycle-spacing
         duplicate-current-line-or-region
@@ -37,6 +39,7 @@
         org-delete-char
         org-self-insert-command
         org-shiftright
+        org-yank
         paredit-C-j
         paredit-C-j
         paredit-backward-down
@@ -44,6 +47,7 @@
         paredit-backward-slurp-sexp
         paredit-backward-up
         paredit-close-curly
+        paredit-close-round
         paredit-close-square
         paredit-doublequote
         paredit-forward
@@ -66,6 +70,7 @@
         paredit-wrap-square
         sort-lines
         subtract-number-at-point
+        tagedit-insert-quote
         transpose-sexps
         upstream
         wdired--self-insert
@@ -74,6 +79,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        beginning-of-buffer
         cleanup-buffer
         mouse-set-region
         persp-switch-to-buffer*
