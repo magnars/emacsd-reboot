@@ -59,3 +59,8 @@
   (projectile-run-shell-command-in-root "garden deploy"))
 
 (use-package clay)
+(use-package go-mode)
+;; Husk å installere gopls
+;; go install golang.org/x/tools/gopls@latest
+(add-hook 'go-mode-hook 'lsp-deferred)
+
