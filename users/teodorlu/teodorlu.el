@@ -64,3 +64,60 @@
 ;; go install golang.org/x/tools/gopls@latest
 (add-hook 'go-mode-hook 'lsp-deferred)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; English/Norwegian spell check on Mac with Homebrew and Hunspell
+;;
+;; 1. Install hunspell
+;;
+;;    brew install hunspell
+;;
+;; 2. Clone the hunspell dictionary repo to a temporary location
+;;
+;;    dir="${HOME}/tmp/temp-$(date "+%Y-%m-%d")"
+;;    mkdir -p $dir
+;;    cd $dir
+;;    git clone git://anongit.freedesktop.org/libreoffice/dictionaries --depth=1
+;;
+;; 3. Install hunspell dictionaries for your languages of choice.
+;;
+;;    cp -r dictionaries/en/* ~/Library/Spelling/
+;;    cp -r dictionaries/no/* ~/Library/Spelling/
+;;
+;; 4. Set Emacs to use hunspell for spelling
+;;
+(setenv "DICPATH" (concat (getenv "HOME") "/Library/Spelling"))
+(setq ispell-program-name "/opt/homebrew/bin/hunspell")
+;;
+;; 5. Validate dictionary installation
+;;
+;;    hunspell -D
+;;
+;;    You should see your installed dictionaries under AVAILABLE DICTIONARIES.
+;;
+;; 6. Activate flyspell-mode when you want spell checking
+;;
+(add-hook 'org-mode-hook (lambda () (flyspell-mode 1)))
+(add-hook 'markdown-mode-hook (lambda () (flyspell-mode 1)))
+;;
+;; 7. Finally, when you want to change the spell checking language,
+;;
+;;    M-x ispell-change-dictionary
+
+(setq cider-repl-display-help-banner nil)
+(pixel-scroll-precision-mode 1)
+
+(defun teodorlu-mblog-create-olorm ()
+  "Write a new post at https://mikrobloggeriet.no/olorm/ with minimal friction!"
+  (interactive)
+  (projectile-run-shell-command-in-root "./mblog.sh create text/olorm"))
+
+(defun teodorlu-dir-locals ()
+  (interactive)
+  (insert (prin1-to-string
+           '((nil
+              (cider-clojure-cli-aliases . "-A:dev")
+              (cider-preferred-build-tool . clojure-cli))))))
+
+(defun teodorlu-make ()
+  (interactive)
+  (projectile-run-shell-command-in-root "make"))
