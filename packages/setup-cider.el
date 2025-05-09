@@ -60,6 +60,7 @@
   (define-key cider-repl-mode-map (kbd "s-:") 'cider-run-in-dev-namespace)
 
   (define-key cider-mode-map (kbd "C-c M-w") 'my/cider-eval-to-clipboard)
+  (define-key cider-mode-map (kbd "C-c C-M-w") 'my/cider-eval-defun-to-clipboard)
 
   :custom
   ;; save files when evaluating them
@@ -121,5 +122,17 @@
            (kill-new result)
            (message "Result copied to clipboard: %s" result))))
      (cider-current-ns))))
+
+(defun my/cider-eval-defun-to-clipboard ()
+  "Evaluate the current top-level form and copy the result to the clipboard."
+  (interactive)
+  (cider-nrepl-request:eval
+   (cider-defun-at-point)
+   (lambda (response)
+     (when (nrepl-dict-get response "value")
+      (let ((result (nrepl-dict-get response "value")))
+        (kill-new result)
+        (message "Result copied to clipboard: %s" result))))
+   (cider-current-ns)))
 
 (provide 'setup-cider)
