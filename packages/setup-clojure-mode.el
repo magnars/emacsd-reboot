@@ -53,7 +53,10 @@
 
     ("/src/.+\.cljc" (list (s-with file-name
                              (s-replace "/src/" "/test/")
-                             (s-replace ".cljc" "_test.clj"))))
+                             (s-replace ".cljc" "_test.clj"))
+                           (s-with file-name
+                             (s-replace "/src/" "/test/")
+                             (s-replace ".cljc" "_test.cljc"))))
 
     ("/src/.+\.clj" (list (s-with file-name
                             (s-replace "/src/" "/test/")
