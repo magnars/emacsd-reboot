@@ -15,7 +15,8 @@
 (require 'packages)
 
 ;; Configure Emacs for Norwegian OSX, lol
-(require 'norwegian-mac)
+(when (string= "darwin" system-type)
+  (require 'norwegian-mac))
 
 ;; Lets start with a smattering of sanity
 (require 'sane-defaults)
