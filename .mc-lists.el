@@ -64,6 +64,7 @@
         paredit-open-square
         paredit-raise-sexp
         paredit-semicolon
+        paredit-splice-sexp
         paredit-splice-sexp-killing-backward
         paredit-split-sexp
         paredit-wrap-round
@@ -81,6 +82,9 @@
       '(
         beginning-of-buffer
         cleanup-buffer
+        find-file
         mouse-set-region
         persp-switch-to-buffer*
+        wgrep-change-to-wgrep-mode
+        xref-find-definitions
         ))
