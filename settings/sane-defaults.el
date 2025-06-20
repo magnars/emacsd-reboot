@@ -97,6 +97,14 @@
 ;; Don't zoom individual buffers
 (global-unset-key (kbd "C-x C-+"))
 
+;; Disable zooming with pinch / mouse wheel
+;;
+;; In addition to zooming with `C-x C-+` and `C-x C--`, there's a different,
+;; buffer specific zoom that zooms insanel fast.
+(global-set-key (kbd "<pinch>") 'ignore)
+(global-set-key (kbd "C-<wheel-up>") 'mwheel-scroll)
+(global-set-key (kbd "C-<wheel-down>") 'mwheel-scroll)
+
 ;; Write backup files to own directory
 (setq backup-directory-alist
       `(("." . ,(expand-file-name

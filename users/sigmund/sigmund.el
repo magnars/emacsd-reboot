@@ -22,8 +22,3 @@
 
 ;; Side by side ediff
 (setq ediff-split-window-function 'split-window-vertically)
-
-;; Disable mouse zooming
-(global-set-key (kbd "<pinch>") 'ignore)
-(global-set-key (kbd "<C-wheel-up>") 'ignore)
-(global-set-key (kbd "<C-wheel-down>") 'ignore)
