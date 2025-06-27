@@ -62,13 +62,20 @@
                             (s-replace "/src/" "/test/")
                             (s-replace ".clj" "_test.clj"))))
 
+    ("/dev/.+\.clj" (list (s-with file-name
+                            (s-replace "/dev/" "/test/")
+                            (s-replace ".clj" "_test.clj"))))
+
     ("/test/.+\.clj" (list
                       (s-with file-name
                         (s-replace "/test/" "/src/")
                         (s-replace "_test.clj" ".clj"))
                       (s-with file-name
                         (s-replace "/test/" "/src/")
-                        (s-replace "_test.clj" ".cljc"))))))
+                        (s-replace "_test.clj" ".cljc"))
+                      (s-with file-name
+                        (s-replace "/test/" "/dev/")
+                        (s-replace "_test.clj" ".clj"))))))
 
 ;; Set up Clojure CSS completions
 
