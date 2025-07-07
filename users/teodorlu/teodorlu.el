@@ -121,3 +121,8 @@
 (defun teodorlu-make ()
   (interactive)
   (projectile-run-shell-command-in-root "make"))
+
+;; I keep repos in folders such as ~/repo/teodorlu/shed.
+(setq projectile-project-search-path '(("~/repo" . 2)))
+;; Find more repos :: M-x projectile-discover-projects-in-search-path
+;; Cleanup         :: M-x projectile-cleanup-known-projects
