@@ -13,4 +13,5 @@
 /.cache
 /url/
 /workspace/
+/eshell
 projectile.cache
