@@ -23,6 +23,7 @@
               ([remap paredit-backward] . clojure-backward-logical-sexp)
               ("C-\"" . clojure-toggle-keyword-string)
               ("C-x M-e" . my/cider-eval-including-lets)
+              ("C-c C-M-s" . my/cider-eval-def-symbol)
               ("C-." . clj-hippie-expand-no-case-fold)
               ("C-c i 1 8 n" . i18n-edn-edit-in-multifile)
               ("<f7>" . cider-eval-last-sexp)
@@ -153,6 +154,16 @@
                               (cider-eval-print-handler))
                             nil
                             (cider--nrepl-pr-request-map))))
+
+(defun my/cider-eval-def-symbol ()
+  "Evaluate and pretty-print the value of the symbol of the def at point."
+  (interactive)
+  (save-excursion
+    (beginning-of-defun)
+    (paredit-forward-down)
+    (when (looking-at "def\\(\\w*\\)")
+      (paredit-forward 2)
+      (cider-pprint-eval-last-sexp))))
 
 (defun clj-hippie-expand-no-case-fold ()
   "Consider / as whitespace when doing hippie-expand i clojure-mode"
