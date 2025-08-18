@@ -42,6 +42,10 @@
   (interactive)
   (cider-interactive-eval "(nextjournal.clerk/show! 'nextjournal.clerk.tap)"))
 
+(defun clerk-serve ()
+  (interactive)
+  (cider-interactive-eval "((requiring-resolve 'nextjournal.clerk/serve!) {:port 7799})"))
+
 (defun clerk-serve-browse ()
   (interactive)
   (cider-interactive-eval "((requiring-resolve 'nextjournal.clerk/serve!) {:browse true :port 7799})"))
