@@ -9,7 +9,8 @@
   :bind (:map org-mode-map
               ("M-+" . org-shiftright)
               ("C-S-<down>" . org-metadown)
-              ("C-S-<up>" . org-metaup))
+              ("C-S-<up>" . org-metaup)
+              ("s-<return>" . org-metareturn-hook))
 
   :config
   (unbind-key "S-<up>" org-mode-map)
