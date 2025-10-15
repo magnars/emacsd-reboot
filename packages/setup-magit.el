@@ -30,11 +30,16 @@
   :defer t
   :bind (("C-x v t" . git-timemachine)))
 
+(defun b-a-r-k ()
+  (interactive)
+  (browse-at-remote-kill)
+  (message "Remote was killed 💀"))
+
 (use-package browse-at-remote
   :defer t
   :custom
   (browse-at-remote-prefer-symbolic nil)
-  :bind (("C-x v w" . browse-at-remote-kill)))
+  :bind (("C-x v w" . b-a-r-k)))
 
 (defun kill-magit-buffers ()
   (let ((current (current-buffer)))
