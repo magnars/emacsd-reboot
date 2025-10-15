@@ -1,4 +1,8 @@
-(require 'mattilsynet)
+(require 'matnyttig)
+
+;; Auto-installed clojure-lsp has given me pain, so I use Homebrew.
+;; This means `which clojure-lsp` finds the clojure-lsp that Emacs calls to.
+(setq lsp-clojure-custom-server-command '("clojure-lsp"))
 
 ;; Don't auto-wrap lines, I like one line per sentence
 ;; https://sive.rs/1s
@@ -132,3 +136,13 @@
                                        ))
 ;; Find more repos :: M-x projectile-discover-projects-in-search-path
 ;; Cleanup         :: M-x projectile-cleanup-known-projects
+
+(defun teodorlu-insert-bb-edn-refer-deps-edn ()
+  (interactive)
+  (let* ((ancestors (thread-last (f-this-file) f-dirname f-split nreverse))
+         (project (car ancestors))
+         (org (cadr ancestors))
+         (bb-edn-string (s-concat "{:deps {io.github."
+                                  org "/" project
+                                  " {:local/root \".\"}}}")))
+    (insert bb-edn-string)))
