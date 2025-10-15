@@ -5,9 +5,11 @@
 ;; Approach this time around: move in smaller steps. Don't copy the whole thing,
 ;; just the parts that are needed.
 
-(defun tplay-refresh ()
+(require 's)
+
+(defun tplay-clean ()
   (interactive)
-  (let ((default-directory "~/dev/teodorlu/play.teod.eu"))
+  (let ((default-directory "~/repo/teodorlu/play.teod.eu"))
     (shell-command-to-string "./play.clj makefile && make clean && make")
     (shell-command-to-string "./play.clj reindex")))
 
@@ -19,7 +21,7 @@ TITLE: eg \"Rudyard Kipling\"
 FORM: eg \":remote-reference\" or \"nil\"
 LANG: eg \":en\" or \":no\"
 BODY: nil, or the content of the document to create"
-  (let ((default-directory "~/dev/teodorlu/play.teod.eu"))
+  (let ((default-directory "~/repo/teodorlu/play.teod.eu"))
     (shell-command-to-string (s-concat "./play.clj create-page"
                                        " :slug " page-slug
                                        " :title " (shell-quote-argument title)
@@ -40,9 +42,9 @@ BODY: nil, or the content of the document to create"
          (title (read-string "Page title: "))
          (form (completing-read ":form? > " '(":remote-reference" "nil")))
          (lang (completing-read ":lang? > " '(":en" ":no")))
-         (default-directory "~/dev/teodorlu/play.teod.eu"))
+         (default-directory "~/repo/teodorlu/play.teod.eu"))
     (tplay-create* page-slug title form lang nil)
-    (tplay-refresh)
+    (tplay-clean)
     (switch-to-buffer (find-file-noselect page-slug))))
 
 (defun tplay-youtube-embed ()
@@ -58,4 +60,23 @@ BODY: nil, or the content of the document to create"
                                               "\n"
                                               "#+end_export"
                                               "\n")))
-          (t (message (s-concat "sorry: youtube links for " (symbol-name  major-mode) " is not yet supported."))))))
+          (t (message (s-concat "sorry: youtube links for " (symbol-name major-mode) " is not yet supported."))))))
+
+(defun tplay-link ()
+  "Insert page link"
+  (interactive)
+  (let* ((default-directory "~/repo/teodorlu/play.teod.eu")
+         (pages (s-with "bb -x tplay.linkui/page-titles"
+                  shell-command-to-string
+                  s-trim
+                  s-lines))
+         (page-title (completing-read "Select link> " pages))
+         (link (s-with (concat "bb -x tplay.linkui/title-to-link" " :title " (shell-quote-argument page-title))
+                 shell-command-to-string
+                 s-trim)))
+    (insert link)))
+
+(require 'parseedn)
+
+(parseedn-read-str ":select")
+(parseedn-read-str "{:select 1}")
