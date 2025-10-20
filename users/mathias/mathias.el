@@ -33,3 +33,14 @@
 (global-unset-key (kbd "s--"))
 (global-unset-key (kbd "s-0"))
 (global-unset-key (kbd "s-="))
+
+(defun insert-en-dash ()
+  (interactive)
+  (insert "–"))
+
+(defun insert-em-dash ()
+  (interactive)
+  (insert "—"))
+
+(global-set-key (kbd "s--") 'insert-en-dash)
+(global-set-key (kbd "s-_") 'insert-em-dash)
