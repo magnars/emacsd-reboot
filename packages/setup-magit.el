@@ -16,6 +16,8 @@
   :bind (("C-x m" . magit-status)
          ("C-c p" . magit-toggle-pair-programming-mode)
          ("C-c P" . magit-add-pair-programming-partner)
+         (:map git-commit-mode-map
+               ("C-c C-p" . magit-add-pair-programming-partner))
          (:map magit-status-mode-map
                ("q" . magit-quit)))
 
