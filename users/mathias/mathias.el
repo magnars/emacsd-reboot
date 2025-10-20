@@ -27,3 +27,9 @@
      (evil-mode 0)
      (message "Oh, goody 2-shoes, you!"))))
 (global-set-key (kbd "C-c e") 'choose-to-be-good-or-evil)
+
+;; DO NOT TEXT SCALE ADJUST!!!
+(global-unset-key (kbd "s-+"))
+(global-unset-key (kbd "s--"))
+(global-unset-key (kbd "s-0"))
+(global-unset-key (kbd "s-="))
