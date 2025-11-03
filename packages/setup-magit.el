@@ -32,16 +32,24 @@
   :defer t
   :bind (("C-x v t" . git-timemachine)))
 
-(defun b-a-r-k ()
+(defun b-a-r-k-commit ()
   (interactive)
   (browse-at-remote-kill)
   (message "Remote was killed 💀"))
 
+(defun b-a-r-k-branch ()
+  (interactive)
+  (setq browse-at-remote-prefer-symbolic t)
+  (browse-at-remote-kill)
+  (setq browse-at-remote-prefer-symbolic nil)
+  (message "Remote was killed 🪓🪵"))
+
 (use-package browse-at-remote
   :defer t
   :custom
-  (browse-at-remote-prefer-symbolic t)
-  :bind (("C-x v w" . b-a-r-k)))
+  (browse-at-remote-prefer-symbolic nil)
+  :bind (("C-x v w" . b-a-r-k-commit)
+         ("C-x v W" . b-a-r-k-branch)))
 
 (defun kill-magit-buffers ()
   (let ((current (current-buffer)))
