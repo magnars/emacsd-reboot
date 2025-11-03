@@ -146,3 +146,6 @@
                                   org "/" project
                                   " {:local/root \".\"}}}")))
     (insert bb-edn-string)))
+
+(setq browse-at-remote-prefer-symbolic nil)
+(global-set-key (kbd "C-x v w") 'browse-at-remote-kill)
