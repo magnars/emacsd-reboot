@@ -40,7 +40,7 @@
 (use-package browse-at-remote
   :defer t
   :custom
-  (browse-at-remote-prefer-symbolic nil)
+  (browse-at-remote-prefer-symbolic t)
   :bind (("C-x v w" . b-a-r-k)))
 
 (defun kill-magit-buffers ()
