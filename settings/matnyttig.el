@@ -47,4 +47,23 @@
 ;;     elisp-values))
 ;; ;; then M-x demo from a buffer with a running REPL.
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Evaluate and print with e->map
+
+(defun matnyttig--wrap-e->map (form)
+  (format "(e->map %s)" form))
+
+(defun matnyttig--cider-pprint-eval-last-sexp-with-e->map ()
+  (interactive)
+  (cider--pprint-eval-form
+   (matnyttig--wrap-e->map (cider-last-sexp))))
+
+(defun matnyttig--cider-pprint-eval-defun-at-point-with-e->map ()
+  (interactive)
+  (cider--pprint-eval-form
+   (matnyttig--wrap-e->map (cider-defun-at-point))))
+
+(define-key cider-mode-map (kbd "C-S-c C-S-p") #'matnyttig--cider-pprint-eval-last-sexp-with-e->map)
+(define-key cider-mode-map (kbd "C-S-c C-S-f") #'matnyttig--cider-pprint-eval-defun-at-point-with-e->map)
+
 (provide 'matnyttig)
