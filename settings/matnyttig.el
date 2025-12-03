@@ -50,20 +50,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Evaluate and print with e->map
 
-(defun matnyttig--wrap-e->map (form)
+(defun matnyttig-wrap-e->map (form)
   (format "((or (requiring-resolve 'clojure.core/e->map) identity) %s)" form))
 
-(defun matnyttig--cider-pprint-eval-last-sexp-with-e->map ()
+(defun matnyttig-cider-pprint-eval-last-sexp-with-e->map ()
   (interactive)
   (cider--pprint-eval-form
-   (matnyttig--wrap-e->map (cider-last-sexp))))
+   (matnyttig-wrap-e->map (cider-last-sexp))))
 
-(defun matnyttig--cider-pprint-eval-defun-at-point-with-e->map ()
+(defun matnyttig-cider-pprint-eval-defun-at-point-with-e->map ()
   (interactive)
   (cider--pprint-eval-form
-   (matnyttig--wrap-e->map (cider-defun-at-point))))
+   (matnyttig-wrap-e->map (cider-defun-at-point))))
 
-(define-key cider-mode-map (kbd "C-c C-p") #'matnyttig--cider-pprint-eval-last-sexp-with-e->map)
-(define-key cider-mode-map (kbd "C-c C-f") #'matnyttig--cider-pprint-eval-defun-at-point-with-e->map)
+(define-key cider-mode-map (kbd "C-c C-p") #'matnyttig-cider-pprint-eval-last-sexp-with-e->map)
+(define-key cider-mode-map (kbd "C-c C-f") #'matnyttig-cider-pprint-eval-defun-at-point-with-e->map)
 
 (provide 'matnyttig)

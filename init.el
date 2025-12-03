@@ -40,5 +40,8 @@
   (when (file-regular-p file)
     (load file)))
 
+;; Project-specific settings
+(require 'matnyttig)
+
 ;; Conclude init by setting up specifics for the current user
 (require 'user-specific-settings)
