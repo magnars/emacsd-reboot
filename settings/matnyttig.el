@@ -73,17 +73,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Find first class definitions (like feeds, etc.)
 
-(defun matnyttig-find-first-class-definition (folder pattern)
-  (let ((files (directory-files-recursively folder "\\.clj[sc]?$"))
-        (result nil))
+(defun matnyttig-find-first-class-definition (files pattern)
+  (let ((result nil))
     (catch 'found
-     (dolist (file files)
-       (with-temp-buffer
-         (insert-file-contents file)
-         (goto-char (point-min))
-         (when (search-forward pattern nil t)
-           (setq result (cons file (line-number-at-pos)))
-           (throw 'found t)))))
+      (dolist (file files)
+        (with-temp-buffer
+          (insert-file-contents file)
+          (goto-char (point-min))
+          (when (search-forward pattern nil t)
+            (setq result (cons file (line-number-at-pos)))
+            (throw 'found t)))))
     (if result
         (progn
           (xref-push-marker-stack)
@@ -92,17 +91,23 @@
           (goto-char (point-at-eol)))
       (message "Feed definition not found"))))
 
-(defun matnyttig-feed-folder ()
-  (file-name-concat (projectile-project-root) "src" "matnyttig" "feeds"))
+(defun matnyttig-src-files ()
+  (directory-files-recursively
+   (file-name-concat (projectile-project-root) "src")
+   "\\.clj[sc]?$"))
+
+(defun matnyttig-feed-files ()
+  (--filter (string-match-p "/feeds/" it) (matnyttig-src-files)))
 
 (defun matnyttig-find-feed-definition ()
   (interactive)
   (let ((thing (thing-at-point 'symbol t)))
     (when (string-prefix-p ":feed/" thing)
       (matnyttig-find-first-class-definition
-       (matnyttig-feed-folder)
+       (matnyttig-feed-files)
        (format "(def feed\n  (source-definition/define-feed\n    {:id %s" thing)))))
 
 (define-key clojure-mode-map (kbd "s-.") 'matnyttig-find-feed-definition)
+(define-key clojure-mode-map (kbd "s-,") 'xref-go-back)
 
 (provide 'matnyttig)
