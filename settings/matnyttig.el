@@ -104,6 +104,24 @@
 (defun matnyttig-page-files (files)
   (--filter (string-match-p "/sider/" it) files))
 
+;; Effects
+(defun matnyttig-find-effect-definition (thing)
+  (interactive)
+  (let ((effects-file (file-name-concat (projectile-project-root) "src/matnyttig/imperative_shell/effects.clj"))
+        (result nil))
+    (when (file-exists-p effects-file)
+      (with-temp-buffer
+        (insert-file-contents effects-file)
+        (goto-char (point-min))
+        (when (search-forward "(case (:effect/kind effect)" nil t)
+          (when (search-forward thing nil t)
+            (paredit-forward-down)
+            (when (re-search-backward
+                   (format "(defn \\(\\^{:indent 1} \\)?%s"
+                           (thing-at-point 'symbol t)))
+              (setq result (cons effects-file (line-number-at-pos)))))))
+      result)))
+
 ;; Logic
 (defun matnyttig-search-first-class-definition (files pattern)
   (let ((result nil))
@@ -147,7 +165,10 @@
       (when-let ((result (matnyttig-search-first-class-definition
                           (matnyttig-refiner-files matnyttig-src-files)
                           (matnyttig-refiner-pattern thing))))
-        (setq floc result))))
+        (setq floc result)))
+
+     ((string-prefix-p ":effects." thing)
+      (setq floc (matnyttig-find-effect-definition thing))))
     (if floc
         (matnyttig-goto-first-class-definition floc)
       (xref-find-definitions thing))))
