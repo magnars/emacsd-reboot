@@ -73,7 +73,39 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Find first class definitions (like feeds, etc.)
 
-(defun matnyttig-find-first-class-definition (files pattern)
+;; Patterns
+(defun matnyttig-collector-pattern (thing)
+  (format "(source-definition/define-collector\n    {:id %s" thing))
+
+(defun matnyttig-refiner-pattern (thing)
+  (format "(source-definition/define-refiner\n    {:id %s" thing))
+
+(defun matnyttig-feed-pattern (thing)
+  (format "(source-definition/define-feed\n    {:id %s" thing))
+
+(defun matnyttig-page-pattern (thing)
+  (format "(page-definition/define\n    {:id %s" thing))
+
+;; Files
+(defun matnyttig-src-files ()
+  (directory-files-recursively
+   (file-name-concat (projectile-project-root) "src")
+   "\\.clj[sc]?$"))
+
+(defun matnyttig-collector-files (files)
+  (--filter (string-match-p "/collectors/" it) files))
+
+(defun matnyttig-refiner-files (files)
+  (--filter (string-match-p "/refiners/" it) files))
+
+(defun matnyttig-feed-files (files)
+  (--filter (string-match-p "/feeds/" it) files))
+
+(defun matnyttig-page-files (files)
+  (--filter (string-match-p "/sider/" it) files))
+
+;; Logic
+(defun matnyttig-search-first-class-definition (files pattern)
   (let ((result nil))
     (catch 'found
       (dolist (file files)
@@ -83,31 +115,49 @@
           (when (search-forward pattern nil t)
             (setq result (cons file (line-number-at-pos)))
             (throw 'found t)))))
-    (if result
-        (progn
-          (xref-push-marker-stack)
-          (find-file (car result))
-          (goto-line (cdr result))
-          (goto-char (point-at-eol)))
-      (message "Feed definition not found"))))
+    result))
 
-(defun matnyttig-src-files ()
-  (directory-files-recursively
-   (file-name-concat (projectile-project-root) "src")
-   "\\.clj[sc]?$"))
+(defun matnyttig-goto-first-class-definition (floc)
+  (xref-push-marker-stack)
+  (find-file (car floc))
+  (goto-line (cdr floc))
+  (goto-char (point-at-eol)))
 
-(defun matnyttig-feed-files ()
-  (--filter (string-match-p "/feeds/" it) (matnyttig-src-files)))
-
-(defun matnyttig-find-feed-definition ()
+(defun matnyttig-find-first-class-definition ()
   (interactive)
-  (let ((thing (thing-at-point 'symbol t)))
-    (when (string-prefix-p ":feed/" thing)
-      (matnyttig-find-first-class-definition
-       (matnyttig-feed-files)
-       (format "(def feed\n  (source-definition/define-feed\n    {:id %s" thing)))))
+  (let ((thing (thing-at-point 'symbol t))
+        (matnyttig-src-files (matnyttig-src-files))
+        (fc-type nil)
+        (floc nil))
+    (cond
+     ((string-prefix-p ":feed/" thing)
+      (setq fc-type "Feed")
+      (setq floc (matnyttig-search-first-class-definition
+                  (matnyttig-feed-files matnyttig-src-files)
+                  (matnyttig-feed-pattern thing))))
 
-(define-key clojure-mode-map (kbd "s-.") 'matnyttig-find-feed-definition)
+     ((string-prefix-p ":pages/" thing)
+      (setq fc-type "Page")
+      (setq floc (matnyttig-search-first-class-definition
+                  (matnyttig-page-files matnyttig-src-files)
+                  (matnyttig-page-pattern thing))))
+
+     ((string-prefix-p ":data/" thing)
+      (when-let ((result (matnyttig-search-first-class-definition
+                          (matnyttig-collector-files matnyttig-src-files)
+                          (matnyttig-collector-pattern thing))))
+        (setq fc-type "Collector")
+        (setq floc result))
+      (when-let ((result (matnyttig-search-first-class-definition
+                          (matnyttig-refiner-files matnyttig-src-files)
+                          (matnyttig-refiner-pattern thing))))
+        (setq fc-type "Refiner")
+        (setq floc result))))
+    (if floc
+        (matnyttig-goto-first-class-definition floc)
+      (message "%s definition not found" fc-type))))
+
+(define-key clojure-mode-map (kbd "s-.") 'matnyttig-find-first-class-definition)
 (define-key clojure-mode-map (kbd "s-,") 'xref-go-back)
 
 (provide 'matnyttig)
