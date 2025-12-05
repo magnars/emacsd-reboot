@@ -127,17 +127,14 @@
   (interactive)
   (let ((thing (thing-at-point 'symbol t))
         (matnyttig-src-files (matnyttig-src-files))
-        (fc-type nil)
         (floc nil))
     (cond
      ((string-prefix-p ":feed/" thing)
-      (setq fc-type "Feed")
       (setq floc (matnyttig-search-first-class-definition
                   (matnyttig-feed-files matnyttig-src-files)
                   (matnyttig-feed-pattern thing))))
 
      ((string-prefix-p ":pages/" thing)
-      (setq fc-type "Page")
       (setq floc (matnyttig-search-first-class-definition
                   (matnyttig-page-files matnyttig-src-files)
                   (matnyttig-page-pattern thing))))
@@ -146,18 +143,15 @@
       (when-let ((result (matnyttig-search-first-class-definition
                           (matnyttig-collector-files matnyttig-src-files)
                           (matnyttig-collector-pattern thing))))
-        (setq fc-type "Collector")
         (setq floc result))
       (when-let ((result (matnyttig-search-first-class-definition
                           (matnyttig-refiner-files matnyttig-src-files)
                           (matnyttig-refiner-pattern thing))))
-        (setq fc-type "Refiner")
         (setq floc result))))
     (if floc
         (matnyttig-goto-first-class-definition floc)
-      (message "%s definition not found" fc-type))))
+      (xref-find-definitions thing))))
 
-(define-key clojure-mode-map (kbd "s-.") 'matnyttig-find-first-class-definition)
-(define-key clojure-mode-map (kbd "s-,") 'xref-go-back)
+(define-key clojure-mode-map (kbd "M-.") 'matnyttig-find-first-class-definition)
 
 (provide 'matnyttig)
