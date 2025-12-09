@@ -176,6 +176,7 @@
 (define-key clojure-mode-map (kbd "M-.") 'matnyttig-find-first-class-definition)
 
 ;; Ignore annoyingly abundant files that hang Emacs on Vertico analyses
-(push "[/\\\\]\\.nats-cache\\'" lsp-file-watch-ignored-directories)
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].nats-cache\\'"))
 
 (provide 'matnyttig)
