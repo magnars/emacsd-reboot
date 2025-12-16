@@ -149,3 +149,11 @@
 
 (setq browse-at-remote-prefer-symbolic nil)
 (global-set-key (kbd "C-x v w") 'browse-at-remote-kill)
+
+(defun matnyttig-bb-dev ()
+  (interactive)
+  (async-shell-command
+   (concat "/Applications/Ghostty.app/Contents/MacOS/ghostty"
+           " --working-directory=/Users/teodorlu/repo/Mattilsynet/matnyttig"
+           " -e zsh -c \"bb dev\"")
+   nil nil))
