@@ -24,9 +24,17 @@
   :config
   (wrap-fullscreen magit-status)
   (wrap-fullscreen magit-init)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+  ;; Removing these makes magit a little annoying to use
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
 
   ;; move cursor into position when entering commit message
-  (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix))
+  (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix)
+  (add-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream))
 
 (use-package git-timemachine
   :defer t
