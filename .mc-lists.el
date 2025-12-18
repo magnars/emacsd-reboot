@@ -7,6 +7,7 @@
         backward-sexp
         change-number-at-point
         changes
+        cider-eval-last-sexp
         cider-load-buffer
         clj-hippie-expand-no-case-fold
         cljr-raise-sexp
@@ -17,6 +18,7 @@
         clojure-convert-collection-to-set
         clojure-convert-collection-to-vector
         clojure-forward-logical-sexp
+        clojure-thread-first-all
         clojure-toggle-keyword-string
         clojure-unwind
         comment-dwim
@@ -24,6 +26,8 @@
         copy-region-or-current-line
         cycle-spacing
         duplicate-current-line-or-region
+        electric-newline-and-maybe-indent
+        fill-paragraph
         forward-sexp
         inc-number-at-point
         indent-for-tab-command
@@ -32,11 +36,15 @@
         kill-sentence
         kill-sexp
         kmacro-start-macro-or-insert-counter
+        markdown-beginning-of-line
         markdown-end-of-line
         markdown-outdent-or-delete
+        move-text-up
         open-line-and-indent
         open-line-below
+        org-beginning-of-line
         org-delete-char
+        org-end-of-line
         org-self-insert-command
         org-shiftright
         org-yank
@@ -49,6 +57,7 @@
         paredit-close-curly
         paredit-close-round
         paredit-close-square
+        paredit-comment-dwim
         paredit-doublequote
         paredit-forward
         paredit-forward-barf-sexp
@@ -57,6 +66,7 @@
         paredit-forward-kill-word
         paredit-forward-slurp-sexp
         paredit-forward-up
+        paredit-join-sexps
         paredit-kill
         paredit-kill-region-or-backward-word
         paredit-open-curly
@@ -69,6 +79,7 @@
         paredit-split-sexp
         paredit-wrap-round
         paredit-wrap-square
+        reposition-window
         sort-lines
         subtract-number-at-point
         tagedit-insert-quote
@@ -76,13 +87,16 @@
         upstream
         wdired--self-insert
         wgrep-mark-deletion
+        yas-expand
         ))
 
 (setq mc/cmds-to-run-once
       '(
         beginning-of-buffer
         cleanup-buffer
+        end-of-buffer
         find-file
+        magit-status
         mouse-set-region
         persp-switch-to-buffer*
         wgrep-change-to-wgrep-mode
