@@ -113,6 +113,9 @@
 ;; Make backups of files, even when they're in version control
 (setq vc-make-backup-files t)
 
+;; We use git. Don't try all the other VC systems in existence first.
+(setq vc-handled-backends '(Git))
+
 ;; Don't write lock-files, I'm the only one here
 (setq create-lockfiles nil)
 
