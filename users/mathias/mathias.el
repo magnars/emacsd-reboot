@@ -4,6 +4,8 @@
 ;;   :config
 ;;   (load-theme 'vscode-dark-plus t))
 
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
 (set-face-attribute 'default nil :height 150)
 
 ;; Zig
