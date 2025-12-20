@@ -12,3 +12,5 @@
 
 (global-set-key (kbd "M-<left>") 'beginning-of-buffer)
 (global-set-key (kbd "M-<right>") 'end-of-buffer)
+
+(setq split-height-threshold nil)
