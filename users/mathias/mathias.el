@@ -6,8 +6,6 @@
 
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
-(set-face-attribute 'default nil :height 150)
-
 ;; Zig
 (load
  (expand-file-name "users/teodorlu/zig.el" user-emacs-directory))
