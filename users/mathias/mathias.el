@@ -4,8 +4,6 @@
 ;;   :config
 ;;   (load-theme 'vscode-dark-plus t))
 
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-
 ;; Zig
 (load
  (expand-file-name "users/teodorlu/zig.el" user-emacs-directory))

@@ -3,6 +3,9 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+;; Hvorfor starte i et lite vindu når du kan bruke HELE skjermen? 😄
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
 ;; No splash screen please ... jeez
 (setq inhibit-startup-message t)
 
