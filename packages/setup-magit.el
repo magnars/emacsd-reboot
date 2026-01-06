@@ -8,7 +8,6 @@
                                             (unpulled . show)
                                             (stashes . show)))
   (magit-diff-refine-hunk t)
-  (magit-push-always-verify nil)
   (magit-revert-buffers 'silent)
   (magit-no-confirm '(stage-all-changes
                       unstage-all-changes))
