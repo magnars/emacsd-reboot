@@ -33,8 +33,7 @@
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
 
   ;; move cursor into position when entering commit message
-  (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix)
-  (add-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream))
+  (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix))
 
 (use-package git-timemachine
   :defer t
