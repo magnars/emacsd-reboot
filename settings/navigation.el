@@ -12,6 +12,7 @@
 
 ;: Keep them windows nice and balanced
 (global-set-key (kbd "C-x 0") 'my/delete-window)
+(global-set-key (kbd "C-x 2") 'my/split-window-down)
 (global-set-key (kbd "C-x 3") 'my/split-window-right)
 
 ;; Move cursor back to indentation
@@ -79,6 +80,12 @@
 (defun my/delete-window ()
   (interactive)
   (delete-window)
+  (balance-windows))
+
+(defun my/split-window-down ()
+  (interactive)
+  (split-window-below)
+  (windmove-down)
   (balance-windows))
 
 (defun my/split-window-right ()
