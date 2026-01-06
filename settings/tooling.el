@@ -32,4 +32,21 @@
 ;; No need to remind me about eldoc-mode all the time
 (diminish 'eldoc-mode)
 
+;; Insert pressed keybindings
+(defun read-and-insert-key-sequence ()
+  (interactive)
+  (let ((keys []))
+    (catch 'done
+      (while t
+        (let ((event (read-event (format "Press keys (ESC when done): %s" keys) nil)))
+          (if (eq event 'escape)
+              (throw 'done nil)
+            (setq keys (vconcat keys (vector event)))))))
+    (when (< 0 (length keys))
+      (insert (format "(kbd \"%s\")" (key-description keys))))))
+
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-M-S-s-k") 'read-and-insert-key-sequence)))
+
 (provide 'tooling)
