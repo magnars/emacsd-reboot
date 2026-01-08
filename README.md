@@ -71,6 +71,9 @@ Download [Emacs for Mac OSX](http://emacsformacosx.com/).
     defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 70 '<dict><key>enabled</key><false/></dict>'
     ```
 
+- If you want square emojis for that monospaced goodness, install the Noto Color
+  Squaremoji font from [Sardtok/noto-squaremoji](https://github.com/Sardtok/noto-squaremoji)
+
 ## Tips for using these emacs settings
 
 If you want to use my settings straight out of the box, here are some things to note:
