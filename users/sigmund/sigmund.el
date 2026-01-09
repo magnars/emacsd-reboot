@@ -22,3 +22,12 @@
 
 ;; Side by side ediff
 (setq ediff-split-window-function 'split-window-vertically)
+
+;; Disable active themes when loading a different one
+(defun disable-all-themes ()
+  "disable all active themes."
+  (dolist (theme custom-enabled-themes)
+    (disable-theme theme)))
+
+(defadvice load-theme (before disable-themes-first activate)
+  (disable-all-themes))
