@@ -22,6 +22,3 @@
 
 ;; Side by side ediff
 (setq ediff-split-window-function 'split-window-vertically)
-
-;; Configure font
-(require 'jetbrains-mono)
