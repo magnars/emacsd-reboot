@@ -29,7 +29,25 @@
               ("<f7>" . cider-eval-last-sexp)
               ("<f6>" . cider-pprint-eval-last-sexp)
               ("<f5>" . delete-other-windows)
-              ("s-<return>" . clerk-show)))
+              ("s-<return>" . clerk-show)
+              ("s-ø" . clay-make-ns-html)
+              ;; ("s-<return>" . clay-make-form)
+              ;; ("s-<return>" . clay-make-last-sexp)
+              ("C-ø" . clay-make-last-sexp)
+              ;; Controversial! Re-binding C-f and C-b makes sense for a slideshow, but not generally.
+              ;; ("C-f" . teod/next-slide)
+              ;; ("C-b" . teod/previous-slide)
+              ))
+
+(defun teod/next-slide ()
+  (interactive)
+  (paredit-forward)
+  (clay-make-last-sexp))
+
+(defun teod/previous-slide ()
+  (interactive)
+  (paredit-backward)
+  (clay-make-last-sexp))
 
 (use-package zprint-mode
   :defer 2)
@@ -38,44 +56,65 @@
 
 (require 's)
 (require 'significant-other)
+(require 'dash)
+
+(defun replace-first-path-segment (match replacement s)
+  (declare (pure t) (side-effect-free t))
+  (s-with s
+    (s-split "/")
+    (-replace-first match replacement)
+    (s-join "/")))
+
+(defmacro comment (&rest more))
+
+(comment
+
+ ;; s-replace tar *alle* erstatninger (ikke hva jeg ønsket)
+ (s-with "/Users/teodorlu/repo/Mattilsynet/matnyttig/dev/matnyttig/dev/autofast.clj"
+   (s-replace "/dev/" "/test/"))
+ ;; => "/Users/teodorlu/repo/Mattilsynet/matnyttig/test/matnyttig/test/autofast.clj"
+ ;; (ikke hva jeg ønsket!)
+
+ ;; erstatt kun første
+ (s-with "/Users/teodorlu/repo/Mattilsynet/matnyttig/dev/matnyttig/dev/autofast.clj"
+   (replace-first-path-segment "dev" "test"))
+ ;; => "/Users/teodorlu/repo/Mattilsynet/matnyttig/test/matnyttig/dev/autofast.clj"
+ ;; suksess!
+
+ )
 
 (defun setup-clojure-mode-so ()
   (with-significant-others file-name
     ("/portfolio/.+/components/" (list (s-with file-name
-                                         (s-replace "/portfolio/" "/src/")
+                                         (replace-first-path-segment "portfolio" "src")
                                          (s-replace "_scenes.cljs" ".cljc"))))
-
     ("/ui/src/.+/components/" (list (s-with file-name
-                                      (s-replace "/src/" "/portfolio/")
+                                      (replace-first-path-segment "src" "portfolio")
                                       (s-replace ".cljc" "_scenes.cljs"))
                                     (s-with file-name
-                                      (s-replace "/src/" "/test/")
+                                      (replace-first-path-segment "src" "test")
                                       (s-replace ".cljc" "_test.clj"))))
-
     ("/src/.+\.cljc" (list (s-with file-name
-                             (s-replace "/src/" "/test/")
+                             (replace-first-path-segment "src" "test")
                              (s-replace ".cljc" "_test.clj"))
                            (s-with file-name
-                             (s-replace "/src/" "/test/")
+                             (replace-first-path-segment "src" "test")
                              (s-replace ".cljc" "_test.cljc"))))
-
     ("/src/.+\.clj" (list (s-with file-name
-                            (s-replace "/src/" "/test/")
+                            (replace-first-path-segment "src" "test")
                             (s-replace ".clj" "_test.clj"))))
-
     ("/dev/.+\.clj" (list (s-with file-name
-                            (s-replace "/dev/" "/test/")
+                            (replace-first-path-segment "dev" "test")
                             (s-replace ".clj" "_test.clj"))))
-
     ("/test/.+\.clj" (list
                       (s-with file-name
-                        (s-replace "/test/" "/src/")
+                        (replace-first-path-segment "test" "src")
                         (s-replace "_test.clj" ".clj"))
                       (s-with file-name
-                        (s-replace "/test/" "/src/")
+                        (replace-first-path-segment "test" "src")
                         (s-replace "_test.clj" ".cljc"))
                       (s-with file-name
-                        (s-replace "/test/" "/dev/")
+                        (replace-first-path-segment "test" "dev")
                         (s-replace "_test.clj" ".clj"))))))
 
 ;; Set up Clojure CSS completions
@@ -181,6 +220,10 @@
     (save-buffer)
     (cider-interactive-eval
      (concat "(nextjournal.clerk/show! \"" filename "\")"))))
+
+(defun clojure-sync-deps ()
+  (interactive)
+  (cider-interactive-eval "((requiring-resolve 'clojure.repl.deps/sync-deps))"))
 
 (use-package neil :defer t) ;; M-x neil-find-clojure-package
 
