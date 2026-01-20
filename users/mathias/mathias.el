@@ -22,3 +22,8 @@
 (global-set-key (kbd "<f1> x") #'helpful-command)
 
 (provide 'setup-helpful)
+
+;; TODO:
+;;
+;; 🔘 comp to threading
+;; ✅ C-c C-M-s w/ e->map

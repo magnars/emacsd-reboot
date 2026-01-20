@@ -53,12 +53,15 @@
 (defun matnyttig-wrap-e->map (form)
   (format "((or (requiring-resolve 'clojure.core/e->map) identity) %s)" form))
 
-(defun matnyttig-cider-pprint-eval-last-sexp-with-e->map (prefixed)
-  (interactive "P")
+(defun pprint-eval-last-sexp (prefixed)
   (if prefixed
       (cider--pprint-eval-form (cider-last-sexp))
-   (cider--pprint-eval-form
-    (matnyttig-wrap-e->map (cider-last-sexp)))))
+    (cider--pprint-eval-form
+     (matnyttig-wrap-e->map (cider-last-sexp)))))
+
+(defun matnyttig-cider-pprint-eval-last-sexp-with-e->map (prefixed)
+  (interactive "P")
+  (pprint-eval-last-sexp prefixed))
 
 (defun matnyttig-cider-pprint-eval-defun-at-point-with-e->map (prefixed)
   (interactive "P")
@@ -67,8 +70,18 @@
     (cider--pprint-eval-form
      (matnyttig-wrap-e->map (cider-defun-at-point)))))
 
+(defun matnyttig-cider-eval-def-symbol-with-e->map (prefixed)
+  (interactive "P")
+  (save-excursion
+    (beginning-of-defun)
+    (paredit-forward-down)
+    (when (looking-at "def\\(\\w*\\)")
+      (paredit-forward 2)
+      (pprint-eval-last-sexp prefixed))))
+
 (define-key cider-mode-map (kbd "C-c C-p") #'matnyttig-cider-pprint-eval-last-sexp-with-e->map)
 (define-key cider-mode-map (kbd "C-c C-f") #'matnyttig-cider-pprint-eval-defun-at-point-with-e->map)
+(define-key cider-mode-map (kbd "C-c C-M-s") #'matnyttig-cider-eval-def-symbol-with-e->map)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Find first class definitions (like feeds, etc.)
