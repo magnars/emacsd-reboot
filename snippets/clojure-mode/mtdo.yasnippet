@@ -3,6 +3,7 @@
 # key: mtdo
 # --
 (do
+  (require '[matnyttig.datomic :as d])
   (def ctx (:system/ctx integrant.repl.state/system))
   (def app-db (d/db (:app/conn ctx)))
   (def matrikkel-db (d/db (:matrikkel/conn ctx))))
