@@ -25,7 +25,8 @@
 ;; Set theme
 (load-theme 'default-black)
 
-(set-face-attribute 'default nil :font "-apple-Monaco-medium-normal-normal-*-15-*-*-*-m-0-iso10646-1")
+(when (member "Monaco" (font-family-list))
+  (set-face-attribute 'default nil :font "-apple-Monaco-medium-normal-normal-*-15-*-*-*-m-0-iso10646-1"))
 
 ;; Custom metrics version of Noto Color Emoji to avoid screwing up our nice monospaced grid
 (set-fontset-font t 'emoji (font-spec :family "Noto Color Squaremoji") nil 'prepend)
