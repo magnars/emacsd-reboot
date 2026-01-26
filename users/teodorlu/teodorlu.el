@@ -157,3 +157,8 @@
            " --working-directory=/Users/teodorlu/repo/Mattilsynet/matnyttig"
            " -e zsh -c \"bb dev\"")
    nil nil))
+
+;; (setq my/pair-programming-usual-suspects '("Christian Johansen <christian.johansen@mattilsynet.no>"
+;;                                            "Christian Johansen <christian@cjohansen.no>"))
+
+(setq my/pair-programming-myself '("Teodor Heggelund"))
