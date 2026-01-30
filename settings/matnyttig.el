@@ -156,7 +156,7 @@
 
 (defun matnyttig-find-first-class-definition ()
   (interactive)
-  (let ((thing (thing-at-point 'symbol t))
+  (let ((thing (thing-at-point 'symbol))
         (matnyttig-src-files (matnyttig-src-files))
         (floc nil))
     (cond
@@ -184,7 +184,7 @@
       (setq floc (matnyttig-find-effect-definition thing))))
     (if floc
         (matnyttig-goto-first-class-definition floc)
-      (xref-find-definitions thing))))
+      (xref-find-definitions (xref-backend-identifier-at-point (xref-find-backend))))))
 
 (define-key clojure-mode-map (kbd "M-.") 'matnyttig-find-first-class-definition)
 
