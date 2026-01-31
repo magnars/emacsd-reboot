@@ -132,7 +132,22 @@
             (when (re-search-backward
                    (format "(defn \\(\\^{:indent 1} \\)?%s"
                            (thing-at-point 'symbol t)))
-              (setq result (cons effects-file (line-number-at-pos)))))))
+              (setq result (list effects-file (line-number-at-pos) (current-column)))))))
+      result)))
+
+;; Commands
+(defun matnyttig-find-command-definition (thing)
+  (interactive)
+  (let ((commands-file (file-name-concat (projectile-project-root) "src/matnyttig/commands.clj"))
+        (result nil))
+    (when (file-exists-p commands-file)
+      (with-temp-buffer
+        (insert-file-contents commands-file)
+        (goto-char (point-min))
+        (when (search-forward (format ":command/kind %s" thing) nil t)
+          (when (search-forward ":command/plan" nil t)
+            (paredit-forward)
+            (setq result (list commands-file (line-number-at-pos) (current-column))))))
       result)))
 
 ;; Logic
@@ -144,29 +159,29 @@
           (insert-file-contents file)
           (goto-char (point-min))
           (when (search-forward pattern nil t)
-            (setq result (cons file (line-number-at-pos)))
+            (setq result (list file (line-number-at-pos) (current-column)))
             (throw 'found t)))))
     result))
 
-(defun matnyttig-goto-first-class-definition (floc)
+(defun matnyttig-goto-first-class-definition (file-line-col)
   (xref-push-marker-stack)
-  (find-file (car floc))
-  (goto-line (cdr floc))
-  (goto-char (point-at-eol)))
+  (find-file (nth 0 file-line-col))
+  (goto-line (nth 1 file-line-col))
+  (move-to-column (nth 2 file-line-col)))
 
 (defun matnyttig-find-first-class-definition ()
   (interactive)
   (let ((thing (thing-at-point 'symbol))
         (matnyttig-src-files (matnyttig-src-files))
-        (floc nil))
+        (file-line-col nil))
     (cond
      ((string-prefix-p ":feed/" thing)
-      (setq floc (matnyttig-search-first-class-definition
+      (setq file-line-col (matnyttig-search-first-class-definition
                   (matnyttig-feed-files matnyttig-src-files)
                   (matnyttig-feed-pattern thing))))
 
      ((string-prefix-p ":pages/" thing)
-      (setq floc (matnyttig-search-first-class-definition
+      (setq file-line-col (matnyttig-search-first-class-definition
                   (matnyttig-page-files matnyttig-src-files)
                   (matnyttig-page-pattern thing))))
 
@@ -174,16 +189,19 @@
       (when-let ((result (matnyttig-search-first-class-definition
                           (matnyttig-collector-files matnyttig-src-files)
                           (matnyttig-collector-pattern thing))))
-        (setq floc result))
+        (setq file-line-col result))
       (when-let ((result (matnyttig-search-first-class-definition
                           (matnyttig-refiner-files matnyttig-src-files)
                           (matnyttig-refiner-pattern thing))))
-        (setq floc result)))
+        (setq file-line-col result)))
 
      ((string-prefix-p ":effects." thing)
-      (setq floc (matnyttig-find-effect-definition thing))))
-    (if floc
-        (matnyttig-goto-first-class-definition floc)
+      (setq file-line-col (matnyttig-find-effect-definition thing)))
+
+     ((string-prefix-p ":commands" thing)
+      (setq file-line-col (matnyttig-find-command-definition thing))))
+    (if file-line-col
+        (matnyttig-goto-first-class-definition file-line-col)
       (xref-find-definitions (xref-backend-identifier-at-point (xref-find-backend))))))
 
 (define-key clojure-mode-map (kbd "M-.") 'matnyttig-find-first-class-definition)
