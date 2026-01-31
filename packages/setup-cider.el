@@ -62,6 +62,9 @@
   (define-key cider-mode-map (kbd "C-c M-w") 'my/cider-eval-to-clipboard)
   (define-key cider-mode-map (kbd "C-c C-M-w") 'my/cider-eval-defun-to-clipboard)
 
+  ;; Add indent 1 metadata to current function
+  (define-key cider-mode-map (kbd "C-s-i C-s-m") #'my/add-indent-metadata-to-function)
+
   :custom
   ;; save files when evaluating them
   (cider-save-file-on-load t)
@@ -134,5 +137,53 @@
         (kill-new result)
         (message "Result copied to clipboard: %s" result))))
    (cider-current-ns)))
+
+(defun my/cider-add-indent-metadata-to-function ()
+  "Add ^{:indent 1} metadata to the function definition at point.
+Works even if cursor is not directly on the function symbol.
+Uses CIDER to locate and modify the definition without moving cursor."
+  (interactive)
+  (if (not (and (fboundp 'cider-connected-p) (cider-connected-p)))
+      (message "CIDER not connected")
+    (let* ((symbol (save-excursion
+                     ;; Go to the start of the current form
+                     (backward-up-list)
+                     (forward-char)  ; Skip opening paren
+                     (symbol-at-point)))
+           (var-info (when symbol (cider-var-info (symbol-name symbol))))
+           (file (nrepl-dict-get var-info "file"))
+           (line (nrepl-dict-get var-info "line"))
+           (column (nrepl-dict-get var-info "column")))
+
+      (if (not (and file line column))
+          (message "Could not locate definition for %s" symbol)
+
+        ;; Find the file buffer or load it
+        (let* ((file-path (if (string-prefix-p "file:" file)
+                              (substring file 5)
+                            file))
+               (buf (or (find-buffer-visiting file-path)
+                        (find-file-noselect file-path))))
+
+          (with-current-buffer buf
+            (save-excursion
+              (goto-char (point-min))
+              (forward-line (1- line))
+              (move-to-column (1- column))
+
+              ;; Find the defn and add metadata
+              (when (re-search-forward "(\\(defn\\|defn-\\|defmacro\\|defmethod\\)\\s-+"
+                                        (save-excursion (end-of-defun) (point))
+                                        t)
+                (if (looking-at "\\^")
+                    (message "Metadata already present on %s" symbol)
+                  (insert "^{:indent 1} ")
+                  (save-buffer)
+                  (message "Added ^{:indent 1} metadata to %s" symbol)
+
+                  ;; Evaluate the function
+                  (save-excursion
+                    (beginning-of-defun)
+                    (cider-eval-defun-at-point)))))))))))
 
 (provide 'setup-cider)
