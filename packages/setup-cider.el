@@ -138,11 +138,11 @@
         (message "Result copied to clipboard: %s" result))))
    (cider-current-ns)))
 
-(defun my/cider-add-indent-metadata-to-function ()
+(defun my/cider-add-indent-metadata-to-function (indent-by)
   "Add ^{:indent 1} metadata to the function definition at point.
 Works even if cursor is not directly on the function symbol.
 Uses CIDER to locate and modify the definition without moving cursor."
-  (interactive)
+  (interactive "p")
   (if (not (and (fboundp 'cider-connected-p) (cider-connected-p)))
       (message "CIDER not connected")
     (let* ((symbol (save-excursion
@@ -175,15 +175,16 @@ Uses CIDER to locate and modify the definition without moving cursor."
               (when (re-search-forward "(\\(defn\\|defn-\\|defmacro\\|defmethod\\)\\s-+"
                                         (save-excursion (end-of-defun) (point))
                                         t)
-                (if (looking-at "\\^")
-                    (message "Metadata already present on %s" symbol)
-                  (insert "^{:indent 1} ")
-                  (save-buffer)
-                  (message "Added ^{:indent 1} metadata to %s" symbol)
-
-                  ;; Evaluate the function
-                  (save-excursion
-                    (beginning-of-defun)
-                    (cider-eval-defun-at-point)))))))))))
+                (let ((s (format "^{:indent %s} " (if (= indent-by 4)
+                                                      1 indent-by))))
+                  (if (looking-at "\\^")
+                      (message "Metadata already present on %s" symbol)
+                    (insert s)
+                    (save-buffer)
+                    ;; Evaluate the function
+                    (save-excursion
+                      (beginning-of-defun)
+                      (cider-eval-defun-at-point))
+                    (message "Added %smetadata to %s" s symbol)))))))))))
 
 (provide 'setup-cider)
