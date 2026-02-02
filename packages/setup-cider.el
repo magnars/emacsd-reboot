@@ -63,7 +63,7 @@
   (define-key cider-mode-map (kbd "C-c C-M-w") 'my/cider-eval-defun-to-clipboard)
 
   ;; Add indent 1 metadata to current function
-  (define-key cider-mode-map (kbd "C-s-i C-s-m") #'my/add-indent-metadata-to-function)
+  (define-key cider-mode-map (kbd "C-s-i C-s-m") #'my/cider-add-indent-metadata-to-function)
 
   :custom
   ;; save files when evaluating them
