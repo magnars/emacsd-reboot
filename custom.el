@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("05692bda554c178fafe15cc3e6ab09539e7db4846eb9bb6272b97068c055a903" default))
+   '("e8ac40961ffe6a11aa71538d887da151e06e4c8ac348685a482675fa7873a60c" "05692bda554c178fafe15cc3e6ab09539e7db4846eb9bb6272b97068c055a903" default))
  '(package-selected-packages
    '(diff-hl exec-path-from-shell whitespace-cleanup-mode clj-refactor kaocha-runner marginalia which-key cider diminish move-text undo-fu-session vundo undo-fu consult-flycheck orderless consult flycheck datomic-snippets yasnippet projectile wgrep-deadgrep wgrep deadgrep vertico-directory vertico lsp-mode clojure-mode s multiple-cursors expand-region paredit magit))
  '(safe-local-variable-values

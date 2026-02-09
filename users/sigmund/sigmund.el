@@ -31,3 +31,7 @@
 
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
+
+;; White theme on my Daylight DC-1
+(when (string= "android" system-type)
+  (load-theme 'daylight))
