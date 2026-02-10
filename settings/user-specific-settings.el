@@ -4,7 +4,9 @@
 ;; Evaluate user-settings-dir below if you're unsure of where to put them.
 
 (setq user-settings-dir
-      (concat user-emacs-directory "users/" user-login-name))
+      (concat user-emacs-directory "users/" (if (boundp 'user-login-name-override)
+                                                user-login-name-override
+                                              user-login-name)))
 
 (add-to-list 'load-path user-settings-dir)
 
