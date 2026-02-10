@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Auto refresh buffers
 (use-package autorevert
   :defer 2

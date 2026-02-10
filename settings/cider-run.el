@@ -1,4 +1,5 @@
-;;; cider-run.el --- A package for running commands via CIDER. -*- lexical-binding: t; -*-
+;; -*- lexical-binding: t; -*-
+;; cider-run.el --- A package for running commands via CIDER.
 
 (require 'kaocha-runner)
 (require 'projectile)

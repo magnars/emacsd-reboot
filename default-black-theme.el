@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (deftheme default-black)
 
 (custom-theme-set-faces

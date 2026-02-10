@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package expand-region
   :straight t
   :defer t

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Consult
 ;;
 ;; Provides search and navigation commands based on the Emacs completion

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Make indenting yanked text the default for programming modes.
 ;; Use C-S-y to yank unindented.
 

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'parseedn)
 
 ;; The following code is a starting point for integrating Emacs with

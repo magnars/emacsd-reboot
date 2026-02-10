@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Undo Fu
 ;;
 ;; Simple, stable linear undo with redo for Emacs. Unlike undo-tree, does not

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Configure JetBrains Mono
 (when (member "JetBrains Mono" (font-family-list))
   (set-face-attribute 'default nil :family "JetBrains Mono")

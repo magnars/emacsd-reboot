@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;;; Inject some Emacs into makefile-mode.
 
 (defun my/tab-indent (n)

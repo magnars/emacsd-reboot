@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; To add your own settings, add them to .el-files in the users directory.
 
 ;; Evaluate user-settings-dir below if you're unsure of where to put them.

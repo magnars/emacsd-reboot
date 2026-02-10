@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; which-key
 ;;
 ;; a minor mode for Emacs that displays the key bindings following your

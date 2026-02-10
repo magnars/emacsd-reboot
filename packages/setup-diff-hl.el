@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; diff-hl-mode
 ;;
 ;; Highlights uncommitted changes on the left side of the window (area also

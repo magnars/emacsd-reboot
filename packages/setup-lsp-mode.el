@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package lsp-mode
   :hook ((clojure-mode . lsp)
          (clojurescript-mode . lsp)

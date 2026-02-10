@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Manipulating windows, ie. the squares with buffers in them
 
 (global-set-key (kbd "C-x -") 'toggle-window-split)

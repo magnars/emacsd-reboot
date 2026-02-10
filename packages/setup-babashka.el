@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (defun babashka-tasks ()
   (s-lines (s-trim (shell-command-to-string (concat "bb -e " (shell-quote-argument "(run! println (keys (:tasks (read-string (slurp \"bb.edn\")))))"))))))
 

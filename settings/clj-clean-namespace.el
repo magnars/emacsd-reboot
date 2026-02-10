@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Provides basic namespace sorting functionality for clojure
 
 (require 'dash)

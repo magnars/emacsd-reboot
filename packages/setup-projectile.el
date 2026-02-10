@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Projectile
 ;;
 ;; A project interaction library. It provides a nice set of features operating

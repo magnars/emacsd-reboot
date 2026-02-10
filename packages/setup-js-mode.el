@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package js-mode
   :ensure nil
   :defer t

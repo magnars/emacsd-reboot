@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; manipulating buffers and the files that are in them
 
 ;; Rename or delete current buffer file

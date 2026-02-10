@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; clj-auto-refer-mode.el
 ;;
 ;; Requires and refers well-known functions and macros for you.

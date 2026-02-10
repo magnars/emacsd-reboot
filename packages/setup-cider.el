@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; CIDER
 ;;
 ;; Extends Emacs with support for interactive programming in Clojure. The

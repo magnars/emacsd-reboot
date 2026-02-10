@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Significant Other
 ;;
 ;; Many files come in pairs, like tests and source files, header files and

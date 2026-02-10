@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (deftheme daylight)
 
 ;; A greyscale theme for e-paper displays

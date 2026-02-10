@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Smartparens
 ;;
 ;; Smartparens is a minor mode for dealing with pairs in Emacs. Like a

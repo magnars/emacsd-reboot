@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Zoom FRM
 ;;
 ;; Change text size for entire frame, not just a single buffer, lol

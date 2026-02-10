@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package clj-refactor
   :diminish clj-refactor-mode
 

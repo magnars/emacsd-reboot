@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Startup optimizations
 ;;
 ;; https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/

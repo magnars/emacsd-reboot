@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package paredit
   :hook ((clojure-mode . paredit-mode)
          (cider-repl-mode . paredit-mode)

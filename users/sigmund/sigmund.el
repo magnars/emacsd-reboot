@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Custom own settings
 
 ;;Configure pair-programming-mode

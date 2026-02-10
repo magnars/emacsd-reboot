@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (add-hook 'css-mode-hook 'lsp)
 
 (setq css-fontify-colors nil)

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package prodigy
   :defer t
 

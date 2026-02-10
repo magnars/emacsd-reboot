@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Manipulating the contents of a buffer
 
 ;; Killing words backwards

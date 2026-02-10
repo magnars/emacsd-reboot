@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Moving the cursor around
 
 ;; Like isearch, but adds region (if any) to history and deactivates mark

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Edit multiple i18n.edn files at once with multifile.el
 
 (require 'multifiles)

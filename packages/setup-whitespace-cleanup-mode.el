@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; whitespace-cleanup-mode.el
 ;;
 ;; A minor mode that will intelligently call whitespace-cleanup before buffers

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package clojure-mode
   :hook ((clojure-mode . setup-clojure-mode-so)
          (clojurescript-mode-hook . setup-clojure-mode-so)

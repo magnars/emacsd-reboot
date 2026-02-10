@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Perspective
 ;;
 ;; Provides multiple named workspaces (or "perspectives") in Emacs, similar to

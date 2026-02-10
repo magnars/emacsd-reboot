@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Vertico
 ;;
 ;; Provides a performant and minimalistic vertical completion UI based on the

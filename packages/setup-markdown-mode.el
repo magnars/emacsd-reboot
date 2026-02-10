@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package markdown
   :ensure nil
   :defer t

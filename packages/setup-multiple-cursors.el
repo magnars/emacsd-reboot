@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (use-package multiple-cursors
   :defer t
   :bind (("C-S-c C-S-c" . mc/edit-lines)

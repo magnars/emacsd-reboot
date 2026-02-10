@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Kaocha Runner
 ;;
 ;; An emacs package for running Kaocha tests via CIDER.
