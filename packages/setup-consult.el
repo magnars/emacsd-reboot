@@ -22,7 +22,10 @@
 
   :config
   ;; Show only perspective-buffers with consult-buffer
-  (consult-customize consult--source-buffer :hidden t :default nil)
+  (consult-customize (if (boundp 'consult--source-buffer)
+                         consult--source-buffer
+                       consult-source-buffer)
+                     :hidden t :default nil)
   (add-to-list 'consult-buffer-sources persp-consult-source))
 
 (use-package consult-flycheck
