@@ -162,3 +162,11 @@
 ;;                                            "Christian Johansen <christian@cjohansen.no>"))
 
 (setq my/pair-programming-myself '("Teodor Heggelund"))
+
+(defun terra-save ()
+  (interactive)
+  (when (string= (projectile-project-name) "terra")
+    (save-some-buffers)
+    (shell-command-to-string "git add .")
+    (shell-command-to-string "git commit --amend")
+    (shell-command-to-string "git push --force-with-lease")))
