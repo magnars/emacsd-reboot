@@ -211,4 +211,12 @@ Including indent-buffer, which should not be called automatically on save."
         (indent-for-tab-command)))
     (indent-for-tab-command)))
 
+(defun remove-all-commas ()
+  "Remove all commas from the current buffer."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward "," nil t)
+      (replace-match "" nil t))))
+
 (provide 'editing)

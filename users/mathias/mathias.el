@@ -20,14 +20,6 @@
 (global-set-key (kbd "<f1> k") #'helpful-key)
 (global-set-key (kbd "<f1> x") #'helpful-command)
 
-(defun remove-all-commas ()
-  "Remove all commas from the current buffer."
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (while (search-forward "," nil t)
-      (replace-match "" nil t))))
-
 ;;
 
 (defvar my-kbs-to-remember
