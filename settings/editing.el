@@ -217,6 +217,8 @@ Including indent-buffer, which should not be called automatically on save."
   (save-excursion
     (goto-char (point-min))
     (while (search-forward "," nil t)
-      (replace-match "" nil t))))
+      (unless (or (eq 'string (syntax-ppss-context (syntax-ppss)))
+                  (eq 'comment (syntax-ppss-context (syntax-ppss))))
+        (replace-match "" nil t)))))
 
 (provide 'editing)
