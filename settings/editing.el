@@ -211,14 +211,26 @@ Including indent-buffer, which should not be called automatically on save."
         (indent-for-tab-command)))
     (indent-for-tab-command)))
 
+(defun editing--is-comment? ()
+  (or (eq 'comment (syntax-ppss-context (syntax-ppss)))
+      (memq (get-text-property (point) 'face)
+            '(font-lock-comment-face
+              font-lock-comment-delimiter-face))))
+
+(defun editing--is-string? ()
+  (or (eq 'string (syntax-ppss-context (syntax-ppss)))
+      (memq (get-text-property (point) 'face)
+            '(font-lock-string-face
+              font-lock-doc-face))))
+
 (defun remove-all-commas ()
   "Remove all commas from the current buffer."
   (interactive)
   (save-excursion
     (goto-char (point-min))
     (while (search-forward "," nil t)
-      (unless (or (eq 'string (syntax-ppss-context (syntax-ppss)))
-                  (eq 'comment (syntax-ppss-context (syntax-ppss))))
+      (unless (or (editing--is-string?)
+                  (editing--is-comment?))
         (replace-match "" nil t)))))
 
 (provide 'editing)
