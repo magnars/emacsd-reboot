@@ -15,13 +15,19 @@
 (setq split-height-threshold nil)
 
 (use-package helpful)
-
 (global-set-key (kbd "<f1> f") #'helpful-callable)
 (global-set-key (kbd "<f1> v") #'helpful-variable)
 (global-set-key (kbd "<f1> k") #'helpful-key)
 (global-set-key (kbd "<f1> x") #'helpful-command)
 
-(provide 'setup-helpful)
+(defun remove-all-commas ()
+  "Remove all commas from the current buffer."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward "," nil t)
+      (replace-match "" nil t))))
+
 
 ;; TODO:
 ;;
