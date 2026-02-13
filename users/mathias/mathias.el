@@ -31,7 +31,9 @@
     ("C-s-i C-s-m" "my/cider-add-indent-metadata-to-function" "Add ^{:indent 1} metadata to the function definition at point.")
     ("C-s-i C-s-l" "cljr-introduce-let" "Create a let form, binding the form at point.")
     ("C-s-e C-s-l" "cljr-expand-let" "Expand the let form above point by one level.")
-    ("C-s-m C-s-l" "cljr-move-to-let" "Move the form at point to a binding in the nearest let."))
+    ("C-s-m C-s-l" "cljr-move-to-let" "Move the form at point to a binding in the nearest let.")
+    ("M-<return>" "new-line-dwim" "No description")
+    )
   "List of custom keybindings to display.
 Each entry is (KEYBINDING . COMMAND . DESCRIPTION).")
 
