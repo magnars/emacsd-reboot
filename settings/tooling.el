@@ -50,4 +50,45 @@
           (lambda ()
             (local-set-key (kbd "C-M-S-s-k") 'read-and-insert-key-sequence)))
 
+;; Remember keybindings easier (map this to your own keybinding in your user file)
+(defun show-my-kbs-to-remember ()
+  "Display custom keybindings and execute selected command."
+  (interactive)
+  (if (boundp 'my-kbs-to-remember)
+   (let* ((choices (mapcar (lambda (entry)
+                             (let ((key (car entry))
+                                   (cmd (cadr entry))
+                                   (desc (caddr entry)))
+                               (cons (format "%-15s %-45s %s" key cmd desc)
+                                     cmd)))
+                           my-kbs-to-remember))
+          (selection (completing-read "Keybinding: " choices nil t))
+          (command (cdr (assoc selection choices))))
+     (when command
+       (call-interactively (intern command))))
+   (message "You are missing a defvar my-kbs-to-remember with your own curated list.")))
+
+(defun capture-my-kbs-to-remember ()
+  "Prompt for a keybinding, find its command and docstring, then save to clipboard.
+The output format is ready to paste into my-kbs-to-remember."
+  (interactive)
+  (let* ((key (read-key-sequence "Press keybinding to capture: "))
+         (key-desc (key-description key))
+         (command (key-binding key))
+         (docstring (when command
+                      (documentation command)))
+         (first-line (when docstring
+                       (car (split-string docstring "\n"))))
+         (output (if command
+                     (format "(\"%s\" \"%s\" \"%s\")"
+                             key-desc
+                             command
+                             (or first-line "No description"))
+                   (format ";; No command bound to %s" key-desc))))
+    (if command
+        (progn
+          (kill-new output)
+          (message "Copied to clipboard: %s" output))
+      (message "No command bound to %s" key-desc))))
+
 (provide 'tooling)
