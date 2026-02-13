@@ -72,6 +72,7 @@
      (matnyttig-wrap-e->map (cider-defun-at-point)))))
 
 (defun matnyttig-cider-eval-def-symbol-with-e->map (prefixed)
+  "Evaluate and pprint symbol of top-level def (with e->map wrapped)"
   (interactive "P")
   (save-excursion
     (beginning-of-defun)

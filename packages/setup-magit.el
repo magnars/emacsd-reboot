@@ -40,11 +40,13 @@
   :bind (("C-x v t" . git-timemachine)))
 
 (defun b-a-r-k-commit ()
+  "Creates a link to Github for current line or selection using current commit"
   (interactive)
   (browse-at-remote-kill)
   (message "Remote was killed 💀"))
 
 (defun b-a-r-k-branch ()
+  "Creates a link to Github for current line or selection using current branch"
   (interactive)
   (setq browse-at-remote-prefer-symbolic t)
   (browse-at-remote-kill)
