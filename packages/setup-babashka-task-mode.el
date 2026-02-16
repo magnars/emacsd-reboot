@@ -1,8 +1,10 @@
-;;; setup-babashka-task-mode.el --- Run babashka tasks interactively -*- lexical-binding: t; -*-
+;; -*- lexical-binding: t; -*-
+;;; Run babashka tasks interactively
 
 ;;; Commentary:
 ;; Provides an interactive menu for running babashka tasks,
 ;; inspired by setup-makefile-mode.el's Makefile target runner.
+;; https://github.com/magnars/emacsd-reboot/blob/0d48f748be67264cceb12bec36e129b28ecdd305/packages/setup-makefile-mode.el
 
 ;;; Code:
 
@@ -65,8 +67,6 @@ With REPEAT? non-nil, re-run the previous task without prompting."
                                    (kill-buffer)
                                    (when conf (register-val-jump-to conf nil))))))))
 
-(global-set-key (kbd "s-b") 'babashka-invoke-task)
+(global-set-key (kbd "s-B") 'babashka-invoke-task)
 
 (provide 'setup-babashka-task-mode)
-
-;;; setup-babashka-task-mode.el ends here
