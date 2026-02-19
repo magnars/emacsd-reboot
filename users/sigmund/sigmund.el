@@ -35,4 +35,8 @@
 
 ;; White theme on my Daylight DC-1
 (when (string= "android" system-type)
-  (load-theme 'daylight))
+  (load-theme 'daylight)
+  (menu-bar-set-tool-bar-position 'bottom)
+  (modifier-bar-mode 1)
+  (tool-bar-mode 1)
+  (setq x-alt-keysym 'super))
