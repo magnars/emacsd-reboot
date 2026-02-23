@@ -33,6 +33,8 @@
     ("C-s-e C-s-l" "cljr-expand-let" "Expand the let form above point by one level.")
     ("C-s-m C-s-l" "cljr-move-to-let" "Move the form at point to a binding in the nearest let.")
     ("M-<return>" "new-line-dwim" "No description")
+    ("C-x M-e" "my/cider-eval-including-lets" "Evaluates the current sexp form, wrapped in all parent lets.")
+    ("M-:" "eval-expression" "Evaluate EXP and print value in the echo area.")
     )
   "List of custom keybindings to display.
 Each entry is (KEYBINDING . COMMAND . DESCRIPTION).")
