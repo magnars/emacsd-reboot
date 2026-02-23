@@ -202,11 +202,54 @@
 
      ((string-prefix-p ":commands" thing)
       (setq file-line-col (matnyttig-find-command-definition thing))))
-    (if file-line-col
-        (matnyttig-goto-first-class-definition file-line-col)
-      (xref-find-definitions (xref-backend-identifier-at-point (xref-find-backend))))))
+    (when file-line-col
+      (matnyttig-goto-first-class-definition file-line-col))))
 
-(define-key clojure-mode-map (kbd "M-.") 'matnyttig-find-first-class-definition)
+;; Nexus
+
+(defun nexus-find-pattern (pattern)
+  (let* ((src-dir (concat (projectile-project-root) "src"))
+         (res (shell-command-to-string
+               (format "rg --no-heading --with-filename --line-number --multiline --json %s %s | jq -r 'select(.type == \"match\") | [.data.path.text, .data.line_number, .data.submatches[0].match.text] | @tsv'"
+                       (shell-quote-argument pattern)
+                       (shell-quote-argument src-dir)))))
+    (mapcar (lambda (line)
+              (let ((parts (split-string line "\t" t)))
+                (list (nth 0 parts)
+                      (string-to-number (nth 1 parts))
+                      (-> (nth 2 parts)
+                          (split-string " " t)
+                          -last-item))))
+            (split-string (string-trim res) "\n" t))))
+
+(defun nexus-->lookup-map (nxr-result)
+  (let ((map (make-hash-table :test 'equal)))
+    (dolist (item nxr-result map)
+      (puthash (car (last item)) item map))))
+
+(defun nexus-goto-def (nexus-match)
+  (xref-push-marker-stack)
+  (find-file (nth 0 nexus-match))
+  (goto-line (nth 1 nexus-match)))
+
+(defun nexus-goto-thing ()
+  (interactive)
+  (let ((thing (thing-at-point 'symbol)))
+    (when-let ((nexus-match
+                (->> (nexus-find-pattern "\\(nxr\\/register-(effect|action|placeholder)![ \n]?[ ]*:[^\s\n]+")
+                     nexus-->lookup-map
+                     (gethash thing))))
+      (nexus-goto-def nexus-match))))
+
+;; Nexus end
+
+(defun matnyttig-goto-fns ()
+  (interactive)
+  (or (matnyttig-find-first-class-definition)
+      (nexus-goto-thing)
+      (xref-find-definitions (xref-backend-identifier-at-point (xref-find-backend)))))
+
+(define-key clojure-mode-map (kbd "M-.") 'matnyttig-goto-fns)
 
 ;; Ignore annoyingly abundant files that hang Emacs on Vertico analyses
 (with-eval-after-load 'lsp-mode
