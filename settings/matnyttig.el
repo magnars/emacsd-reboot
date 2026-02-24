@@ -249,17 +249,18 @@
   "Show eldoc info when point is on nexus match"
   (let ((thing (thing-at-point 'symbol)))
     (when-let ((nexus-match (nexus-find-match thing)))
-      (with-current-buffer (find-file-noselect (nth 0 nexus-match))
-        (goto-char (point-min))
-        (forward-line (1- (nth 1 nexus-match)))
-        (paredit-forward-down 3)
-        (paredit-forward)
-        (let ((start (point)))
-          (paredit-forward-up)
-          (paredit-backward-down)
-          (funcall callback (format "[%s%s]" thing (buffer-substring-no-properties start (point)))
-                   :thing thing
-                   :face 'font-lock-keyword-face))))))
+      (save-excursion
+        (with-current-buffer (find-file-noselect (nth 0 nexus-match))
+          (goto-char (point-min))
+          (forward-line (1- (nth 1 nexus-match)))
+          (paredit-forward-down 3)
+          (paredit-forward)
+          (let ((start (point)))
+            (paredit-forward-up)
+            (paredit-backward-down)
+            (funcall callback (format "[%s%s]" thing (buffer-substring-no-properties start (point)))
+                     :thing thing
+                     :face 'font-lock-keyword-face)))))))
 
 (add-hook 'clojure-mode-hook
           (lambda ()
