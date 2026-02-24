@@ -232,14 +232,37 @@
   (find-file (nth 0 nexus-match))
   (goto-line (nth 1 nexus-match)))
 
+(defun nexus-find-match (thing)
+  (when-let ((nexus-match
+              (->> (nexus-find-pattern "\\(nxr\\/register-(effect|action|placeholder)![ \n]?[ ]*:[^\s\n]+")
+                   nexus-->lookup-map
+                   (gethash thing))))
+    nexus-match))
+
 (defun nexus-goto-thing ()
   (interactive)
   (let ((thing (thing-at-point 'symbol)))
-    (when-let ((nexus-match
-                (->> (nexus-find-pattern "\\(nxr\\/register-(effect|action|placeholder)![ \n]?[ ]*:[^\s\n]+")
-                     nexus-->lookup-map
-                     (gethash thing))))
+    (when-let ((nexus-match (nexus-find-match thing)))
       (nexus-goto-def nexus-match))))
+
+(defun nexus-eldoc-nexus-match (callback &rest _)
+  "Show eldoc info when point is on nexus match"
+  (let ((thing (thing-at-point 'symbol)))
+    (when-let ((nexus-match (nexus-find-match thing)))
+      (with-current-buffer (find-file-noselect (nth 0 nexus-match))
+        (goto-line (nth 1 nexus-match))
+        (paredit-forward-down 3)
+        (paredit-forward)
+        (let ((start (point)))
+          (paredit-forward-up)
+          (paredit-backward-down)
+          (funcall callback (format "[%s%s]" thing (buffer-substring-no-properties start (point)))
+                   :thing thing
+                   :face 'font-lock-keyword-face))))))
+
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (add-hook 'eldoc-documentation-functions #'nexus-eldoc-nexus-match nil t)))
 
 ;; Nexus end
 
