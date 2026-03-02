@@ -104,18 +104,19 @@
     ("/src/.+\.clj" (list (s-with file-name
                             (replace-first-path-segment "src" "test")
                             (s-replace ".clj" "_test.clj"))))
-    ("/dev/.+\.clj" (list (s-with file-name
-                            (replace-first-path-segment "dev" "test")
-                            (s-replace ".clj" "_test.clj"))))
     ("/test/.+\.clj" (list
                       (s-with file-name
                         (replace-first-path-segment "test" "src")
                         (s-replace "_test.clj" ".clj"))
                       (s-with file-name
                         (replace-first-path-segment "test" "src")
-                        (s-replace "_test.clj" ".cljc"))
-                      (s-with file-name
-                        (replace-first-path-segment "test" "dev")
+                        (s-replace "_test.clj" ".cljc"))))
+    ;; dev/ <-> devtest/
+    ("/dev/.+\.clj" (list (s-with file-name
+                            (replace-first-path-segment "dev" "devtest")
+                            (s-replace ".clj" "_test.clj"))))
+    ("/devtest/.+\.clj" (list (s-with file-name
+                        (replace-first-path-segment "devtest" "dev")
                         (s-replace "_test.clj" ".clj"))))))
 
 ;; Set up Clojure CSS completions
