@@ -66,6 +66,13 @@
     (-replace-first match replacement)
     (s-join "/")))
 
+(defun replace-first-path-segment-in-project-root (match replacement s)
+  (let ((project-root (projectile-project-root)))
+    (if (s-starts-with? project-root s)
+        (concat project-root
+                (replace-first-path-segment match replacement (s-chop-left (length project-root) s)))
+      (replace-first-path-segment match replacement s))))
+
 (defmacro comment (&rest more))
 
 (comment
@@ -79,6 +86,10 @@
  ;; erstatt kun første
  (s-with "/Users/teodorlu/repo/Mattilsynet/matnyttig/dev/matnyttig/dev/autofast.clj"
    (replace-first-path-segment "dev" "test"))
+
+ (s-with "/Users/sigmund/.emacs.d/something/.emacs.d/something.el"
+   (replace-first-path-segment-in-project-root ".emacs.d" "test"))
+
  ;; => "/Users/teodorlu/repo/Mattilsynet/matnyttig/test/matnyttig/dev/autofast.clj"
  ;; suksess!
 
@@ -87,36 +98,36 @@
 (defun setup-clojure-mode-so ()
   (with-significant-others file-name
     ("/portfolio/.+/components/" (list (s-with file-name
-                                         (replace-first-path-segment "portfolio" "src")
+                                         (replace-first-path-segment-in-project-root "portfolio" "src")
                                          (s-replace "_scenes.cljs" ".cljc"))))
     ("/ui/src/.+/components/" (list (s-with file-name
-                                      (replace-first-path-segment "src" "portfolio")
+                                      (replace-first-path-segment-in-project-root "src" "portfolio")
                                       (s-replace ".cljc" "_scenes.cljs"))
                                     (s-with file-name
-                                      (replace-first-path-segment "src" "test")
+                                      (replace-first-path-segment-in-project-root "src" "test")
                                       (s-replace ".cljc" "_test.clj"))))
     ("/src/.+\.cljc" (list (s-with file-name
-                             (replace-first-path-segment "src" "test")
+                             (replace-first-path-segment-in-project-root "src" "test")
                              (s-replace ".cljc" "_test.clj"))
                            (s-with file-name
-                             (replace-first-path-segment "src" "test")
+                             (replace-first-path-segment-in-project-root "src" "test")
                              (s-replace ".cljc" "_test.cljc"))))
     ("/src/.+\.clj" (list (s-with file-name
-                            (replace-first-path-segment "src" "test")
+                            (replace-first-path-segment-in-project-root "src" "test")
                             (s-replace ".clj" "_test.clj"))))
     ("/test/.+\.clj" (list
                       (s-with file-name
-                        (replace-first-path-segment "test" "src")
+                        (replace-first-path-segment-in-project-root "test" "src")
                         (s-replace "_test.clj" ".clj"))
                       (s-with file-name
-                        (replace-first-path-segment "test" "src")
+                        (replace-first-path-segment-in-project-root "test" "src")
                         (s-replace "_test.clj" ".cljc"))))
     ;; dev/ <-> devtest/
     ("/dev/.+\.clj" (list (s-with file-name
-                            (replace-first-path-segment "dev" "devtest")
+                            (replace-first-path-segment-in-project-root "dev" "devtest")
                             (s-replace ".clj" "_test.clj"))))
     ("/devtest/.+\.clj" (list (s-with file-name
-                        (replace-first-path-segment "devtest" "dev")
+                                (replace-first-path-segment-in-project-root "devtest" "dev")
                         (s-replace "_test.clj" ".clj"))))))
 
 ;; Set up Clojure CSS completions
