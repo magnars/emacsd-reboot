@@ -3,7 +3,9 @@
 # key: mtdo
 # --
 (do
-  (require '[matnyttig.datomic :as d])
+  (require '[matnyttig.datomic :as d]
+           '[matnyttig.imperative-shell.core :as imperative-shell])
   (def ctx (:system/ctx integrant.repl.state/system))
+  (def state (imperative-shell/get-state ctx))
   (def app-db (d/db (:app/conn ctx)))
   (def matrikkel-db (d/db (:matrikkel/conn ctx))))
