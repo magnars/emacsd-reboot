@@ -3,11 +3,8 @@
   (interactive)
   (save-excursion
     (let ((delimiters '(?\( ?\[ ?{)))
-      (when (not (memq (char-after) delimiters))
-        (condition-case nil
-            (progn
-              (backward-up-list 1))
-          (error nil)))
+      (unless (memq (char-after) delimiters)
+        (ignore-errors (backward-up-list 1)))
       (set-mark (point))
       (forward-sexp)
       (fold-this (mark) (point)))))
