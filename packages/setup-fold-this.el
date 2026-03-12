@@ -1,3 +1,13 @@
+(defun my/fold-this-summary (beg end)
+  (let* ((content (buffer-substring-no-properties beg end))
+         (open (aref content 0))
+         (close (pcase open
+                  (?\( ?\))
+                  (?\[ ?\])
+                  (?\{ ?\})
+                  (?\" ?\"))))
+    (concat content " ,,," (string close))))
+
 (defun my/fold-this-datastructure ()
   "Fold this, or if within datastructure, fold parent datastructure"
   (interactive)
@@ -9,7 +19,7 @@
             (line-end (line-end-position)))
         (forward-sexp)
         (fold-this beg (point)
-                   (buffer-substring-no-properties beg line-end))))))
+                   (my/fold-this-summary beg line-end))))))
 
 (use-package fold-this
   :bind (("C-<tab>" . my/fold-this-datastructure))
