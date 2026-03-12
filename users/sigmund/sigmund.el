@@ -40,3 +40,6 @@
   (modifier-bar-mode 1)
   (tool-bar-mode 1)
   (setq x-alt-keysym 'super))
+
+;; Go away mansplainpages!!!
+(global-unset-key (kbd "s-M"))
