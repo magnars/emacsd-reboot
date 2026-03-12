@@ -22,6 +22,7 @@
                    (my/fold-this-summary beg line-end))))))
 
 (use-package fold-this
-  :bind (("C-<tab>" . my/fold-this-datastructure))
+  :bind (("C-<tab>" . my/fold-this-datastructure)
+         ("C-S-<tab>" . fold-this-unfold-all))
   :config
   (define-key fold-this--overlay-keymap (kbd "C-<tab>") 'fold-this-unfold-at-point))
