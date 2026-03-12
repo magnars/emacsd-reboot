@@ -2,9 +2,9 @@
   "Fold this, or if within datastructure, fold parent datastructure"
   (interactive)
   (save-excursion
-    (let ((delimiters '(?\( ?\[ ?{)))
+    (let ((delimiters '(?\( ?\[ ?{ ?\")))
       (unless (memq (char-after) delimiters)
-        (ignore-errors (backward-up-list 1)))
+        (ignore-errors (backward-up-list 1 t nil)))
       (set-mark (point))
       (forward-sexp)
       (fold-this (mark) (point)))))
