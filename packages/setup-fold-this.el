@@ -13,4 +13,6 @@
       (fold-this (mark) (point)))))
 
 (use-package fold-this
-  :bind (("C-<tab>" . my/fold-this-datastructure)))
+  :bind (("C-<tab>" . my/fold-this-datastructure))
+  :config
+  (define-key fold-this--overlay-keymap (kbd "C-<tab>") 'fold-this-unfold-at-point))
