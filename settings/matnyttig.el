@@ -57,8 +57,7 @@
 (defun pprint-eval-last-sexp (prefixed)
   (if prefixed
       (cider--pprint-eval-form (cider-last-sexp))
-    (cider--pprint-eval-form
-     (matnyttig-wrap-e->map (cider-last-sexp)))))
+    (cider--pprint-eval-form (matnyttig-wrap-e->map (cider-last-sexp)))))
 
 (defun matnyttig-cider-pprint-eval-last-sexp-with-e->map (prefixed)
   (interactive "P")
@@ -68,8 +67,7 @@
   (interactive "P")
   (if prefixed
       (cider--pprint-eval-form (cider-defun-at-point))
-    (cider--pprint-eval-form
-     (matnyttig-wrap-e->map (cider-defun-at-point)))))
+    (cider--pprint-eval-form (matnyttig-wrap-e->map (cider-defun-at-point)))))
 
 (defun matnyttig-cider-eval-def-symbol-with-e->map (prefixed)
   "Evaluate and pprint symbol of top-level def (with e->map wrapped)"
@@ -81,9 +79,23 @@
       (paredit-forward 2)
       (pprint-eval-last-sexp prefixed))))
 
+(defun matnyttig-cider-pprint-eval-sexp-up-to-point-with-e->map (&optional prefixed)
+  "Evaluate the current sexp form"
+  (interactive "P")
+  (let* ((beg-of-sexp (save-excursion (up-list) (backward-list) (point)))
+         (beg-delimiter (save-excursion (up-list) (backward-list) (char-after)))
+         (beg-set?  (save-excursion (up-list) (backward-list) (char-before)))
+         (code (buffer-substring-no-properties beg-of-sexp (point)))
+         (code (if (= beg-set? ?#) (concat (list beg-set?) code) code))
+         (code (concat code (list (cider--matching-delimiter beg-delimiter)))))
+    (if prefixed
+        (cider--pprint-eval-form code)
+      (cider--pprint-eval-form (matnyttig-wrap-e->map code)))))
+
 (define-key cider-mode-map (kbd "C-c C-p") #'matnyttig-cider-pprint-eval-last-sexp-with-e->map)
 (define-key cider-mode-map (kbd "C-c C-f") #'matnyttig-cider-pprint-eval-defun-at-point-with-e->map)
 (define-key cider-mode-map (kbd "C-c C-M-s") #'matnyttig-cider-eval-def-symbol-with-e->map)
+(define-key cider-mode-map (kbd "C-c C-M-e") #'matnyttig-cider-pprint-eval-sexp-up-to-point-with-e->map)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Find first class definitions (like feeds, etc.)
