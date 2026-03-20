@@ -4,6 +4,10 @@
 ;;   :config
 ;;   (load-theme 'vscode-dark-plus t))
 
+;; Horizontal scroll with trackpad / mouse
+(setq mouse-wheel-tilt-scroll t)
+(setq mouse-wheel-flip-direction t)
+
 ;; Zig
 (load
  (expand-file-name "users/teodorlu/zig.el" user-emacs-directory))
