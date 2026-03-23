@@ -32,6 +32,7 @@
 (require 'windows)
 (require 'extra-keybindings)
 (require 'indented-yank)
+(require 'learn-kbs)
 
 ;; Set up Straight (for packages on github)
 (require 'setup-straight)
