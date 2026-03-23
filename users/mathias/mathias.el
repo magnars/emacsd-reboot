@@ -26,24 +26,7 @@
 
 ;;
 
-(defvar my-kbs-to-remember
-  '(("C-c M-w" "my/cider-eval-to-clipboard" "Evaluate the Clojure form at point and put the result on the clipboard.")
-    ("C-c C-M-w" "my/cider-eval-defun-to-clipboard" "Evaluate the current top-level form and copy the result to the clipboard.")
-    ("C-c C-M-s" "matnyttig-cider-eval-def-symbol-with-e->map" "Evaluate and pprint symbol of top-level def (with e->map wrapped)")
-    ("C-x v w" "b-a-r-k-commit" "Creates a link to Github for current line or selection using current commit")
-    ("C-x v W" "b-a-r-k-branch" "Creates a link to Github for current line or selection using current branch")
-    ("C-s-i C-s-m" "my/cider-add-indent-metadata-to-function" "Add ^{:indent 1} metadata to the function definition at point.")
-    ("C-s-i C-s-l" "cljr-introduce-let" "Create a let form, binding the form at point.")
-    ("C-s-e C-s-l" "cljr-expand-let" "Expand the let form above point by one level.")
-    ("C-s-m C-s-l" "cljr-move-to-let" "Move the form at point to a binding in the nearest let.")
-    ("M-<return>" "new-line-dwim" "No description")
-    ("C-x M-e" "my/cider-eval-including-lets" "Evaluates the current sexp form, wrapped in all parent lets.")
-    ("M-:" "eval-expression" "Evaluate EXP and print value in the echo area.")
-    )
-  "List of custom keybindings to display.
-Each entry is (KEYBINDING . COMMAND . DESCRIPTION).")
-
-(global-set-key (kbd "C-M-S-s-r C-M-S-s-k") 'show-my-kbs-to-remember)
+(global-set-key (kbd "C-M-S-s-r C-M-S-s-k") 'learn-kbs-show-keybindings)
 
 ;; TODO:
 ;;
