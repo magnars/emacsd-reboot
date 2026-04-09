@@ -17,7 +17,8 @@
          ("C-c p" . magit-toggle-pair-programming-mode)
          ("C-c P" . magit-add-pair-programming-partner)
          (:map git-commit-mode-map
-               ("C-c C-p" . magit-add-pair-programming-partner))
+               ("C-c C-p" . magit-add-pair-programming-partner)
+               ("<tab>" . my/git-choose-subject))
          (:map magit-status-mode-map
                ("q" . magit-quit)))
 
@@ -155,5 +156,21 @@ configuration stored by magit-status-fullscreen"
     (while (looking-at "#")
       (forward-line))
     (forward-line)))
+
+(defun my/git-subject-suggestions ()
+  "Extract distinct commit message subjects from the last 9999 commits."
+  (let ((subjects '()))
+    (dolist (msg (magit-git-lines "log" "-n200" "--format=%s"))
+      (when (string-match "\\`\\([^ ]+\\): " msg)
+        (let ((subject (match-string 1 msg)))
+          (unless (member subject subjects)
+            (push (format "%s: " subject) subjects)))))
+    (nreverse subjects)))
+
+(defun my/git-choose-subject ()
+  (interactive)
+  (when (and (bobp) (looking-at "\n"))
+    (insert
+     (completing-read "Subject: " (my/git-subject-suggestions) nil t))))
 
 (provide 'setup-magit)
