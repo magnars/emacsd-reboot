@@ -146,10 +146,11 @@ Uses CIDER to locate and modify the definition without moving cursor."
   (interactive "p")
   (if (not (and (fboundp 'cider-connected-p) (cider-connected-p)))
       (message "CIDER not connected")
-    (let* ((symbol (save-excursion
+    (let* ((origin (point-marker))
+           (symbol (save-excursion
                      ;; Go to the start of the current form
                      (backward-up-list)
-                     (forward-char)  ; Skip opening paren
+                     (forward-char)     ; Skip opening paren
                      (symbol-at-point)))
            (var-info (when symbol (cider-var-info (symbol-name symbol))))
            (file (nrepl-dict-get var-info "file"))
@@ -174,8 +175,8 @@ Uses CIDER to locate and modify the definition without moving cursor."
 
               ;; Find the defn and add metadata
               (when (re-search-forward "(\\(defn\\|defn-\\|defmacro\\|defmethod\\)\\s-+"
-                                        (save-excursion (end-of-defun) (point))
-                                        t)
+                                       (save-excursion (end-of-defun) (point))
+                                       t)
                 (let ((s (format "^{:indent %s} " (if (= indent-by 4)
                                                       1 indent-by))))
                   (if (looking-at "\\^")
@@ -185,7 +186,20 @@ Uses CIDER to locate and modify the definition without moving cursor."
                     ;; Evaluate the function
                     (save-excursion
                       (beginning-of-defun)
-                      (cider-eval-defun-at-point))
+                      (cider-interactive-eval
+                       nil
+                       (lambda (res)
+                         (let ((buf (marker-buffer origin)))
+                           (when (buffer-live-p buf) ; guard: buffer might be killed
+                             (with-current-buffer buf
+                               ;; Manually update clojure's indentation table
+                               (put-clojure-indent (intern (symbol-name symbol))
+                                                   (if (= indent-by 4) 1 indent-by))
+                               (save-excursion
+                                 (goto-char origin)
+                                 (paredit-reindent-defun))))
+                           (set-marker origin nil)))
+                       (cider-defun-at-point 'bounds)))
                     (message "Added %smetadata to %s" s symbol)))))))))))
 
 (provide 'setup-cider)
