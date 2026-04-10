@@ -72,6 +72,9 @@
 ;; go install golang.org/x/tools/gopls@latest
 (add-hook 'go-mode-hook 'lsp-deferred)
 
+(use-package opencode
+  :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; English/Norwegian spell check on Mac with Homebrew and Hunspell
 ;;
