@@ -173,6 +173,8 @@
           (insert-file-contents file)
           (goto-char (point-min))
           (when (search-forward pattern nil t)
+            (when (eq (char-before) ?\n)
+              (backward-char 1))
             (setq result (list file (line-number-at-pos) (current-column)))
             (throw 'found t)))))
     result))
