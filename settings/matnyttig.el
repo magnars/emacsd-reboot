@@ -102,16 +102,16 @@
 
 ;; Patterns
 (defun matnyttig-collector-pattern (thing)
-  (format "(source-definition/define-collector\n    {:id %s" thing))
+  (format "(source-definition/define-collector\n    {:id %s\n" thing))
 
 (defun matnyttig-refiner-pattern (thing)
-  (format "(source-definition/define-refiner\n    {:id %s" thing))
+  (format "(source-definition/define-refiner\n    {:id %s\n" thing))
 
 (defun matnyttig-feed-pattern (thing)
-  (format "(source-definition/define-feed\n    {:id %s" thing))
+  (format "(source-definition/define-feed\n    {:id %s\n" thing))
 
 (defun matnyttig-page-pattern (thing)
-  (format "(page-definition/define\n    {:id %s" thing))
+  (format "(page-definition/define\n    {:id %s\n" thing))
 
 ;; Files
 (defun matnyttig-src-files ()
