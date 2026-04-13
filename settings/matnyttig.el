@@ -158,7 +158,7 @@
       (with-temp-buffer
         (insert-file-contents commands-file)
         (goto-char (point-min))
-        (when (search-forward (format ":command/kind %s" thing) nil t)
+        (when (search-forward (format ":command/kind %s\n" thing) nil t)
           (when (search-forward ":command/plan" nil t)
             (paredit-forward)
             (setq result (list commands-file (line-number-at-pos) (current-column))))))
