@@ -14,7 +14,8 @@
               ("C-c k h" . kaocha-runner-hide-windows)))
 
 (defun kaocha-runner--is-test? (s)
-  (string-match-p "/test/.+\.clj" s))
+  (or (string-match-p "/test/.+\.clj" s)
+      (string-match-p "/devtest/.+\.clj" s)))
 
 (defun kaocha-runner--significant-other-find-existing-test ()
   (--first
