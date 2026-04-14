@@ -111,7 +111,10 @@
                              (s-replace ".cljc" "_test.clj"))
                            (s-with file-name
                              (replace-first-path-segment-in-project-root "src" "test")
-                             (s-replace ".cljc" "_test.cljc"))))
+                             (s-replace ".cljc" "_test.cljc"))
+                           (s-with file-name
+                             (replace-first-path-segment-in-project-root "src" "portfolio")
+                             (s-replace ".cljc" "_scenes.cljc"))))
     ("/src/.+\.clj" (list (s-with file-name
                             (replace-first-path-segment-in-project-root "src" "test")
                             (s-replace ".clj" "_test.clj"))))
@@ -128,7 +131,11 @@
                             (s-replace ".clj" "_test.clj"))))
     ("/devtest/.+\.clj" (list (s-with file-name
                                 (replace-first-path-segment-in-project-root "devtest" "dev")
-                        (s-replace "_test.clj" ".clj"))))))
+                                (s-replace "_test.clj" ".clj"))))
+    ;; portfolio/ -> src/
+    ("/portfolio/.+\.cljc" (list (s-with file-name
+                                   (replace-first-path-segment-in-project-root "portfolio" "src")
+                                   (s-replace "_scenes.cljc" ".cljc"))))))
 
 ;; Set up Clojure CSS completions
 
