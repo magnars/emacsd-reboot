@@ -27,8 +27,14 @@
 ;; Set theme
 (load-theme 'default-black)
 
-(when (member "Monaco" (font-family-list))
-  (set-face-attribute 'default nil :font "-apple-Monaco-medium-normal-normal-*-15-*-*-*-m-0-iso10646-1"))
+;; If Emacs is launched as a server (`emacs --daemon`), it's too early to run
+;; set-face-attribute during init. In that case, we can reset the font by hand.
+(defun my/reset-font ()
+  (interactive)
+  (when (member "Monaco" (font-family-list))
+    (set-face-attribute 'default nil :font "-apple-Monaco-medium-normal-normal-*-15-*-*-*-m-0-iso10646-1")))
+
+(my/reset-font)
 
 ;; Custom metrics version of Noto Color Emoji to avoid screwing up our nice monospaced grid
 (set-fontset-font t 'emoji (font-spec :family "Noto Color Squaremoji") nil 'prepend)
