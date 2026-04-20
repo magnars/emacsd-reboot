@@ -9,10 +9,6 @@
                                     " (matnyttig.page-admin/add \"" page-id "\")"
                                     ")"))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Renaming a page requires listing existing pages! This is hard with CIDER, but
-;; maybe easy with Babashka. My CIDER-based starting point follows.
-
 (defun matnyttig-list-modals ()
   (interactive)
   (message
