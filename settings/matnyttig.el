@@ -13,6 +13,10 @@
 ;; Renaming a page requires listing existing pages! This is hard with CIDER, but
 ;; maybe easy with Babashka. My CIDER-based starting point follows.
 
+(defun matnyttig-list-modals ()
+  (interactive)
+  (message
+   (s-join "\n" (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Evaluate and print with e->map
