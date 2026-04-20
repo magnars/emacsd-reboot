@@ -17,7 +17,7 @@
 
 (defun matnyttig-create-modal ()
   (let* ((default-directory (projectile-project-root))
-         (modal-id (read-string "Opprett modaler/")))
+         (modal-id (read-string "Opprett :modaler/")))
     (message
      (shell-command-to-string (s-concat "bb nvk matnyttig.modal-admin/create " modal-id)))))
 
