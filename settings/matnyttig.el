@@ -15,6 +15,13 @@
   (message
    (s-join "\n" (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls")))))
 
+(defun matnyttig-create-modal ()
+  (interactive)
+  (let* ((default-directory (projectile-project-root))
+         (modal-id (read-string "modal-id: "))))
+  (message
+   (shell-command-to-string (s-concat "bb nvk matnyttig.modal-admin/create " modal-id))))
+
 (defun matnyttig-rename-modal ()
   (interactive)
   (let* ((default-directory (projectile-project-root))
