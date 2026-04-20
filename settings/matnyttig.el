@@ -2,13 +2,12 @@
 (require 'parseedn)
 (require 's)
 
-(defun matnyttig-add-page ()
+(defun matnyttig-create-page ()
   (interactive)
-  (let* ((page-id (read-string "page-id: ")))
-    (cider-interactive-eval (concat "(do"
-                                    " (require 'matnyttig.page-admin)"
-                                    " (matnyttig.page-admin/add \"" page-id "\")"
-                                    ")"))))
+  (let* ((default-directory (projectile-project-root))
+         (page-id (read-string "page-id: ")))
+    (message
+     (shell-command-to-string (s-concat "bb nvk matnyttig.page-admin/create " page-id)))))
 
 (defun matnyttig-list-modals ()
   (interactive)
