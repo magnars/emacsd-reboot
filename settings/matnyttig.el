@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 (require 'parseedn)
+(require 's)
 
 (defun matnyttig-add-page ()
   (interactive)
@@ -13,6 +14,15 @@
   (interactive)
   (message
    (s-join "\n" (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls")))))
+
+(defun matnyttig-rename-modal ()
+  (interactive)
+  (let* ((default-directory (projectile-project-root))
+         (modals (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls")))
+         (from-name (completing-read "Modal> " modals))
+         (to-name (read-string (s-concat "Rename from " from-name " to> "))))
+    (message
+     (shell-command-to-string (s-concat "bb nvk matnyttig.modal-admin/rename " from-name " " to-name)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Evaluate and print with e->map
