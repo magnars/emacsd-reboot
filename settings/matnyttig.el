@@ -2,33 +2,53 @@
 (require 'parseedn)
 (require 's)
 
+;; PAGES
 (defun matnyttig-create-page ()
-  (interactive)
   (let* ((default-directory (projectile-project-root))
-         (page-id (read-string "page-id: ")))
+         (page-id (read-string "Opprett :pages/")))
     (message
      (shell-command-to-string (s-concat "bb nvk matnyttig.page-admin/create " page-id)))))
 
+;; MODALS
 (defun matnyttig-list-modals ()
-  (interactive)
-  (message
-   (s-join "\n" (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls")))))
+  (let ((default-directory (projectile-project-root)))
+    (message
+     (s-join "\n" (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls"))))))
 
 (defun matnyttig-create-modal ()
-  (interactive)
   (let* ((default-directory (projectile-project-root))
-         (modal-id (read-string "modal-id: "))))
-  (message
-   (shell-command-to-string (s-concat "bb nvk matnyttig.modal-admin/create " modal-id))))
+         (modal-id (read-string "Opprett modaler/")))
+    (message
+     (shell-command-to-string (s-concat "bb nvk matnyttig.modal-admin/create " modal-id)))))
 
 (defun matnyttig-rename-modal ()
-  (interactive)
   (let* ((default-directory (projectile-project-root))
          (modals (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls")))
-         (from-name (completing-read "Modal> " modals))
-         (to-name (read-string (s-concat "Rename from " from-name " to> "))))
+         (from-name (completing-read "Døp om :modaler/" modals))
+         (to-name (read-string (s-concat "Døp om :modaler/" from-name " til :modaler/"))))
     (message
      (shell-command-to-string (s-concat "bb nvk matnyttig.modal-admin/rename " from-name " " to-name)))))
+
+(defun matnyttig-delete-modal ()
+  (let* ((default-directory (projectile-project-root))
+         (modals (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls")))
+         (modal (completing-read "Modal> " modals)))
+    (message
+     (shell-command-to-string (s-concat "bb nvk matnyttig.modal-admin/delete " modal)))))
+
+(defvar matnyttig-admin-operations
+  '(matnyttig-create-page
+    matnyttig-list-modals
+    matnyttig-create-modal
+    matnyttig-rename-modal
+    matnyttig-delete-modal))
+
+(defun matnyttig-admin ()
+  (interactive)
+  (funcall
+   (intern
+    (completing-read "Choose operation> "
+                     (mapcar 'symbol-name matnyttig-admin-operations)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Evaluate and print with e->map
@@ -175,13 +195,13 @@
     (cond
      ((string-prefix-p ":feed/" thing)
       (setq file-line-col (matnyttig-search-first-class-definition
-                  (matnyttig-feed-files matnyttig-src-files)
-                  (matnyttig-feed-pattern thing))))
+                           (matnyttig-feed-files matnyttig-src-files)
+                           (matnyttig-feed-pattern thing))))
 
      ((string-prefix-p ":pages/" thing)
       (setq file-line-col (matnyttig-search-first-class-definition
-                  (matnyttig-page-files matnyttig-src-files)
-                  (matnyttig-page-pattern thing))))
+                           (matnyttig-page-files matnyttig-src-files)
+                           (matnyttig-page-pattern thing))))
 
      ((string-prefix-p ":data/" thing)
       (when-let ((result (matnyttig-search-first-class-definition
