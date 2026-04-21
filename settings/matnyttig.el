@@ -49,6 +49,7 @@
    (intern
     (completing-read "Choose operation> "
                      (mapcar 'symbol-name matnyttig-admin-operations)))))
+(define-key cider-mode-map (kbd "s-a") #'matnyttig-admin)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Evaluate and print with e->map
