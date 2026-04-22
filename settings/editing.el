@@ -51,6 +51,9 @@
 (global-set-key (kbd "<C-S-down>") 'move-text-down)
 (global-set-key (kbd "<C-S-up>") 'move-text-up)
 
+;; Transpose key-value-pairs
+(global-set-key (kbd "M-s-t") 'transpose-kv-pairs)
+
 ;; Sorting lines alphabetically
 (global-set-key (kbd "M-s l") 'sort-lines)
 
@@ -232,5 +235,17 @@ Including indent-buffer, which should not be called automatically on save."
       (unless (or (editing--is-string?)
                   (editing--is-comment?))
         (replace-match "" nil t)))))
+
+(defun transpose-kv-pairs ()
+  (interactive)
+  (let ((start (point)))
+    (backward-sexp 2)
+    (let ((pair1 (buffer-substring (point) start)))
+      (delete-region (point) start)
+      (join-line -1)
+      (indent-for-tab-command)
+      (forward-sexp 2)
+      (paredit-newline)
+      (insert pair1))))
 
 (provide 'editing)
