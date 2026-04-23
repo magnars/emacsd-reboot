@@ -9,6 +9,8 @@
     ("C-s-i C-s-m" "my/cider-add-indent-metadata-to-function" "Add ^{:indent 1} metadata to the function definition at point.")
     ("C-x M-e" "my/cider-eval-including-lets" "Evaluates the current sexp form, wrapped in all parent lets.")
     ("C-c C-M-e" "matnyttig-cider-pprint-eval-sexp-up-to-point-with-e->map" "Evaluate the current sexp form")
+    ("M-s-t" "transpose-kv-pairs" "No description")
     )
   "List of custom keybindings to display.
 Each entry is (KEYBINDING COMMAND DESCRIPTION).")
+
