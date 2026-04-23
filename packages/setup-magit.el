@@ -170,7 +170,12 @@ configuration stored by magit-status-fullscreen"
 (defun my/git-choose-subject ()
   (interactive)
   (when (and (bobp) (looking-at "\n"))
-    (insert
-     (completing-read "Subject: " (my/git-subject-suggestions) nil t))))
+    (let ((collection
+           (lambda (string pred action)
+             (if (eq action 'metadata)
+                 '(metadata (display-sort-function . identity)
+                            (cycle-sort-function . identity))
+               (complete-with-action action (my/git-subject-suggestions) string pred)))))
+      (insert (completing-read "Subject: " collection nil t)))))
 
 (provide 'setup-magit)
