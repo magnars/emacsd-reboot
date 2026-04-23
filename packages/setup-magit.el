@@ -162,9 +162,9 @@ configuration stored by magit-status-fullscreen"
   (let ((subjects '()))
     (dolist (msg (magit-git-lines "log" "-n200" "--format=%s"))
       (when (string-match "\\`\\([^:]+\\): " msg)
-        (let ((subject (match-string 1 msg)))
+        (let ((subject (format "%s: " (match-string 1 msg))))
           (unless (member subject subjects)
-            (push (format "%s: " subject) subjects)))))
+            (push subject subjects)))))
     (nreverse subjects)))
 
 (defun my/git-choose-subject ()
