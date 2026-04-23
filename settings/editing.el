@@ -236,15 +236,42 @@ Including indent-buffer, which should not be called automatically on save."
                   (editing--is-comment?))
         (replace-match "" nil t)))))
 
+(defun my/pair-start-including-comments (key-start)
+  (save-excursion
+    (goto-char key-start)
+    (let ((result key-start))
+      (catch 'done
+        (while t
+          (let ((line-start (line-beginning-position)))
+            ;; Is everything from line-start to result just whitespace?
+            (unless (string-match-p
+                     "\\`[ \t]*\\'"
+                     (buffer-substring line-start result))
+              (throw 'done nil))
+            ;; Go to end of previous line
+            (goto-char line-start)
+            (when (bobp) (throw 'done nil))
+            (backward-char)
+            ;; Is the previous line a comment line?
+            (goto-char (line-beginning-position))
+            (back-to-indentation)
+            (let ((prev-line-start (point)))
+              (if (eq (char-after) ?\;)
+                  (setq result prev-line-start)
+                (throw 'done nil))))))
+      result)))
+
 (defun transpose-kv-pairs ()
   (interactive)
   (if (condition-case nil
           (and (save-excursion (forward-sexp 2) t)
                (save-excursion (backward-sexp 2) t))
         (scan-error nil))
-      (let* ((pair1-start (save-excursion (backward-sexp 2) (point)))
+      (let* ((pair1-start (my/pair-start-including-comments
+                           (save-excursion (backward-sexp 2) (point))))
              (pair1-end   (save-excursion (backward-sexp) (forward-sexp) (point)))
-             (pair2-start (save-excursion (forward-sexp) (backward-sexp) (point)))
+             (pair2-start (my/pair-start-including-comments
+                           (save-excursion (forward-sexp) (backward-sexp) (point))))
              (pair2-end   (save-excursion (forward-sexp 2) (point)))
              (pair1 (buffer-substring pair1-start pair1-end))
              (pair2 (buffer-substring pair2-start pair2-end)))
