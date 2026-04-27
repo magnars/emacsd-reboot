@@ -51,9 +51,12 @@
 (global-set-key (kbd "<C-S-down>") 'move-text-down)
 (global-set-key (kbd "<C-S-up>") 'move-text-up)
 
-;; Transpose key-value-pairs
-(global-set-key (kbd "M-s-t") 'transpose-kv-pairs)
-(global-set-key (kbd "M-s-b") 'transpose-kv-pairs-backwards)
+;; Transposage
+(global-set-key (kbd "M-s-t") 'transpose-pairs)
+(global-set-key (kbd "M-s-z") 'transpose-pairs-backwards)
+(global-set-key (kbd "C-M-z") 'transpose-sexps-backwards)
+(global-set-key (kbd "M-z")   'transpose-words-backwards)
+(global-set-key (kbd "C-z")   'transpose-chars-backwards)
 
 ;; Sorting lines alphabetically
 (global-set-key (kbd "M-s l") 'sort-lines)
@@ -262,7 +265,7 @@ Including indent-buffer, which should not be called automatically on save."
                 (throw 'done nil))))))
       result)))
 
-(defun transpose-kv-pairs ()
+(defun transpose-pairs ()
   (interactive)
   (if (condition-case nil
           (and (save-excursion (forward-sexp 2) t)
@@ -285,9 +288,9 @@ Including indent-buffer, which should not be called automatically on save."
         (delete-region pair1-start pair1-end)
         (insert pair2)
         (forward-sexp 2))
-    (message "Can't transpose here 🤷‍♂️")))
+    (user-error "Not between two pairs of sexps")))
 
-(defun transpose-kv-pairs-backwards ()
+(defun transpose-pairs-backwards ()
   (interactive)
   (if (condition-case nil
           (save-excursion (backward-sexp 4) t)
@@ -296,6 +299,36 @@ Including indent-buffer, which should not be called automatically on save."
              (transpose-kv-pairs)
              (backward-sexp 3)
              (forward-sexp))
-    (message "Can't transpose here 🤷‍♂️")))
+    (user-error "Not after four pairs of sexps")))
+
+(defun transpose-sexps-backwards ()
+  (interactive)
+  (when (condition-case nil
+            (save-excursion (backward-sexp 2) t)
+          (scan-error (user-error "Not after two complete sexps")))
+    (backward-sexp)
+    (transpose-sexps 1)
+    (backward-sexp 2)
+    (forward-sexp)))
+
+(defun transpose-words-backwards ()
+  (interactive)
+  (when (condition-case nil
+            (save-excursion (backward-word 2) t)
+          (scan-error (user-error "Not after two words")))
+    (backward-word)
+    (transpose-words 1)
+    (backward-word 2)
+    (forward-word)))
+
+(defun transpose-chars-backwards ()
+  (interactive)
+  (when (condition-case nil
+            (save-excursion (backward-char 2) t)
+          (scan-error (user-error "Not after two chars")))
+    (backward-char)
+    (transpose-chars 1)
+    (backward-char 2)
+    (forward-char)))
 
 (provide 'editing)
