@@ -53,6 +53,7 @@
 
 ;; Transpose key-value-pairs
 (global-set-key (kbd "M-s-t") 'transpose-kv-pairs)
+(global-set-key (kbd "M-s-b") 'transpose-kv-pairs-backwards)
 
 ;; Sorting lines alphabetically
 (global-set-key (kbd "M-s l") 'sort-lines)
@@ -284,6 +285,17 @@ Including indent-buffer, which should not be called automatically on save."
         (delete-region pair1-start pair1-end)
         (insert pair2)
         (forward-sexp 2))
+    (message "Can't transpose here 🤷‍♂️")))
+
+(defun transpose-kv-pairs-backwards ()
+  (interactive)
+  (if (condition-case nil
+          (save-excursion (backward-sexp 4) t)
+        (scan-error nil))
+      (progn (backward-sexp 2)
+             (transpose-kv-pairs)
+             (backward-sexp 3)
+             (forward-sexp))
     (message "Can't transpose here 🤷‍♂️")))
 
 (provide 'editing)
