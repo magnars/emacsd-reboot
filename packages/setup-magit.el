@@ -176,7 +176,7 @@ configuration stored by magit-status-fullscreen"
                   '(metadata (display-sort-function . identity)
                              (cycle-sort-function . identity))
                 (complete-with-action action (my/git-subject-suggestions) string pred))))
-           (subject (completing-read "Subject: " collection nil t)))
+           (subject (completing-read "Subject: " collection)))
       (insert subject)
       (when (equal subject "Rydding: ")
         (save-excursion
