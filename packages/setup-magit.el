@@ -34,7 +34,10 @@
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
 
   ;; move cursor into position when entering commit message
-  (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix))
+  (add-hook 'git-commit-mode-hook 'my/magit-cursor-fix)
+
+  ;; load vars from .dir-locals.el
+  (add-hook 'git-commit-setup-hook #'hack-dir-local-variables-non-file-buffer))
 
 (use-package git-timemachine
   :defer t
@@ -157,10 +160,21 @@ configuration stored by magit-status-fullscreen"
       (forward-line))
     (forward-line)))
 
+(defvar magit-subject-commit-range nil
+  "Git range to search for previous subjects. Ex. hash123^..HEAD.")
+
+(defvar magit-subject-info nil
+  "Subjects that have extra information for the committer.")
+
+(put 'magit-subject-commit-range 'safe-local-variable #'stringp)
+(put 'magit-subject-info 'safe-local-variable #'listp)
+
 (defun my/git-subject-suggestions ()
   "Extract distinct commit message subjects from the last 9999 commits."
   (let ((subjects '()))
-    (dolist (msg (magit-git-lines "log" "-n300" "--format=%s"))
+    (dolist (msg (magit-git-lines "log"
+                                  (or magit-subject-commit-range "-n9999")
+                                  "--format=%s"))
       (when (string-match "\\`\\([^:]+\\): " msg)
         (let ((subject (format "%s: " (match-string 1 msg))))
           (unless (member subject subjects)
@@ -178,15 +192,10 @@ configuration stored by magit-status-fullscreen"
                 (complete-with-action action (my/git-subject-suggestions) string pred))))
            (subject (completing-read "Subject: " collection)))
       (insert subject)
-      (when (equal subject "Rydding: ")
+      (when-let ((entry (assoc subject magit-subject-info)))
         (save-excursion
-          (newline 2)
-          (insert "# 📃 OBS 📃 OBS 📃 OBS 📃 OBS 📃 OBS 📃")
-          (insert "\n#\n")
-          (insert "# Trenger andre å vite om dine endringer?")
-          (insert " Bruk da ikke `Rydding` som subjekt 😊")
-          (insert "\n#\n")
-          (insert "# 📃 OBS 📃 OBS 📃 OBS 📃 OBS 📃 OBS 📃")
+          (newline)
+          (insert (cdr entry))
           (newline))))))
 
 (provide 'setup-magit)
