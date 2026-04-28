@@ -160,7 +160,7 @@ configuration stored by magit-status-fullscreen"
 (defun my/git-subject-suggestions ()
   "Extract distinct commit message subjects from the last 9999 commits."
   (let ((subjects '()))
-    (dolist (msg (magit-git-lines "log" "-n200" "--format=%s"))
+    (dolist (msg (magit-git-lines "log" "-n300" "--format=%s"))
       (when (string-match "\\`\\([^:]+\\): " msg)
         (let ((subject (format "%s: " (match-string 1 msg))))
           (unless (member subject subjects)
