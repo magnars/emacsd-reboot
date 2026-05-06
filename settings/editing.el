@@ -296,7 +296,7 @@ Including indent-buffer, which should not be called automatically on save."
           (save-excursion (backward-sexp 4) t)
         (scan-error nil))
       (progn (backward-sexp 2)
-             (transpose-kv-pairs)
+             (transpose-pairs)
              (backward-sexp 3)
              (forward-sexp))
     (user-error "Not after four pairs of sexps")))
