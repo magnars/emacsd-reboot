@@ -33,6 +33,7 @@
 (require 'extra-keybindings)
 (require 'indented-yank)
 (require 'learn-kbs)
+(require 'md-show)
 
 ;; Set up Straight (for packages on github)
 (require 'setup-straight)
