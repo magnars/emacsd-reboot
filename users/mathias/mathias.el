@@ -4,6 +4,9 @@
 ;;   :config
 ;;   (load-theme 'vscode-dark-plus t))
 
+(setq projectile-project-search-path '(("~/repos" . 2)))
+(setq projectile-indexing-method 'hybrid)
+
 ;; Horizontal scroll with trackpad / mouse
 (setq mouse-wheel-tilt-scroll t)
 (setq mouse-wheel-flip-direction t)
