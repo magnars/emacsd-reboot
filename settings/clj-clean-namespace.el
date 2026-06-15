@@ -6,7 +6,7 @@
 
 (defun clj-cn--goto-ns ()
   (goto-char (point-min))
-  (if (re-search-forward clojure-namespace-name-regex nil t)
+  (if (re-search-forward clojure-namespace-regexp nil t)
       (clj-cn--goto-toplevel)
     (error "No namespace declaration found")))
 
