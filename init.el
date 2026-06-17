@@ -34,6 +34,7 @@
 (require 'indented-yank)
 (require 'learn-kbs)
 (require 'md-show)
+(require 'too-long)
 
 ;; Set up Straight (for packages on github)
 (require 'setup-straight)
