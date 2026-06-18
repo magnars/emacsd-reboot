@@ -314,7 +314,11 @@
     ("bevegelser"      . ("src/matnyttig/bevegelser"))
     ("flyter"          . ("src/matnyttig/flyter"))
     ("skjemaer"        . ("src/matnyttig/skjemaer"))
-    ("modaler"         . ("src/matnyttig/modaler")))
+    ("modaler"         . ("src/matnyttig/modaler"))
+    ("portfolio/komponenter" . ("portfolio/matnyttig/ui/komponenter"))
+    ("portfolio/modaler" . ("portfolio/matnyttig/modaler"))
+    ("portfolio/flyter" . ("portfolio/matnyttig/flyter"))
+    ("portfolio/skjemaer" . ("portfolio/matnyttig/skjemaer")))
   "Predefined list of project folders to search within.")
 
 (defun matnyttig-find-files-in-folders (folders)
