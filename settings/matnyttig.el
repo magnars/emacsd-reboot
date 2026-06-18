@@ -297,4 +297,42 @@
 (with-eval-after-load 'lsp-mode
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].nats-cache\\'"))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Find significant file:
+
+(defvar matnyttig-significant-folders
+  '(("kontoret/sider"  . ("src/kontoret/sider"))
+    ("kontoret/feeds"  . ("src/kontoret/feeds"))
+    ("kjokkenet/sider" . ("src/kjokkenet/sider"))
+    ("kjokkenet/feeds" . ("src/kjokkenet/feeds"))
+    ("sider"           . ("src/kontoret/sider"
+                          "src/kjokkenet/sider"))
+    ("feeds"           . ("src/kontoret/feeds"
+                          "src/kjokkenet/feeds"))
+    ("refiners"        . ("src/matnyttig/refiners"))
+    ("bevegelser"      . ("src/matnyttig/bevegelser"))
+    ("flyter"          . ("src/matnyttig/flyter"))
+    ("skjemaer"        . ("src/matnyttig/skjemaer"))
+    ("modaler"         . ("src/matnyttig/modaler")))
+  "Predefined list of project folders to search within.")
+
+(defun matnyttig-find-files-in-folders (folders)
+  (->> folders
+       (--map (expand-file-name it (projectile-project-root)))
+       (--mapcat (directory-files-recursively it "\\.clj[sc]?$" nil))))
+
+(defun matnyttig-find-significant-file ()
+  (interactive)
+  (if (not (and (projectile-project-p) (string= (projectile-project-name) "matnyttig")))
+      (message "Not in Matnyttig")
+      (let* ((significant-folders (mapcar #'car matnyttig-significant-folders))
+             (folder (completing-read "Katalog: " significant-folders nil t))
+             (files (matnyttig-find-files-in-folders (cdr (assoc folder matnyttig-significant-folders))))
+             (relative-files (--map (file-relative-name it (projectile-project-root)) files))
+             (chosen-file (completing-read (format "Finn i %s/: " folder) relative-files nil t)))
+        (find-file (expand-file-name chosen-file (projectile-project-root))))))
+
+(global-set-key (kbd "s-p s-f") #'matnyttig-find-significant-file)
+
 (provide 'matnyttig)
