@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: clojure.core.async.flow step fn
+# key: stepfn
+# --
+(defn step
+  ([] {})
+  ([argmap] {})
+  ([state transition] state)
+  ([state input msg] [state nil]))
