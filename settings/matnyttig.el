@@ -333,6 +333,6 @@
              (chosen-file (completing-read (format "Finn i %s/: " folder) relative-files nil t)))
         (find-file (expand-file-name chosen-file (projectile-project-root))))))
 
-(global-set-key (kbd "s-p s-f") #'matnyttig-find-significant-file)
+(define-key projectile-command-map (kbd "s-f") #'matnyttig-find-significant-file)
 
 (provide 'matnyttig)
