@@ -5,5 +5,9 @@
 (defn step
   ([] {})
   ([argmap] {})
-  ([state transition] state)
+  ([state transition]
+   (case transition
+     :clojure.core.async.flow/resume state
+     :clojure.core.async.flow/pause state
+     :clojure.core.async.flow/stop state))
   ([state input msg] [state nil]))
