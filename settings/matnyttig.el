@@ -302,23 +302,27 @@
 ;; Find significant file:
 
 (defvar matnyttig-significant-folders
-  '(("kontoret/sider"  . ("src/kontoret/sider"))
-    ("kontoret/feeds"  . ("src/kontoret/feeds"))
-    ("kjokkenet/sider" . ("src/kjokkenet/sider"))
-    ("kjokkenet/feeds" . ("src/kjokkenet/feeds"))
-    ("sider"           . ("src/kontoret/sider"
-                          "src/kjokkenet/sider"))
-    ("feeds"           . ("src/kontoret/feeds"
-                          "src/kjokkenet/feeds"))
-    ("refiners"        . ("src/matnyttig/refiners"))
-    ("bevegelser"      . ("src/matnyttig/bevegelser"))
-    ("flyter"          . ("src/matnyttig/flyter"))
-    ("skjemaer"        . ("src/matnyttig/skjemaer"))
-    ("modaler"         . ("src/matnyttig/modaler"))
-    ("portfolio/komponenter" . ("portfolio/matnyttig/ui/komponenter"))
-    ("portfolio/modaler" . ("portfolio/matnyttig/modaler"))
-    ("portfolio/flyter" . ("portfolio/matnyttig/flyter"))
-    ("portfolio/skjemaer" . ("portfolio/matnyttig/skjemaer")))
+  '(("kontoret/sider"             . ("src/kontoret/sider"))
+    ("kontoret/feeds"             . ("src/kontoret/feeds"))
+    ("kjokkenet/sider"            . ("src/kjokkenet/sider"))
+    ("kjokkenet/feeds"            . ("src/kjokkenet/feeds"))
+    ("sider"                      . ("src/kontoret/sider"
+                                     "src/kjokkenet/sider"))
+    ("feeds"                      . ("src/kontoret/feeds"
+                                     "src/kjokkenet/feeds"))
+    ("refiners"                   . ("src/matnyttig/refiners"))
+    ("bevegelser"                 . ("src/matnyttig/bevegelser"))
+    ("flyter"                     . ("src/matnyttig/flyter"))
+    ("skjemaer"                   . ("src/matnyttig/skjemaer"))
+    ("modaler"                    . ("src/matnyttig/modaler"))
+    ("portfolio/komponenter"      . ("portfolio/matnyttig/ui/komponenter"))
+    ("portfolio/modaler"          . ("portfolio/matnyttig/modaler"))
+    ("portfolio/flyter"           . ("portfolio/matnyttig/flyter"))
+    ("portfolio/skjemaer"         . ("portfolio/matnyttig/skjemaer"))
+    ("portfolio/kontoret/sider"   . ("portfolio/kontoret/ui/sider"))
+    ("portfolio/kjokkenet/sider"  . ("portfolio/kjokkenet/ui/sider"))
+    ("portfolio/sider"            . ("portfolio/kontoret/ui/sider"
+                                     "portfolio/kjokkenet/ui/sider")))
   "Predefined list of project folders to search within.")
 
 (defun matnyttig-find-files-in-folders (folders)
