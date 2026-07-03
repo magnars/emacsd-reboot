@@ -7,8 +7,10 @@
         backward-sexp
         change-number-at-point
         changes
+        cider-eval-defun-at-point
         cider-eval-last-sexp
         cider-load-buffer
+        cider-popup-buffer-quit-function
         clj-hippie-expand-no-case-fold
         cljr-raise-sexp
         cljr-slash
@@ -22,9 +24,13 @@
         clojure-toggle-keyword-string
         clojure-unwind
         comment-dwim
+        comment-line
+        comment-set-column
         completion-at-point
+        consult-yank-pop
         copy-region-or-current-line
         cycle-spacing
+        downcase-dwim
         duplicate-current-line-or-region
         electric-newline-and-maybe-indent
         fill-paragraph
@@ -40,6 +46,7 @@
         markdown-end-of-line
         markdown-outdent-or-delete
         move-text-up
+        nrepl-warn-when-not-connected
         open-line-and-indent
         open-line-below
         org-beginning-of-line
@@ -79,7 +86,10 @@
         paredit-split-sexp
         paredit-wrap-round
         paredit-wrap-square
+        previous-buffer
+        projectile-switch-project
         reposition-window
+        significant-other-jump
         sort-lines
         subtract-number-at-point
         tagedit-insert-quote
@@ -93,12 +103,19 @@
 (setq mc/cmds-to-run-once
       '(
         beginning-of-buffer
+        cider-jack-in-clj
+        clay-make-last-sexp
         cleanup-buffer
         end-of-buffer
         find-file
         magit-status
+        mouse-drag-header-line
         mouse-set-region
+        multiple-cursors-mode
+        my/split-window-right
+        paredit-backslash
         persp-switch-to-buffer*
+        significant-other-jump
         wgrep-change-to-wgrep-mode
         xref-find-definitions
         ))
