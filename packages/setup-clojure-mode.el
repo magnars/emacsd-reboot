@@ -32,6 +32,7 @@
               ("<f5>" . delete-other-windows)
               ("s-<return>" . clerk-show)
               ("s-ø" . clay-make-ns-html)
+              ("s-l r i" . lsp-clojure-inline-symbol)
               ;; ("s-<return>" . clay-make-form)
               ;; ("s-<return>" . clay-make-last-sexp)
               ("C-ø" . clay-make-last-sexp)
