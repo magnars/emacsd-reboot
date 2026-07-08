@@ -28,6 +28,7 @@
   (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
 
   :bind ((:map paredit-mode-map
+               ("s-F" .  paredit-forward-slurp-sexp)
                ("C-w" . paredit-kill-region-or-backward-word)
                ("M-C-<backspace>" . backward-kill-sexp)
                ("C-d" . paredit-forward-delete)
