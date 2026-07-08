@@ -45,6 +45,7 @@
         markdown-beginning-of-line
         markdown-end-of-line
         markdown-outdent-or-delete
+        matnyttig-cider-pprint-eval-defun-at-point-with-e->map
         move-text-up
         nrepl-warn-when-not-connected
         open-line-and-indent
@@ -110,6 +111,7 @@
         find-file
         magit-status
         mouse-drag-header-line
+        mouse-select-window
         mouse-set-region
         multiple-cursors-mode
         my/split-window-right
