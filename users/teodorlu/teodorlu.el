@@ -136,6 +136,7 @@
 ;; Teach projectile where to find projects
 (setq projectile-project-search-path '(("~/repo" . 2) ; github projects
                                        ("~/p" . 2) ; learn stuff
+                                       ("~/scenes" . 2) ; collections
                                        ))
 ;; Find more repos :: M-x projectile-discover-projects-in-search-path
 ;; Cleanup         :: M-x projectile-cleanup-known-projects
