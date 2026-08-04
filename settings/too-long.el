@@ -8,7 +8,7 @@
 (setq whitespace-line-column 92)
 
 (set-face-attribute 'whitespace-line nil
-                    :background "orange4"
+                    :background "gray16"
                     :foreground 'unspecified)
 
 (add-hook 'clojure-mode-hook       #'whitespace-mode)
