@@ -10,7 +10,9 @@
     ("C-x M-e" "my/cider-eval-including-lets" "Evaluates the current sexp form, wrapped in all parent lets.")
     ("C-c C-M-e" "matnyttig-cider-pprint-eval-sexp-up-to-point-with-e->map" "Evaluate the current sexp form")
     ("M-s-t" "transpose-kv-pairs" "No description")
+    ("C-c n" "cleanup-buffer" "Perform a bunch of operations on the whitespace content of a buffer.")
     )
   "List of custom keybindings to display.
 Each entry is (KEYBINDING COMMAND DESCRIPTION).")
+
 
