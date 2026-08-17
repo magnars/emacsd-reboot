@@ -37,6 +37,7 @@
         forward-sexp
         inc-number-at-point
         indent-for-tab-command
+        isearch-backward-use-region
         isearch-forward-use-region
         kill-region-or-backward-word
         kill-sentence
