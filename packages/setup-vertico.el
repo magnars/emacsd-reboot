@@ -32,13 +32,13 @@
     (--map
      `(or (seq word-boundary ,it)
           ,(s-capitalize it))
-     (split-string component " "))))
+     (split-string component " " t))))
 
 ;; Use + to join parts of same long word
 
 (defun orderless-long-words-plus (component)
   (orderless--separated-by '(one-or-more word)
-    (split-string component "+")))
+    (split-string component "+" t)))
 
 ;; Use the `orderless' completion style.
 (use-package orderless
