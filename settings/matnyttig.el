@@ -217,7 +217,11 @@
 
 ;; Ignore annoyingly abundant files that hang Emacs on Vertico analyses
 (with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].nats-cache\\'"))
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].nats-cache\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].datomic-backup\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]datomic-data\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]datomic-transactor\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].kamal\\'"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
