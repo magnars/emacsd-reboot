@@ -31,6 +31,13 @@
 
 (global-set-key (kbd "C-M-S-s-r C-M-S-s-k") 'learn-kbs-show-keybindings)
 
+(defun open-lines-dwim ()
+  (interactive)
+  (open-line-below)
+  (open-line-above))
+
+(global-set-key (kbd "C-S-s-<return>") 'open-lines-dwim)
+
 ;; TODO:
 ;;
 ;; 🔘 comp to threading
