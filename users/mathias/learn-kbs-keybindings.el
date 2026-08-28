@@ -11,6 +11,8 @@
     ("C-c C-M-e" "matnyttig-cider-pprint-eval-sexp-up-to-point-with-e->map" "Evaluate the current sexp form")
     ("M-s-t" "transpose-kv-pairs" "No description")
     ("C-c n" "cleanup-buffer" "Perform a bunch of operations on the whitespace content of a buffer.")
+    ("M-s-e" "eval-and-replace" "Replace the preceding sexp with its value.")
+    ("C-c C-v C-w" "cider-eval-last-sexp-and-replace" "Evaluate the expression preceding point and replace it with its result.")
     )
   "List of custom keybindings to display.
 Each entry is (KEYBINDING COMMAND DESCRIPTION).")
