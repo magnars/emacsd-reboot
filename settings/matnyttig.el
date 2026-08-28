@@ -210,7 +210,7 @@
 (defun matnyttig-goto-fns ()
   (interactive)
   (or (matnyttig-find-first-class-definition)
-      (nexus-goto-thing)
+      ;;(nexus-goto-thing)
       (xref-find-definitions (xref-backend-identifier-at-point (xref-find-backend)))))
 
 (define-key clojure-mode-map (kbd "M-.") 'matnyttig-goto-fns)
