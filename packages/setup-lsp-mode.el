@@ -44,38 +44,4 @@
               (string-equal (car args) "Disconnected"))
     (apply orig-fn args)))
 
-;; Try CIDER, then lsp-mode
-(defun my/cider-lsp-xref-backend ()
-  "Union xref backend: try CIDER, then lsp-mode"
-  'cider-lsp)
-
-(cl-defmethod xref-backend-identifier-at-point ((_backend (eql cider-lsp)))
-  ;; Only used by xref for prompting/defaults - never reused below.
-  (or (ignore-errors (xref-backend-identifier-at-point 'cider))
-      (ignore-errors (xref-backend-identifier-at-point 'xref-lsp))))
-
-(cl-defmethod xref-backend-definitions ((_backend (eql cider-lsp)) _identifier)
-  (or (and (fboundp 'cider--xref-backend) (cider--xref-backend)
-           (ignore-errors
-             (xref-backend-definitions 'cider (xref-backend-identifier-at-point 'cider))))
-      (and (bound-and-true-p lsp-mode)
-           (ignore-errors
-             (xref-backend-definitions 'xref-lsp (xref-backend-identifier-at-point 'xref-lsp))))))
-
-(cl-defmethod xref-backend-references ((_backend (eql cider-lsp)) _identifier)
-  (or (and (fboundp 'cider--xref-backend) (cider--xref-backend)
-           (ignore-errors
-             (xref-backend-references 'cider (xref-backend-identifier-at-point 'cider))))
-      (and (bound-and-true-p lsp-mode)
-           (ignore-errors
-             (xref-backend-references 'xref-lsp (xref-backend-identifier-at-point 'xref-lsp))))))
-
-(defun my/setup-cider-lsp-xref ()
-  (remove-hook 'xref-backend-functions #'cider--xref-backend t)
-  (remove-hook 'xref-backend-functions #'lsp--xref-backend t)
-  (add-hook 'xref-backend-functions #'my/cider-lsp-xref-backend nil t))
-
-(add-hook 'cider-mode-hook #'my/setup-cider-lsp-xref)
-(add-hook 'lsp-mode-hook #'my/setup-cider-lsp-xref)
-
 (provide 'setup-lsp-mode)
