@@ -107,7 +107,10 @@
       (list beg end
             (--map (concat prefix it)
                    (cssc/extract-css-class-names
-                    (cssc/read-project-css-file-contents)))))))
+                    (cssc/read-project-css-file-contents)))
+            ;; Give other providers a chance if we don't find CSS classes to
+            ;; complete.
+            :exclusive 'no))))
 
 (defun cssc/enable-for-clojure ()
   "Sets up current buffer for clojure css completions. Run in a hook."
