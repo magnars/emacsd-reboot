@@ -43,10 +43,12 @@
         kill-sentence
         kill-sexp
         kmacro-start-macro-or-insert-counter
+        lsp-find-references
         markdown-beginning-of-line
         markdown-end-of-line
         markdown-outdent-or-delete
         matnyttig-cider-pprint-eval-defun-at-point-with-e->map
+        matnyttig-goto-fns
         move-text-up
         nrepl-warn-when-not-connected
         open-line-and-indent
@@ -54,6 +56,8 @@
         org-beginning-of-line
         org-delete-char
         org-end-of-line
+        org-force-self-insert
+        org-latex-export-to-pdf
         org-self-insert-command
         org-shiftright
         org-yank
@@ -99,6 +103,7 @@
         upstream
         wdired--self-insert
         wgrep-mark-deletion
+        xref-go-back
         yas-expand
         ))
 
@@ -111,13 +116,17 @@
         end-of-buffer
         find-file
         magit-status
+        matnyttig-goto-fns
         mouse-drag-header-line
+        mouse-save-then-kill
         mouse-select-window
         mouse-set-region
         multiple-cursors-mode
         my/split-window-right
+        org-return-and-maybe-indent
         paredit-backslash
         persp-switch-to-buffer*
+        projectile-find-file
         significant-other-jump
         wgrep-change-to-wgrep-mode
         xref-find-definitions
