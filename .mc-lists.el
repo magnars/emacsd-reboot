@@ -17,12 +17,14 @@
         cljr-splice-sexp-killing-backward
         clojure-backward-logical-sexp
         clojure-convert-collection-to-list
+        clojure-convert-collection-to-map
         clojure-convert-collection-to-set
         clojure-convert-collection-to-vector
         clojure-forward-logical-sexp
         clojure-thread-first-all
         clojure-toggle-keyword-string
         clojure-unwind
+        clojure-unwind-all
         comment-dwim
         comment-line
         comment-set-column
@@ -30,11 +32,13 @@
         consult-yank-pop
         copy-region-or-current-line
         cycle-spacing
+        default-indent-new-line
         downcase-dwim
         duplicate-current-line-or-region
         electric-newline-and-maybe-indent
         fill-paragraph
         forward-sexp
+        hippie-expand-no-case-fold
         inc-number-at-point
         indent-for-tab-command
         isearch-backward-use-region
@@ -51,6 +55,7 @@
         matnyttig-goto-fns
         move-text-up
         nrepl-warn-when-not-connected
+        open-line-above
         open-line-and-indent
         open-line-below
         org-beginning-of-line
@@ -86,10 +91,12 @@
         paredit-open-round
         paredit-open-square
         paredit-raise-sexp
+        paredit-reindent-defun
         paredit-semicolon
         paredit-splice-sexp
         paredit-splice-sexp-killing-backward
         paredit-split-sexp
+        paredit-wrap-curly
         paredit-wrap-round
         paredit-wrap-square
         previous-buffer
@@ -99,6 +106,7 @@
         sort-lines
         subtract-number-at-point
         tagedit-insert-quote
+        transpose-pairs
         transpose-sexps
         upstream
         wdired--self-insert
@@ -116,6 +124,8 @@
         end-of-buffer
         find-file
         magit-status
+        markdown-cycle
+        markdown-table-delete-column
         matnyttig-goto-fns
         mouse-drag-header-line
         mouse-save-then-kill
@@ -125,6 +135,7 @@
         my/split-window-right
         org-return-and-maybe-indent
         paredit-backslash
+        paredit-backward
         persp-switch-to-buffer*
         projectile-find-file
         significant-other-jump
