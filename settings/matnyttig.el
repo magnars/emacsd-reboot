@@ -100,51 +100,7 @@
 (define-key cider-mode-map (kbd "C-c C-M-s") #'matnyttig-cider-eval-def-symbol-with-e->map)
 (define-key cider-mode-map (kbd "C-c C-M-e") #'matnyttig-cider-pprint-eval-sexp-up-to-point-with-e->map)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Find first class definitions (like feeds, etc.)
-
-;; Files
-(defun matnyttig-src-files ()
-  (directory-files-recursively
-   (file-name-concat (projectile-project-root) "src")
-   "\\.clj[sc]?$"))
-
-;; Effects
-(defun matnyttig-find-effect-definition (thing)
-  (interactive)
-  (let ((effects-file (file-name-concat (projectile-project-root) "src/matnyttig/imperative_shell/effects.clj"))
-        (result nil))
-    (when (file-exists-p effects-file)
-      (with-temp-buffer
-        (insert-file-contents effects-file)
-        (goto-char (point-min))
-        (when (search-forward "(case (:effect/kind effect)" nil t)
-          (when (search-forward thing nil t)
-            (paredit-forward-down)
-            (when (re-search-backward
-                   (format "(defn \\(\\^{:indent 1} \\)?%s"
-                           (thing-at-point 'symbol t)))
-              (setq result (list effects-file (line-number-at-pos) (current-column)))))))
-      result)))
-
-(defun matnyttig-goto-first-class-definition (file-line-col)
-  (xref-push-marker-stack)
-  (find-file (nth 0 file-line-col))
-  (goto-line (nth 1 file-line-col))
-  (move-to-column (nth 2 file-line-col)))
-
-(defun matnyttig-find-first-class-definition ()
-  (interactive)
-  (let ((thing (thing-at-point 'symbol))
-        (matnyttig-src-files (matnyttig-src-files))
-        (file-line-col nil))
-    (cond
-     ((string-prefix-p ":effects." thing)
-      (setq file-line-col (matnyttig-find-effect-definition thing))))
-    (when file-line-col
-      (matnyttig-goto-first-class-definition file-line-col))))
-
-;; Nexus
+;; Nexus eldoc
 
 (defun nexus-find-pattern (pattern)
   (let* ((src-dir (concat (projectile-project-root) "src"))
@@ -166,23 +122,12 @@
     (dolist (item nxr-result map)
       (puthash (car (last item)) item map))))
 
-(defun nexus-goto-def (nexus-match)
-  (xref-push-marker-stack)
-  (find-file (nth 0 nexus-match))
-  (goto-line (nth 1 nexus-match)))
-
 (defun nexus-find-match (thing)
   (when-let ((nexus-match
               (->> (nexus-find-pattern "\\(nxr\\/register-(effect|action|placeholder)![ \n]?[ ]*:[^\s\n]+")
                    nexus-->lookup-map
                    (gethash thing))))
     nexus-match))
-
-(defun nexus-goto-thing ()
-  (interactive)
-  (let ((thing (thing-at-point 'symbol)))
-    (when-let ((nexus-match (nexus-find-match thing)))
-      (nexus-goto-def nexus-match))))
 
 (defun nexus-eldoc-nexus-match (callback &rest _)
   "Show eldoc info when point is on nexus match"
@@ -206,14 +151,6 @@
             (add-hook 'eldoc-documentation-functions #'nexus-eldoc-nexus-match nil t)))
 
 ;; Nexus end
-
-(defun matnyttig-goto-fns ()
-  (interactive)
-  (or (matnyttig-find-first-class-definition)
-      ;;(nexus-goto-thing)
-      (xref-find-definitions (xref-backend-identifier-at-point (xref-find-backend)))))
-
-(define-key clojure-mode-map (kbd "M-.") 'matnyttig-goto-fns)
 
 ;; Ignore annoyingly abundant files that hang Emacs on Vertico analyses
 (with-eval-after-load 'lsp-mode
