@@ -21,7 +21,7 @@
   (--first
    (and (file-exists-p it)
         (kaocha-runner--is-test? it))
-   (funcall significant-other-find-fn)))
+   (funcall (significant-other-get-find-fn 'default))))
 
 (defun kaocha-runner-run-relevant-tests ()
   (interactive)

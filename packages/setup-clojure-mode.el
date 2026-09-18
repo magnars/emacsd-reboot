@@ -97,7 +97,7 @@
  )
 
 (defun setup-clojure-mode-so ()
-  (with-significant-others file-name
+  (with-significant-others 'default file-name
     ("/portfolio/.+/components/" (list (s-with file-name
                                          (replace-first-path-segment-in-project-root "portfolio" "src")
                                          (s-replace "_scenes.cljs" ".cljc"))))
@@ -136,7 +136,21 @@
     ;; portfolio/ -> src/
     ("/portfolio/.+\.cljc" (list (s-with file-name
                                    (replace-first-path-segment-in-project-root "portfolio" "src")
-                                   (s-replace "_scenes.cljc" ".cljc"))))))
+                                   (s-replace "_scenes.cljc" ".cljc")))))
+
+  (with-significant-others 'portfolio file-name
+    ("/src/.+\.cljc" (list (s-with file-name
+                             (replace-first-path-segment-in-project-root "src" "portfolio")
+                             (s-replace ".cljc" "_scenes.cljc"))
+                           (s-with file-name
+                             (replace-first-path-segment-in-project-root "src" "portfolio")
+                             (s-replace ".cljc" "_scenes.cljs"))))
+    ("/portfolio/.+\.cljc" (list (s-with file-name
+                                   (replace-first-path-segment-in-project-root "portfolio" "src")
+                                   (s-replace "_scenes.cljc" ".cljc"))))
+    ("/portfolio/.+\.cljs" (list (s-with file-name
+                                   (replace-first-path-segment-in-project-root "portfolio" "src")
+                                   (s-replace "_scenes.cljs" ".cljc"))))))
 
 ;; Set up Clojure CSS completions
 
