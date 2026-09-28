@@ -1,5 +1,7 @@
 (require 'matnyttig)
 
+(setq whitespace-line-column 200)
+
 ;; Auto-installed clojure-lsp has given me pain, so I use Homebrew.
 ;; This means `which clojure-lsp` finds the clojure-lsp that Emacs calls to.
 (setq lsp-clojure-custom-server-command '("clojure-lsp"))
