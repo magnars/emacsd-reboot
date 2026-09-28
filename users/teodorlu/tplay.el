@@ -22,7 +22,7 @@ FORM: eg \":remote-reference\" or \"nil\"
 LANG: eg \":en\" or \":no\"
 BODY: nil, or the content of the document to create"
   (let ((default-directory "~/repo/teodorlu/play.teod.eu"))
-    (shell-command-to-string (s-concat "./play.clj create-page"
+    (shell-command-to-string (s-concat "./tplay.clj create-page"
                                        " :slug " page-slug
                                        " :title " (shell-quote-argument title)
                                        " :form " (shell-quote-argument form)
@@ -45,6 +45,7 @@ BODY: nil, or the content of the document to create"
          (default-directory "~/repo/teodorlu/play.teod.eu"))
     (tplay-create* page-slug title form lang nil)
     (tplay-clean)
+    ;; (switch-to-buffer (find-file-noselect (s-concat page-slug "/index.org")))
     (switch-to-buffer (find-file-noselect page-slug))))
 
 (defun tplay-youtube-embed ()
@@ -75,6 +76,17 @@ BODY: nil, or the content of the document to create"
                  shell-command-to-string
                  s-trim)))
     (insert link)))
+
+(defun tplay-ensure-sentence-newlines ()
+  (interactive)
+  (unless (use-region-p)
+    (user-error "No active region"))
+  (save-excursion
+    (let ((beg (region-beginning))
+          (end (copy-marker (region-end))))
+      (goto-char beg)
+      (while (re-search-forward "\\([.!?]\\) " end t)
+        (replace-match "\\1\n" nil nil)))))
 
 (require 'parseedn)
 
