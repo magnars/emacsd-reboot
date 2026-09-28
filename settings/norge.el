@@ -2,6 +2,6 @@
 
 (defun ukenummer ()
   (interactive)
-  (insert (s-trim (shell-command-to-string "date +%V"))))
+  (insert (format-time-string "%V")))
 
 (provide 'norge)
