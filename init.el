@@ -47,5 +47,8 @@
 ;; Project-specific settings
 (require 'matnyttig)
 
+;; Norwegian stuff
+(require 'norge)
+
 ;; Conclude init by setting up specifics for the current user
 (require 'user-specific-settings)
