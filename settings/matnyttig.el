@@ -169,8 +169,10 @@
     ("kontoret/feeds"             . ("src/kontoret/feeds"))
     ("kjokkenet/sider"            . ("src/kjokkenet/sider"))
     ("kjokkenet/feeds"            . ("src/kjokkenet/feeds"))
+    ("spisesalen/sider"           . ("src/spisesalen/sider"))
     ("sider"                      . ("src/kontoret/sider"
-                                     "src/kjokkenet/sider"))
+                                     "src/kjokkenet/sider"
+                                     "src/spisesalen/sider"))
     ("feeds"                      . ("src/kontoret/feeds"
                                      "src/kjokkenet/feeds"))
     ("refiners"                   . ("src/matnyttig/refiners"))
@@ -184,8 +186,10 @@
     ("portfolio/skjemaer"         . ("portfolio/matnyttig/skjemaer"))
     ("portfolio/kontoret/sider"   . ("portfolio/kontoret/ui/sider"))
     ("portfolio/kjokkenet/sider"  . ("portfolio/kjokkenet/ui/sider"))
+    ("portfolio/spisesalen/sider" . ("portfolio/spisesalen/ui/sider"))
     ("portfolio/sider"            . ("portfolio/kontoret/ui/sider"
-                                     "portfolio/kjokkenet/ui/sider")))
+                                     "portfolio/kjokkenet/ui/sider"
+                                     "portfolio/spisesalen/ui/sider")))
   "Predefined list of project folders to search within.")
 
 (defun matnyttig-find-files-in-folders (folders)
