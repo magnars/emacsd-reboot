@@ -109,36 +109,41 @@
                        (shell-quote-argument pattern)
                        (shell-quote-argument src-dir)))))
     (mapcar (lambda (line)
-              (let ((parts (split-string line "\t" t)))
+              (let* ((parts (split-string line "\t" t))
+                     (text (nth 2 parts)))
                 (list (nth 0 parts)
                       (string-to-number (nth 1 parts))
-                      (-> (nth 2 parts)
-                          (split-string " " t)
-                          -last-item))))
+                      (-> text (split-string " " t) -last-item)
+                      (when (string-match "register-\\([a-z]+\\)!" text)
+                        (intern (match-string 1 text))))))
             (split-string (string-trim res) "\n" t))))
 
 (defun nexus-->lookup-map (nxr-result)
   (let ((map (make-hash-table :test 'equal)))
     (dolist (item nxr-result map)
-      (puthash (car (last item)) item map))))
+      (puthash (nth 2 item) item map))))
 
 (defun nexus-find-match (thing)
-  (when-let ((nexus-match
-              (->> (nexus-find-pattern "\\(nxr\\/register-(effect|action|placeholder)![ \n]?[ ]*:[^\s\n]+")
-                   nexus-->lookup-map
-                   (gethash thing))))
-    nexus-match))
+  (->> (nexus-find-pattern "\\(nxr\\/register-(effect|action|placeholder)![ \n]?[ ]*:[^\s\n]+")
+       nexus-->lookup-map
+       (gethash thing)))
+
+(defun nexus--hidden-arg-count (kind)
+  "Number of leading args to hide for a registration of KIND."
+  (if (eq kind 'effect) 2 1))
 
 (defun nexus-eldoc-nexus-match (callback &rest _)
   "Show eldoc info when point is on nexus match"
   (let ((thing (thing-at-point 'symbol)))
     (when-let ((nexus-match (nexus-find-match thing)))
-      (save-excursion
-        (with-current-buffer (find-file-noselect (nth 0 nexus-match))
+      (with-current-buffer (find-file-noselect (nth 0 nexus-match))
+        (save-excursion
           (goto-char (point-min))
           (forward-line (1- (nth 1 nexus-match)))
           (paredit-forward-down 3)
-          (paredit-forward)
+          ;; Skip the implicit args; stop quietly if the vector runs out.
+          (dotimes (_ (nexus--hidden-arg-count (nth 3 nexus-match)))
+            (ignore-errors (paredit-forward)))
           (let ((start (point)))
             (paredit-forward-up)
             (paredit-backward-down)
