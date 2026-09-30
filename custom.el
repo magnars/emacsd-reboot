@@ -15,7 +15,8 @@
              deadgrep vertico-directory vertico lsp-mode clojure-mode s
              multiple-cursors expand-region paredit magit))
  '(safe-local-variable-values
-   '((magit-subject-commit-range . "d7425eae^..HEAD")
+   '((clj-admin-step-fn . "matnyttig.the-admin/run")
+     (magit-subject-commit-range . "d7425eae^..HEAD")
      (cider-clojure-cli-aliases . "-A:dev")
      (cider-figwheel-main-default-options . ":ui")
      (cider-preferred-build-tool . clojure-cli)
