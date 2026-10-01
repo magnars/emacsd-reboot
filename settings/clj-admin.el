@@ -1,8 +1,8 @@
 ;;; clj-admin.el --- Do administrative work in clojure through Emacs -*- lexical-binding: t; -*-
 ;;
 ;; The Clojure fn should return a list of strings, keywords, nils or lists:
-;;   '(:type :choose :prompt "Action: "   :choices ("add" "rename"))
-;;   '(:type :input  :prompt "New name: " :initial "foo")
+;;   '(:type :select :prompt "Action: "   :choices ("add" "rename"))
+;;   '(:type :text   :prompt "New name: " :initial "foo")
 ;;   '(:type :error  :message "Name already taken")
 ;;   '(:type :done   :message "Renamed foo -> bar")
 
@@ -46,8 +46,8 @@
     (while (not done)
       (let ((resp (clj-admin--call fn (reverse history))))
         (pcase (plist-get resp :type)
-          (:choose (push (clj-admin--choose resp) history))
-          (:input  (push (clj-admin--input resp) history))
+          (:select (push (clj-admin--choose resp) history))
+          (:text   (push (clj-admin--input resp) history))
           (:error  (message "%s" (plist-get resp :message))
                    (sit-for 1.5)
                    (pop history))       ; let the user re-answer
