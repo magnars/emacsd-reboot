@@ -48,7 +48,8 @@
         (pcase (plist-get resp :type)
           (:select  (push (clj-admin--choose resp) history))
           (:text    (push (clj-admin--input resp) history))
-          (:message (message "%s" (plist-get resp :message)))
+          (:message (message "%s" (plist-get resp :message))
+                    (push :message-posted history))
           (:error   (message "%s" (plist-get resp :message))
                     (sit-for 1.5)
                     (pop history))       ; let the user re-answer
