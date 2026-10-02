@@ -1,10 +1,11 @@
 ;;; clj-admin.el --- Do administrative work in clojure through Emacs -*- lexical-binding: t; -*-
 ;;
 ;; The Clojure fn should return a list of strings, keywords, nils or lists:
-;;   '(:type :select :prompt "Action: "   :choices ("add" "rename"))
-;;   '(:type :text   :prompt "New name: " :initial "foo")
-;;   '(:type :error  :message "Name already taken")
-;;   '(:type :done   :message "Renamed foo -> bar")
+;;   '(:type :select  :prompt "Action: "   :choices ("add" "rename"))
+;;   '(:type :text    :prompt "New name: " :initial "foo")
+;;   '(:type :message :message "Creating...")
+;;   '(:type :error   :message "Name already taken")
+;;   '(:type :done    :message "Renamed foo -> bar")
 
 ;;; Code:
 
