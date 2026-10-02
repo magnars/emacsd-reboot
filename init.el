@@ -35,7 +35,7 @@
 (require 'learn-kbs)
 (require 'md-show)
 (require 'too-long)
-(require 'clj-admin)
+(require 'admin-delux)
 
 ;; Set up Straight (for packages on github)
 (require 'setup-straight)
