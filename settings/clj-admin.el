@@ -46,13 +46,14 @@
     (while (not done)
       (let ((resp (clj-admin--call fn (reverse history))))
         (pcase (plist-get resp :type)
-          (:select (push (clj-admin--choose resp) history))
-          (:text   (push (clj-admin--input resp) history))
-          (:error  (message "%s" (plist-get resp :message))
-                   (sit-for 1.5)
-                   (pop history))       ; let the user re-answer
-          (:done   (setq done t)
-                   (message "%s" (or (plist-get resp :message) "Done")))
+          (:select  (push (clj-admin--choose resp) history))
+          (:text    (push (clj-admin--input resp) history))
+          (:message (message "%s" (plist-get resp :message)))
+          (:error   (message "%s" (plist-get resp :message))
+                    (sit-for 1.5)
+                    (pop history))       ; let the user re-answer
+          (:done    (setq done t)
+                    (message "%s" (or (plist-get resp :message) "Done")))
           (_ (user-error "clj-admin: unexpected response %S" resp)))))))
 
 (defmacro clj-admin-define-command (name step-fn &optional doc)
