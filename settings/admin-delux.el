@@ -5,7 +5,7 @@
 ;;   '(:type :text    :prompt "New name: " :initial "foo")
 ;;   '(:type :message :message "Creating...")
 ;;   '(:type :error   :message "Name already taken")
-;;   '(:type :done    :message "Renamed foo -> bar")
+;;   '(:type :submit  :exec-fn "some.namespace/function")
 
 ;;; Code:
 
@@ -15,15 +15,15 @@
 (defvar admin-delux-step-fn nil
   "Fully qualified Clojure fn, called as (fn history).")
 
-(defun admin-delux--call (step-fn history)
-  "Call Clojure STEP-FN with HISTORY, a list of strings. Return its plist."
-  (let* ((form  (format "(%s '%S)" step-fn history))
+(defun admin-delux--call (fn history)
+  "Call Clojure FN with HISTORY, a list of strings. Return its plist."
+  (let* ((form  (format "(%s '%S)" fn history))
          (resp  (cider-nrepl-sync-request:eval form (cider-current-repl 'clj 'ensure)))
          (value (nrepl-dict-get resp "value")))
     (when (or (nrepl-dict-get resp "ex") (null value))
       (user-error "admin-delux: %s"
                   (string-trim (or (nrepl-dict-get resp "err") "no value returned"))))
-    (car (read-from-string value))))
+    value))
 
 (defun admin-delux--choose (resp)
   "Prompt with `completing-read' as described by RESP."
@@ -45,7 +45,9 @@
         (history '())                   ; newest first
         (done nil))
     (while (not done)
-      (let ((resp (admin-delux--call fn (reverse history))))
+      (let ((resp (thread-first (admin-delux--call fn (reverse history))
+                                read-from-string
+                                car)))
         (pcase (plist-get resp :type)
           (:select  (push (admin-delux--choose resp) history))
           (:text    (push (admin-delux--input resp) history))
@@ -54,8 +56,11 @@
           (:error   (message "%s" (plist-get resp :message))
                     (sit-for 1.5)
                     (pop history))       ; let the user re-answer
-          (:done    (setq done t)
-                    (message "%s" (or (plist-get resp :message) "Done")))
+          (:submit  (setq done t)
+                    (if-let ((exec (plist-get resp :exec-fn)))
+                        (message "%s" (cider-font-lock-as-clojure
+                                       (admin-delux--call exec (reverse history))))
+                      (message "Finished with no exec-fn")))
           (_ (user-error "admin-delux: unexpected response %S" resp)))))))
 
 (defmacro admin-delux-define-command (name step-fn &optional doc)
