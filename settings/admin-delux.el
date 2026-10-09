@@ -27,10 +27,12 @@
 
 (defun admin-delux--choose (resp)
   "Prompt with `completing-read' as described by RESP."
-  (completing-read (or (plist-get resp :prompt) "Choose: ")
-                   (plist-get resp :choices)
-                   nil
-                   (plist-get resp :require-match)))
+  (substring-no-properties
+   (completing-read (or (plist-get resp :prompt) "Choose: ")
+                    (mapcar (lambda (c) (cider-font-lock-as-clojure (format "%s" c)))
+                            (plist-get resp :choices))
+                    nil
+                    (plist-get resp :require-match))))
 
 (defun admin-delux--input (resp)
   "Prompt for free text as described by RESP."
