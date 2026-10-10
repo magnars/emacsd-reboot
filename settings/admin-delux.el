@@ -25,7 +25,7 @@
                   (string-trim (or (nrepl-dict-get resp "err") "no value returned"))))
     value))
 
-(defun admin-delux--choose (resp)
+(defun admin-delux--select (resp)
   "Prompt with `completing-read' as described by RESP."
   (substring-no-properties
    (completing-read (or (plist-get resp :prompt) "Choose: ")
@@ -51,7 +51,7 @@
                                 read-from-string
                                 car)))
         (pcase (plist-get resp :type)
-          (:select  (push (admin-delux--choose resp) history))
+          (:select  (push (admin-delux--select resp) history))
           (:text    (push (admin-delux--input resp) history))
           (:message (message "%s" (plist-get resp :message))
                     (push :message-posted history))
