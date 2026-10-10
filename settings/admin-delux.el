@@ -15,6 +15,11 @@
 (defvar admin-delux-step-fn nil
   "Fully qualified Clojure fn, called as (fn history).")
 
+(defun admin-delux--string->keyword (s)
+  (if (and (stringp s) (string-match-p "\\`:[^[:space:]]+\\'" s))
+      (intern s)
+    s))
+
 (defun admin-delux--call (fn history)
   "Call Clojure FN with HISTORY, a list of strings. Return its plist."
   (let* ((form  (format "(%s '%S)" fn history))
@@ -27,17 +32,19 @@
 
 (defun admin-delux--select (resp)
   "Prompt with `completing-read' as described by RESP."
-  (substring-no-properties
-   (completing-read (or (plist-get resp :prompt) "Choose: ")
-                    (mapcar (lambda (c) (cider-font-lock-as-clojure (format "%s" c)))
-                            (plist-get resp :choices))
-                    nil
-                    (plist-get resp :require-match))))
+  (admin-delux--string->keyword
+   (substring-no-properties
+    (completing-read (or (plist-get resp :prompt) "Choose: ")
+                     (mapcar (lambda (c) (cider-font-lock-as-clojure (format "%s" c)))
+                             (plist-get resp :choices))
+                     nil
+                     (plist-get resp :require-match)))))
 
 (defun admin-delux--input (resp)
   "Prompt for free text as described by RESP."
-  (read-string (or (plist-get resp :prompt) "Input: ")
-               (plist-get resp :initial)))
+  (admin-delux--string->keyword
+   (read-string (or (plist-get resp :prompt) "Input: ")
+                (plist-get resp :initial))))
 
 ;;;###autoload
 (defun admin-delux-run (&optional step-fn)
