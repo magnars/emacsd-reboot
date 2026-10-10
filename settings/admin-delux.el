@@ -65,12 +65,5 @@
                       (message "Finished with no exec-fn")))
           (_ (user-error "admin-delux: unexpected response %S" resp)))))))
 
-(defmacro admin-delux-define-command (name step-fn &optional doc)
-  "Define interactive command NAME that runs the loop against STEP-FN."
-  `(defun ,name ()
-     ,(or doc (format "Run admin-delux against %s." step-fn))
-     (interactive)
-     (admin-delux-run ,step-fn)))
-
 (provide 'admin-delux)
 ;;; admin-delux.el ends here
