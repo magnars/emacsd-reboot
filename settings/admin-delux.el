@@ -14,14 +14,17 @@
 (require 'subr-x)
 
 (defvar admin-delux-step-fn nil
-  "Fully qualified Clojure fn that takes a single argument")
+  "Fully qualified Clojure fn that takes a single argument.
+Set per project in .dir-locals.el.")
 
 (defun admin-delux--string->keyword (s)
+  "Parse string keywords back to keywords"
   (if (and (stringp s) (string-match-p "\\`:[^[:space:]]+\\'" s))
       (intern s)
     s))
 
 (defun admin-delux--unicode-symbol-char-p (orig char &optional alpha-only)
+  "Check for unicode char"
   (or (funcall orig char alpha-only)
       (and char
            (> char 127)
@@ -29,11 +32,13 @@
                  '(Lu Ll Lt Lm Lo Mn Mc)))))
 
 (defun admin-delux--read-edn (str)
+  "Read STR as edn and parse it"
   (advice-add 'parseclj-lex-symbol-start-p :around #'admin-delux--unicode-symbol-char-p)
   (unwind-protect (parseedn-read-str str)
     (advice-remove 'parseclj-lex-symbol-start-p #'admin-delux--unicode-symbol-char-p)))
 
 (defun admin-delux--call (fn history)
+  "Call FN in Clojure with HISTORY as argument"
   (let* ((form  (format "(do (require '[clojure.edn])
                              (binding [*print-namespace-maps* false
                                        *print-level* nil
@@ -51,6 +56,7 @@
      (parseedn-read-str value))))
 
 (defun admin-delux--select (resp)
+  "Prompt for a selection of one of options"
   (admin-delux--string->keyword
    (substring-no-properties
     (completing-read (gethash :prompt resp "Choose: ")
@@ -60,6 +66,7 @@
                      (gethash :require-match resp)))))
 
 (defun admin-delux--input (resp)
+  "Prompt for text input"
   (admin-delux--string->keyword
    (read-string (gethash :prompt resp "Input: ")
                 (gethash :initial resp))))
