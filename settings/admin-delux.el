@@ -28,8 +28,10 @@
            (memq (get-char-code-property char 'general-category)
                  '(Lu Ll Lt Lm Lo Mn Mc)))))
 
-(advice-add 'parseclj-lex-symbol-start-p :around
-            #'admin-delux--unicode-symbol-char-p)
+(defun admin-delux--read-edn (str)
+  (advice-add 'parseclj-lex-symbol-start-p :around #'admin-delux--unicode-symbol-char-p)
+  (unwind-protect (parseedn-read-str str)
+    (advice-remove 'parseclj-lex-symbol-start-p #'admin-delux--unicode-symbol-char-p)))
 
 (defun admin-delux--call (fn history)
   (let* ((form  (format "(do (require '[clojure.edn])
@@ -45,7 +47,7 @@
     (when (or (nrepl-dict-get resp "ex") (null value))
       (user-error "admin-delux: %s"
                   (string-trim (or (nrepl-dict-get resp "err") "no value returned"))))
-    (parseedn-read-str
+    (admin-delux--read-edn
      (parseedn-read-str value))))
 
 (defun admin-delux--select (resp)
