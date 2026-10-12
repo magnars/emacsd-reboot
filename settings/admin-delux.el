@@ -68,7 +68,7 @@
 (defun admin-delux-run (&optional step-fn)
   "Run the interactive loop against STEP-FN (default `admin-delux-step-fn')."
   (interactive)
-  (let ((fn (or step-fn admin-delux-step-fn))
+  (let ((fn (or step-fn admin-delux-step-fn (user-error "admin-delux: no step-fn configured")))
         (history '()) ; newest first
         (done nil))
     (while (not done)
