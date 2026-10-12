@@ -82,7 +82,7 @@
                     (sit-for 1.5)
                     (pop history)) ; let the user re-answer
           (:submit  (setq done t)
-                    (if-let ((exec (gethash :exec-fn resp)))
+                    (if-let* ((exec (gethash :exec-fn resp)))
                         (message "%s" (cider-font-lock-as-clojure
                                        (parseedn-print-str
                                         (admin-delux--call exec (reverse history)))))
