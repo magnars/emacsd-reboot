@@ -10,65 +10,80 @@
 ;;; Code:
 
 (require 'cider)
+(require 'parseedn)
 (require 'subr-x)
 
 (defvar admin-delux-step-fn nil
-  "Fully qualified Clojure fn, called as (fn history).")
+  "Fully qualified Clojure fn that takes a single argument")
 
 (defun admin-delux--string->keyword (s)
   (if (and (stringp s) (string-match-p "\\`:[^[:space:]]+\\'" s))
       (intern s)
     s))
 
+(defun admin-delux--unicode-symbol-char-p (orig char &optional alpha-only)
+  (or (funcall orig char alpha-only)
+      (and char
+           (> char 127)
+           (memq (get-char-code-property char 'general-category)
+                 '(Lu Ll Lt Lm Lo Mn Mc)))))
+
+(advice-add 'parseclj-lex-symbol-start-p :around
+            #'admin-delux--unicode-symbol-char-p)
+
 (defun admin-delux--call (fn history)
-  "Call Clojure FN with HISTORY, a list of strings. Return its plist."
-  (let* ((form  (format "(%s '%S)" fn history))
+  (let* ((form  (format "(do (require '[clojure.edn])
+                             (binding [*print-namespace-maps* false
+                                       *print-level* nil
+                                       *print-length* nil]
+                               (pr-str (%s (clojure.edn/read-string %s)))))"
+                        fn
+                        (parseedn-print-str
+                         (parseedn-print-str (list :history (vconcat history))))))
          (resp  (cider-nrepl-sync-request:eval form (cider-current-repl 'clj 'ensure)))
          (value (nrepl-dict-get resp "value")))
     (when (or (nrepl-dict-get resp "ex") (null value))
       (user-error "admin-delux: %s"
                   (string-trim (or (nrepl-dict-get resp "err") "no value returned"))))
-    value))
+    (parseedn-read-str
+     (parseedn-read-str value))))
 
 (defun admin-delux--select (resp)
-  "Prompt with `completing-read' as described by RESP."
   (admin-delux--string->keyword
    (substring-no-properties
-    (completing-read (or (plist-get resp :prompt) "Choose: ")
+    (completing-read (gethash :prompt resp "Choose: ")
                      (mapcar (lambda (c) (cider-font-lock-as-clojure (format "%s" c)))
-                             (plist-get resp :choices))
+                             (gethash :choices resp))
                      nil
-                     (plist-get resp :require-match)))))
+                     (gethash :require-match resp)))))
 
 (defun admin-delux--input (resp)
-  "Prompt for free text as described by RESP."
   (admin-delux--string->keyword
-   (read-string (or (plist-get resp :prompt) "Input: ")
-                (plist-get resp :initial))))
+   (read-string (gethash :prompt resp "Input: ")
+                (gethash :initial resp))))
 
 ;;;###autoload
 (defun admin-delux-run (&optional step-fn)
   "Run the interactive loop against STEP-FN (default `admin-delux-step-fn')."
   (interactive)
   (let ((fn (or step-fn admin-delux-step-fn))
-        (history '())                   ; newest first
+        (history '()) ; newest first
         (done nil))
     (while (not done)
-      (let ((resp (thread-first (admin-delux--call fn (reverse history))
-                                read-from-string
-                                car)))
-        (pcase (plist-get resp :type)
+      (let ((resp (admin-delux--call fn (reverse history))))
+        (pcase (gethash :type resp)
           (:select  (push (admin-delux--select resp) history))
           (:text    (push (admin-delux--input resp) history))
-          (:message (message "%s" (plist-get resp :message))
+          (:message (message "%s" (gethash :message resp))
                     (push :message-posted history))
-          (:error   (message "%s" (plist-get resp :message))
+          (:error   (message "%s" (gethash :message resp))
                     (sit-for 1.5)
-                    (pop history))       ; let the user re-answer
+                    (pop history)) ; let the user re-answer
           (:submit  (setq done t)
-                    (if-let ((exec (plist-get resp :exec-fn)))
+                    (if-let ((exec (gethash :exec-fn resp)))
                         (message "%s" (cider-font-lock-as-clojure
-                                       (admin-delux--call exec (reverse history))))
+                                       (parseedn-print-str
+                                        (admin-delux--call exec (reverse history)))))
                       (message "Finished with no exec-fn")))
           (_ (user-error "admin-delux: unexpected response %S" resp)))))))
 
