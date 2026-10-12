@@ -1,11 +1,11 @@
 ;;; admin-delux.el --- Do administrative work in clojure through Emacs -*- lexical-binding: t; -*-
-;;
-;; The Clojure fn should return a list of strings, keywords, nils or lists:
-;;   '(:type :select  :prompt "Action: "   :options ("add" "rename"))
-;;   '(:type :text    :prompt "New name: " :initial "foo")
-;;   '(:type :message :message "Creating...")
-;;   '(:type :error   :message "Name already taken")
-;;   '(:type :submit  :exec-fn "some.namespace/function")
+
+;; The Clojure fn should return a map of strings, keywords, nils or lists:
+;;   '{:type :select  :prompt "Action: "   :options ["add" "rename"] :require-match true}
+;;   '{:type :text    :prompt "New name: " :initial "foo"}
+;;   '{:type :message :message "Creating..."}
+;;   '{:type :error   :message "Name already taken"}
+;;   '{:type :submit  :exec-fn "some.namespace/function"}
 
 ;;; Code:
 
