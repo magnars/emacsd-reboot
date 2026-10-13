@@ -24,12 +24,23 @@
 
 ;;; Commentary:
 
+;; Admin Delux is the imperative shell for your Clojure project's functional
+;; core.
+
+;; Request user-input for any admin function and run it via Emacs.
+
+;; Usage:
+;; Add `(clojure-mode . ((admin-delux-step-fn . "your.fully.qualified/step-fn")))`
+;; to your project's .dir-locals.el-file.
+
+;; Implement `your.fully.qualified/step-fn` somewhere in your project.
+
 ;; The Clojure fn should return a map of strings, keywords, nils or lists:
-;;   '{:type :select  :prompt "Action: "   :options ["add" "rename"] :require-match true}
-;;   '{:type :text    :prompt "New name: " :initial "foo"}
-;;   '{:type :message :message "Creating..."}
-;;   '{:type :error   :message "Name already taken"}
-;;   '{:type :submit  :exec-fn "some.namespace/function"}
+;;   {:type :select  :prompt "Action: "   :options ["add" "rename"] :require-match true}
+;;   {:type :text    :prompt "New name: " :initial "foo"}
+;;   {:type :message :message "Creating..."}
+;;   {:type :error   :message "Name already taken"}
+;;   {:type :submit  :exec-fn "some.namespace/function"}
 
 ;;; Code:
 
