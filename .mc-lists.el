@@ -118,6 +118,7 @@
 (setq mc/cmds-to-run-once
       '(
         beginning-of-buffer
+        cider-find-and-clear-repl-buffer
         cider-jack-in-clj
         clay-make-last-sexp
         cleanup-buffer
