@@ -40,7 +40,7 @@
         org-hide-leading-stars t
         org-hide-emphasis-markers t)
   :bind (:map org-mode-map
-              ("C-c C-k" . 'save-buffer)
+              ("C-c C-k" . 'org-latex-export-to-pdf)
               ("M-<return>" . org-meta-return)
               ("C-c e" . org-latex-export-to-pdf)
               ("C-c s" . (lambda ()
@@ -73,4 +73,7 @@
   (add-to-list 'exec-path "/Library/TeX/texbin")
   (setq org-latex-pdf-process
         '("latexmk -xelatex -synctex=1 -shell-escape -interaction=nonstopmode -f %f"))
-  (setq org-latex-listings 'minted))
+  (setq org-latex-listings 'minted)
+  (add-to-list 'org-latex-minted-langs '(await "await"))
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (add-to-list 'org-latex-packages-alist '("" "bussproofs")))
