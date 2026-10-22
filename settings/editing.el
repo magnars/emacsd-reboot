@@ -17,6 +17,7 @@
 
 ;; Copy to end of current line if no region
 (global-set-key (kbd "M-w") 'copy-region-or-current-line)
+(global-set-key (kbd "s-w") 'copy-region-without-prepend-whitespace)
 
 ;; Completion at point
 (global-set-key (kbd "C-,") 'completion-at-point)
@@ -175,6 +176,17 @@ Including indent-buffer, which should not be called automatically on save."
   (if (region-active-p)
       (kill-ring-save (region-beginning) (region-end))
     (copy-to-end-of-line)))
+
+(defun copy-region-without-prepend-whitespace (beg end)
+  (interactive "r")
+  (if (use-region-p)
+      (let ((curr (current-buffer)))
+        (with-temp-buffer
+          (insert-buffer-substring curr beg end)
+          (clojure-mode)
+          (paredit-reindent-defun)
+          (kill-ring-save (point-min) (point-max))))
+    (message "No region selected")))
 
 (defun eval-and-replace ()
   "Replace the preceding sexp with its value."
