@@ -242,15 +242,24 @@ Including indent-buffer, which should not be called automatically on save."
             '(font-lock-string-face
               font-lock-doc-face))))
 
-(defun remove-all-commas ()
-  "Remove all commas from the current buffer."
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (while (search-forward "," nil t)
-      (unless (or (editing--is-string?)
-                  (editing--is-comment?))
-        (replace-match "" nil t)))))
+(defun remove-all-commas (&optional beg end)
+  "Remove all commas outside strings and comments.
+If the region is active, operate only between BEG and END;
+otherwise operate on the whole buffer."
+  (interactive
+   (if (use-region-p)
+       (list (region-beginning) (region-end))
+     (list (point-min) (point-max))))
+  (let ((beg (or beg (point-min)))
+        (end (copy-marker (or end (point-max)))))
+    (unwind-protect
+        (save-excursion
+          (goto-char beg)
+          (while (search-forward "," end t)
+            (unless (or (editing--is-string?)
+                        (editing--is-comment?))
+              (replace-match "" nil t))))
+      (set-marker end nil))))
 
 (defun my/pair-start-including-comments (key-start)
   (save-excursion
