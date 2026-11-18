@@ -100,6 +100,20 @@
 (define-key cider-mode-map (kbd "C-c C-M-s") #'matnyttig-cider-eval-def-symbol-with-e->map)
 (define-key cider-mode-map (kbd "C-c C-M-e") #'matnyttig-cider-pprint-eval-sexp-up-to-point-with-e->map)
 
+(defun matnyttig-mtdo-eval ()
+  (interactive)
+  (cider-interactive-eval
+   "(do
+      (require '[matnyttig.datomic :as d]
+               '[matnyttig.imperative-shell.core :as imperative-shell])
+      (def ctx (:system/ctx integrant.repl.state/system))
+      (def state (imperative-shell/get-state ctx))
+      (def app-db (d/db (:app/conn ctx)))
+      (def matrikkel-db (d/db (:matrikkel/conn ctx)))
+      [:mtdo-updated :app-db :matrikkel-db :state :ctx])"))
+
+(define-key cider-mode-map (kbd "M-D") #'matnyttig-mtdo-eval)
+
 ;; Nexus eldoc
 
 (defun nexus-find-pattern (pattern)
