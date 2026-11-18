@@ -2,55 +2,6 @@
 (require 'parseedn)
 (require 's)
 
-;; PAGES
-(defun matnyttig-create-page ()
-  (let* ((default-directory (projectile-project-root))
-         (page-id (read-string "Opprett :pages/")))
-    (message
-     (shell-command-to-string (s-concat "bb nvk matnyttig.page-admin/create " page-id)))))
-
-;; MODALS
-(defun matnyttig-list-modals ()
-  (let ((default-directory (projectile-project-root)))
-    (message
-     (s-join "\n" (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls"))))))
-
-(defun matnyttig-create-modal ()
-  (let* ((default-directory (projectile-project-root))
-         (modal-id (read-string "Opprett :modaler/")))
-    (message
-     (shell-command-to-string (s-concat "bb nvk matnyttig.modal-admin/create " modal-id)))))
-
-(defun matnyttig-rename-modal ()
-  (let* ((default-directory (projectile-project-root))
-         (modals (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls")))
-         (from-name (completing-read "Døp om :modaler/" modals))
-         (to-name (read-string (s-concat "Døp om :modaler/" from-name " til :modaler/"))))
-    (message
-     (shell-command-to-string (s-concat "bb nvk matnyttig.modal-admin/rename " from-name " " to-name)))))
-
-(defun matnyttig-delete-modal ()
-  (let* ((default-directory (projectile-project-root))
-         (modals (parseedn-read-str (shell-command-to-string "bb nvk matnyttig.modal-admin/ls")))
-         (modal (completing-read "Modal> " modals)))
-    (message
-     (shell-command-to-string (s-concat "bb nvk matnyttig.modal-admin/delete " modal)))))
-
-(defvar matnyttig-admin-operations
-  '(matnyttig-create-page
-    matnyttig-list-modals
-    matnyttig-create-modal
-    matnyttig-rename-modal
-    matnyttig-delete-modal))
-
-(defun matnyttig-admin ()
-  (interactive)
-  (funcall
-   (intern
-    (completing-read "Choose operation> "
-                     (mapcar 'symbol-name matnyttig-admin-operations)))))
-(define-key cider-mode-map (kbd "s-a") #'matnyttig-admin)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Evaluate and print with e->map
 
