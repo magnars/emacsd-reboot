@@ -38,6 +38,13 @@
 
 (global-set-key (kbd "C-S-s-<return>") 'open-lines-dwim)
 
+(defun goto-plass ()
+  (interactive)
+  (find-file (expand-file-name "dev/matnyttig/lekeplassen/plass.clj" (projectile-project-root))))
+
+(with-eval-after-load 'clojure-mode
+  (define-key clojure-mode-map (kbd "s-P") #'goto-plass))
+
 ;; TODO:
 ;;
 ;; 🔘 comp to threading
