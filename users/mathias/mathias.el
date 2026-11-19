@@ -40,6 +40,7 @@
 
 (defun goto-plass ()
   (interactive)
+  (xref-push-marker-stack)
   (find-file (expand-file-name "dev/matnyttig/lekeplassen/plass.clj" (projectile-project-root))))
 
 (with-eval-after-load 'clojure-mode
